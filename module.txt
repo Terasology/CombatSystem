@@ -1,0 +1,17 @@
+{
+    "id" : "CombatSystem",
+    "version" : "0.1.0-SNAPSHOT",
+    "author" : "Swastik Garg",
+    "displayName" : "CombatSystem",
+    "description" : "This module introduces combat system",
+    "dependencies" : 
+	[
+		{
+            "id" : "Core",
+            "minVersion" : "1.0.0"
+        }
+	],
+    "serverSideOnly" : false,
+    "isGameplay" : "true",
+	"defaultWorldGenerator" : "Core:Flat"
+}
