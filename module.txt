@@ -1,7 +1,7 @@
 {
     "id" : "CombatSystem",
     "version" : "0.1.0-SNAPSHOT",
-    "author" : "Swastik Garg",
+    "author" : "0shine0",
     "displayName" : "CombatSystem",
     "description" : "This module introduces combat system",
     "dependencies" : 
@@ -13,5 +13,5 @@
 	],
     "serverSideOnly" : false,
     "isGameplay" : "true",
-	"defaultWorldGenerator" : "Core:Flat"
+	"defaultWorldGenerator" : "CombatSystem:PhysicsRoomWorldGenerator"
 }
