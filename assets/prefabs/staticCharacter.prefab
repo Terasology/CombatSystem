@@ -1,0 +1,27 @@
+{
+    "alwaysRelevant": true,
+    "Location": {},
+    "BoxShape" : {
+        "extents" : [30, 30, 30]
+    },
+    "SpawnPrefabOnPlayerCollision": {
+        "prefab":"skeleton" // for tests use: teleportParticleEffect
+    },
+    "RigidBody" : {
+        "mass" : 0,
+        "collisionGroup" : "engine:sensor",
+        "collidesWith" : ["engine:sensor"]
+    },
+    "skeletalmesh" : {
+        "mesh" : "skeleton",
+        "heightOffset" : -0.5,
+        "material" : "skeletonSkin",
+        "animationPool": [
+            "skeletonStand"
+        ],
+        "loop" : true,
+        "scale" : [1, 1, 1]
+    },
+    "Network" : {}
+}
+
