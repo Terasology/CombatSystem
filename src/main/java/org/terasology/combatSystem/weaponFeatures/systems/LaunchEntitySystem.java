@@ -10,15 +10,14 @@ import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.geom.Vector3f;
-import org.terasology.physics.engine.PhysicsEngine;
+import org.terasology.physics.events.ChangeVelocityEvent;
+import org.terasology.physics.events.ImpulseEvent;
 import org.terasology.registry.In;
 
 @RegisterSystem(RegisterMode.AUTHORITY)
 public class LaunchEntitySystem extends BaseComponentSystem{
     @In
-    EntityManager entityManager;
-    @In
-    private PhysicsEngine physics;
+    private EntityManager entityManager;
     
     @ReceiveEvent(components = {LaunchEntityComponent.class})
     public void onFire(LaunchEntityEvent event, EntityRef entity){
@@ -26,10 +25,12 @@ public class LaunchEntitySystem extends BaseComponentSystem{
         EntityRef entityToLaunch = entityManager.create(launchEntity.launchEntityPrefab);
         
         if(entityToLaunch != EntityRef.NULL){
-            Vector3f impulse = entity.getComponent(LocationComponent.class).getWorldDirection();
-            impulse.normalize();
-            impulse.mul(launchEntity.impulse);
-            physics.getRigidBody(entityToLaunch).applyImpulse(impulse);
+            LocationComponent location = entityToLaunch.getComponent(LocationComponent.class);
+            location.setWorldPosition(entity.getComponent(LocationComponent.class).getWorldPosition());
+//            Vector3f impulse = event.getDirection();
+//            impulse.normalize();
+//            impulse.mul(launchEntity.impulse);
+//            entityToLaunch.send(new ImpulseEvent(impulse));
         }
         else{
             // dispatch no ammo event

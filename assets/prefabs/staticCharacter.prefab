@@ -4,9 +4,6 @@
     "BoxShape" : {
         "extents" : [30, 30, 30]
     },
-    "SpawnPrefabOnPlayerCollision": {
-        "prefab":"skeleton" // for tests use: teleportParticleEffect
-    },
     "RigidBody" : {
         "mass" : 0,
         "collisionGroup" : "engine:sensor",
