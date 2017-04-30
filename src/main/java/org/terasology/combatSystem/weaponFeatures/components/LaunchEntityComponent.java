@@ -5,5 +5,5 @@ import org.terasology.entitySystem.prefab.Prefab;
 
 public class LaunchEntityComponent implements Component{
     public Prefab launchEntityPrefab;
-    public float impulse = 100.0f;
+    public float impulse = 10.0f;
 }

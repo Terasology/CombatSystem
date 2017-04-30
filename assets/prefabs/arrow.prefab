@@ -1,0 +1,16 @@
+{
+    "Location": {},
+	"RigidBody": {
+		"mass" : 0,
+        "collisionGroup" : "engine:sensor",
+        "collidesWith" : ["engine:sensor"]
+	},
+	"BoxShape" : {
+        "extents" : [10, 10, 10]
+    },
+	"Mesh" : {
+        "mesh" : "CombatSystem:spear",
+        "material" : "CombatSystem:tool"
+    }
+}
+

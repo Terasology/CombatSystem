@@ -29,7 +29,7 @@ public class NPCSpawnSystem extends BaseComponentSystem{
     
     @Override
     public void postBegin() {
-        npc1 = entityManager.create(staticCharacterPrefab, Vector3f.zero());
+        npc1 = entityManager.create(staticCharacterPrefab, new Vector3f(0,2,0));
     }
 
 }
