@@ -27,10 +27,11 @@ public class LaunchEntitySystem extends BaseComponentSystem{
         if(entityToLaunch != EntityRef.NULL){
             LocationComponent location = entityToLaunch.getComponent(LocationComponent.class);
             location.setWorldPosition(entity.getComponent(LocationComponent.class).getWorldPosition());
-//            Vector3f impulse = event.getDirection();
-//            impulse.normalize();
-//            impulse.mul(launchEntity.impulse);
-//            entityToLaunch.send(new ImpulseEvent(impulse));
+            entityToLaunch.addOrSaveComponent(location);
+            Vector3f impulse = event.getDirection();
+            impulse.normalize();
+            impulse.mul(launchEntity.impulse);
+            entityToLaunch.send(new ImpulseEvent(impulse));
         }
         else{
             // dispatch no ammo event
