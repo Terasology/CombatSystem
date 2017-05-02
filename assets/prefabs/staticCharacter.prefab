@@ -2,12 +2,9 @@
     "alwaysRelevant": true,
     "Location": {},
     "BoxShape" : {
-        "extents" : [30, 30, 30]
+        "extents" : [1, 1, 1]
     },
     "RigidBody" : {
-        "mass" : 0,
-        "collisionGroup" : "engine:sensor",
-        "collidesWith" : ["engine:sensor"]
     },
     "skeletalmesh" : {
         "mesh" : "skeleton",
