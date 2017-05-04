@@ -1,30 +1,23 @@
 package org.terasology.combatSystem.weaponFeatures.systems;
 
-import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
 import org.terasology.combatSystem.weaponFeatures.components.PrimaryAttackComponent;
-import org.terasology.combatSystem.weaponFeatures.events.LaunchEntityEvent;
+import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.logic.characters.events.AttackEvent;
 import org.terasology.logic.common.ActivateEvent;
-import org.terasology.utilities.Assets;
 
 @RegisterSystem
 public class AttackSystem extends BaseComponentSystem{
     
     @ReceiveEvent( components = {PrimaryAttackComponent.class})
     public void primaryAttack(ActivateEvent event, EntityRef entity){
-        if(entity.hasComponent(LaunchEntityComponent.class)){
-//            LaunchEntityComponent launchEntity = entity.getComponent(LaunchEntityComponent.class);
-//            launchEntity.launchEntityPrefab = Assets.getPrefab("CombatSystem:arrow").get();
-            entity.send(new LaunchEntityEvent(event.getDirection()));
-        }
-        else{
-            // fire melee event
-            
-            
+        entity.send(new PrimaryAttackEvent(event));
+    }
+}
+        
+        
 //            AttackEvent primary;
 //            ActivateEvent secondary;
             /*
@@ -39,6 +32,6 @@ public class AttackSystem extends BaseComponentSystem{
                with those events before
              */
 //            LeftMouseDownButtonEvent
-        }
-    }
-}
+    
+//    @RecieveEvent( components = {SecondaryAttackComponent.class})
+//    public void secondaryAttackEvent(Attack)
