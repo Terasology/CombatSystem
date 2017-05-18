@@ -1,11 +1,8 @@
-package org.terasology.combatSystem.physics;
+package org.terasology.combatSystem.physics.systems;
 
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
-import org.terasology.entitySystem.systems.RegisterSystem;
 
 /**
- * Checks Collision for entities above a paricular speed. Takes into account the parabolic
+ * Checks Collision for entities above a particular speed. Takes into account the parabolic
  * path of the entity
  * Convex Sweeping is not done due to the parabolic path of the entity instead variable
  * time-step method is used
