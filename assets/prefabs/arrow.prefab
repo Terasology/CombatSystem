@@ -1,13 +1,13 @@
 {
     "Location": {},
-	"RigidBody": {
-	},
+	"RigidBody": {},
 	"BoxShape" : {
         "extents" : [1, 1, 2]
     },
 	"Mesh" : {
         "mesh" : "CombatSystem:spear",
         "material" : "CombatSystem:tool"
-    }
+    },
+	"Arrow": {}
 }
 
