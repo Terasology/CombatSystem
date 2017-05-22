@@ -2,6 +2,7 @@ package org.terasology.combatSystem.weaponFeatures.systems;
 
 import java.util.Iterator;
 
+import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
 import org.terasology.combatSystem.weaponFeatures.components.ArrowComponent;
 import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
@@ -16,8 +17,6 @@ import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.geom.Quat4f;
 import org.terasology.math.geom.Vector3f;
-import org.terasology.physics.events.ChangeVelocityEvent;
-import org.terasology.physics.events.ImpulseEvent;
 import org.terasology.registry.In;
 
 @RegisterSystem(RegisterMode.AUTHORITY)
@@ -65,10 +64,10 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
 //        Iterator<EntityRef> entities = entitiesWith.iterator();
 //        while(entities.hasNext()){
 //            EntityRef arrow = entities.next();
-//            RigidBodyComponent rigidBody = arrow.getComponent(RigidBodyComponent.class);
+//            MassComponent body = arrow.getComponent(MassComponent.class);
 //            LocationComponent location = arrow.getComponent(LocationComponent.class);
 //            
-//            Vector3f finalDir = new Vector3f(rigidBody.velocity);
+//            Vector3f finalDir = new Vector3f(body.velocity);
 //            if(finalDir.length() != 0.0f){
 //                Vector3f initialDir = location.getWorldDirection().invert();
 //                finalDir.normalize();
