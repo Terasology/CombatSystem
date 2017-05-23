@@ -6,11 +6,9 @@ import org.terasology.entitySystem.prefab.Prefab;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.registry.In;
 import org.terasology.utilities.Assets;
-import org.terasology.world.RelevanceRegionComponent;
 
 @RegisterSystem(RegisterMode.AUTHORITY)
 public class NPCSpawnSystem extends BaseComponentSystem{

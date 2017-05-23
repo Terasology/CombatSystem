@@ -3,6 +3,11 @@
 	"Mass" : {},
 	"Gravity" : {},
 	"Arrow" : {},
+	"BoxShape" : {
+		"extents" : [1, 1, 2]
+	},
+	"Trigger" : {},
+	"Stick" : {},
 	"Mesh" : {
         "mesh" : "CombatSystem:spear",
         "material" : "CombatSystem:tool"

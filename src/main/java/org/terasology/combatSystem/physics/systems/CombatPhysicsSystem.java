@@ -5,20 +5,19 @@ import java.util.Iterator;
 import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.combatSystem.physics.events.CombatForceEvent;
 import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
-import org.terasology.combatSystem.weaponFeatures.components.ArrowComponent;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
+import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.logic.location.LocationComponent;
-import org.terasology.math.Direction;
-import org.terasology.math.geom.Quat4f;
 import org.terasology.math.geom.Vector3f;
+import org.terasology.physics.engine.PhysicsEngine;
 import org.terasology.registry.In;
 
-@RegisterSystem
+@RegisterSystem(RegisterMode.AUTHORITY)
 public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSubscriberSystem{
     
     @In
@@ -28,8 +27,14 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
     public void onImpulse(CombatImpulseEvent event, EntityRef entity) {
         MassComponent body = entity.getComponent(MassComponent.class);
         
+        if(body == null){
+            return;
+        }
         Vector3f impulse = event.getImpulse();
         impulse.div(body.mass);
+        if(impulse == null || impulse.length() == 0){
+            return;
+        }
         body.velocity.add(impulse);
         
         entity.saveComponent(body);
@@ -66,16 +71,6 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
                 Vector3f initialLoc = location.getWorldPosition();
                 initialLoc.add(velocity);
                 location.setWorldPosition(initialLoc);
-                
-                // change rotation of arrow to always be tangent to path of trajectory
-                if(entity.hasComponent(ArrowComponent.class));{
-                    Vector3f finalDir = new Vector3f(body.velocity);
-                    if(finalDir.length() != 0.0f){
-                        Vector3f initialDir = Direction.FORWARD.getVector3f().invert();
-                        finalDir.normalize();
-                        location.setWorldRotation(Quat4f.shortestArcQuat(initialDir, finalDir));
-                    }
-                }
                 
                 entity.saveComponent(body);
                 entity.saveComponent(location);
