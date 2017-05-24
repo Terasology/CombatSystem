@@ -23,9 +23,12 @@ import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.CollisionGroup;
 import org.terasology.physics.HitResult;
 import org.terasology.physics.StandardCollisionGroup;
+import org.terasology.physics.components.TriggerComponent;
 import org.terasology.physics.engine.PhysicsEngine;
 import org.terasology.physics.events.CollideEvent;
+import org.terasology.physics.shapes.BoxShapeComponent;
 import org.terasology.registry.In;
+import org.terasology.rendering.logic.MeshComponent;
 
 import com.google.common.collect.Lists;
 
@@ -46,10 +49,7 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
             EntityRef entityToLaunch = entityManager.create(launchEntity.launchEntityPrefab);
             
             if(entityToLaunch != EntityRef.NULL){
-                // sets the location of entity to current player's bow location where it is spawned
                 LocationComponent location = entityToLaunch.getComponent(LocationComponent.class);
-                location.setWorldScale(0.5f);
-                location.setWorldPosition(localPlayer.getPosition().addY(0.5f));
                 
                 // rotates the entity to face in the direction of pointer
                 Vector3f initialDir = location.getWorldDirection().invert();
@@ -57,7 +57,22 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 finalDir.normalize();
                 location.setWorldRotation(Quat4f.shortestArcQuat(initialDir, finalDir));
                 
+                // sets the location of entity to current player's bow location where it is spawned
+                location.setWorldScale(0.5f);
+                location.setWorldPosition(localPlayer.getPosition().addY(0.5f).add(finalDir.scale(2.0f)));
+                
+                
                 entityToLaunch.saveComponent(location);
+                
+                TriggerComponent trigger = new TriggerComponent();
+                trigger.detectGroups = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.ALL);
+                
+                MeshComponent mesh = entityToLaunch.getComponent(MeshComponent.class);
+                BoxShapeComponent box = new BoxShapeComponent();
+                box.extents = mesh.mesh.getAABB().getExtents().scale(2.0f);
+                
+                entityToLaunch.addOrSaveComponent(box);
+                entityToLaunch.addOrSaveComponent(trigger);
                 
                 // applies impulse to the entity
                 Vector3f impulse = finalDir;

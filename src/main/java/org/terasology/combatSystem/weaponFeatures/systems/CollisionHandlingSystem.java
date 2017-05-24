@@ -21,14 +21,18 @@ public class CollisionHandlingSystem extends BaseComponentSystem{
         LocationComponent otherEntityLocation = otherEntity.getComponent(LocationComponent.class);
         if(location != null && otherEntityLocation != null){
             Vector3f finalLoc = event.getOtherEntityContactPoint();
-            finalLoc.add(otherEntityLocation.getWorldPosition());
             location.setWorldPosition(finalLoc);
             
+            MassComponent body = entity.getComponent(MassComponent.class);
+            body.acceleration.set(0, 0, 0);
+            body.velocity.set(0, 0, 0);
+            body.force.set(0, 0, 0);
+            
+            entity.saveComponent(body);
             entity.saveComponent(location);
         }
         
         entity.removeComponent(GravityComponent.class);
-        
         
     }
 
