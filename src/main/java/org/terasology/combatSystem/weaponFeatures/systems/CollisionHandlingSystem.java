@@ -9,6 +9,7 @@ import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.geom.Vector3f;
+import org.terasology.physics.components.TriggerComponent;
 import org.terasology.physics.events.CollideEvent;
 
 @RegisterSystem
@@ -27,7 +28,7 @@ public class CollisionHandlingSystem extends BaseComponentSystem{
             body.acceleration.set(0, 0, 0);
             body.velocity.set(0, 0, 0);
             body.force.set(0, 0, 0);
-            
+            entity.removeComponent(TriggerComponent.class);
             entity.saveComponent(body);
             entity.saveComponent(location);
         }
