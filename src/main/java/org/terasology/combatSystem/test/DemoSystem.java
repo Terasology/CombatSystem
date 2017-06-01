@@ -1,5 +1,6 @@
 package org.terasology.combatSystem.test;
 
+import org.terasology.combatSystem.weaponFeatures.components.ShooterComponent;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
@@ -21,6 +22,9 @@ public class DemoSystem extends BaseComponentSystem{
     
     @ReceiveEvent( components = {InventoryComponent.class})
     public void givingWeaponsToPlayers(OnPlayerSpawnedEvent event, EntityRef player){
-        inventoryManager.giveItem(player, EntityRef.NULL, entityManager.create("CombatSystem:bow"));
+        EntityRef bow = entityManager.create("CombatSystem:bow");
+        bow.addOrSaveComponent(new ShooterComponent(player));
+        
+        inventoryManager.giveItem(player, EntityRef.NULL, bow);
     }
 }

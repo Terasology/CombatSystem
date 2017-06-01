@@ -1,18 +1,17 @@
 package org.terasology.combatSystem.weaponFeatures.systems;
 
 import java.util.Iterator;
-import java.util.List;
 
 import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
 import org.terasology.combatSystem.weaponFeatures.components.ArrowComponent;
 import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
+import org.terasology.combatSystem.weaponFeatures.components.ShooterComponent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.logic.location.LocationComponent;
@@ -21,29 +20,39 @@ import org.terasology.math.Direction;
 import org.terasology.math.geom.Quat4f;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.CollisionGroup;
-import org.terasology.physics.HitResult;
 import org.terasology.physics.StandardCollisionGroup;
 import org.terasology.physics.components.TriggerComponent;
-import org.terasology.physics.engine.PhysicsEngine;
-import org.terasology.physics.events.CollideEvent;
 import org.terasology.physics.shapes.BoxShapeComponent;
 import org.terasology.registry.In;
 import org.terasology.rendering.logic.MeshComponent;
 
 import com.google.common.collect.Lists;
 
-@RegisterSystem(RegisterMode.AUTHORITY)
+@RegisterSystem
 public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSubscriberSystem{
     @In
     private EntityManager entityManager;
-    @In
-    private LocalPlayer localPlayer;
 //    @In
 //    private PhysicsEngine physics;
     
     @ReceiveEvent(components = {LaunchEntityComponent.class})
     public void onFire(PrimaryAttackEvent event, EntityRef entity){
         LaunchEntityComponent launchEntity = entity.getComponent(LaunchEntityComponent.class);
+        ShooterComponent shooter = entity.getComponent(ShooterComponent.class);
+        EntityRef player = EntityRef.NULL;
+        
+        // sets the owner of "entity" as "player"
+        if(shooter != null){
+            player = shooter.shooter;
+        }
+        
+        // if no owner of "entity" is present than "entity" becomes "player". e.g. world generated 
+        // launcher that shot the projectile.
+        
+        if(player == EntityRef.NULL){
+            player = entity;
+        }
+        
         if(launchEntity.primaryAttack){
             // creates an entity with specified prefab for eg. an arrow prefab
             EntityRef entityToLaunch = entityManager.create(launchEntity.launchEntityPrefab);
@@ -51,21 +60,31 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
             if(entityToLaunch != EntityRef.NULL){
                 LocationComponent location = entityToLaunch.getComponent(LocationComponent.class);
                 
+                // adds the "player" as the shooter for the arrow. It may be the character or 
+                // the launcher itself.
+                entityToLaunch.addOrSaveComponent(new ShooterComponent(player));
+                
+                LocationComponent shooterLoc = player.getComponent(LocationComponent.class);
+                
+                if(shooterLoc == null){
+                    return;
+                }
+                
                 // rotates the entity to face in the direction of pointer
                 Vector3f initialDir = location.getWorldDirection().invert();
                 Vector3f finalDir = new Vector3f(event.info.getDirection());
                 finalDir.normalize();
                 location.setWorldRotation(Quat4f.shortestArcQuat(initialDir, finalDir));
                 
-                // sets the location of entity to current player's bow location where it is spawned
+                // sets the location of entity to current player's location with an offset
                 location.setWorldScale(0.5f);
-                location.setWorldPosition(localPlayer.getPosition().addY(0.5f).add(finalDir.scale(2.0f)));
+                location.setWorldPosition(shooterLoc.getWorldPosition().addY(0.5f).add(finalDir.scale(0.5f)));
                 
                 
                 entityToLaunch.saveComponent(location);
                 
                 TriggerComponent trigger = new TriggerComponent();
-                trigger.detectGroups = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.ALL);
+                trigger.detectGroups = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.DEFAULT, StandardCollisionGroup.WORLD, StandardCollisionGroup.CHARACTER);
                 
                 MeshComponent mesh = entityToLaunch.getComponent(MeshComponent.class);
                 BoxShapeComponent box = new BoxShapeComponent();

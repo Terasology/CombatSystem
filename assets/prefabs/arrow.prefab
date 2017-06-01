@@ -6,6 +6,10 @@
 	"BoxShape" : {
 		"extents" : [0.5, 0.5, 1]
 	},
+	"Hurting" : {
+		"damageType": "engine:physicalDamage",
+		"amount": 3
+	},
 	"Stick" : {},
 	"Mesh" : {
         "mesh" : "CombatSystem:spear",
