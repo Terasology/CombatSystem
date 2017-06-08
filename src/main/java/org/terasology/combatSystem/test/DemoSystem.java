@@ -23,7 +23,14 @@ public class DemoSystem extends BaseComponentSystem{
     @ReceiveEvent( components = {InventoryComponent.class})
     public void givingWeaponsToPlayers(OnPlayerSpawnedEvent event, EntityRef player){
         EntityRef bow = entityManager.create("CombatSystem:bow");
-        bow.addOrSaveComponent(new ShooterComponent(player));
+        
+        ShooterComponent shooter = bow.getComponent(ShooterComponent.class);
+        if(shooter == null){
+            shooter = new ShooterComponent(player);
+        }
+        shooter.shooter = player;
+        
+        bow.addOrSaveComponent(shooter);
         
         inventoryManager.giveItem(player, EntityRef.NULL, bow);
     }

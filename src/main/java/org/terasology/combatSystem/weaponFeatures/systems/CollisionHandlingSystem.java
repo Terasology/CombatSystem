@@ -1,11 +1,19 @@
 package org.terasology.combatSystem.weaponFeatures.systems;
 
+import java.util.Iterator;
+import java.util.List;
+
+import org.terasology.combatSystem.OwnerCollisionState;
+import org.terasology.combatSystem.physics.components.CollisionExceptionsComponent;
 import org.terasology.combatSystem.physics.components.GravityComponent;
 import org.terasology.combatSystem.physics.components.MassComponent;
+import org.terasology.combatSystem.weaponFeatures.components.BounceComponent;
 import org.terasology.combatSystem.weaponFeatures.components.HurtingComponent;
 import org.terasology.combatSystem.weaponFeatures.components.ShooterComponent;
 import org.terasology.combatSystem.weaponFeatures.components.StickComponent;
 import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.entitySystem.entity.lifecycleEvents.OnActivatedComponent;
+import org.terasology.entitySystem.entity.lifecycleEvents.OnChangedComponent;
 import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
@@ -20,20 +28,28 @@ import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.components.TriggerComponent;
 import org.terasology.physics.events.CollideEvent;
 
+import com.google.common.collect.Lists;
+
 @RegisterSystem(RegisterMode.AUTHORITY)
 public class CollisionHandlingSystem extends BaseComponentSystem{
     
-    @ReceiveEvent(priority = EventPriority.PRIORITY_HIGH, components = {ShooterComponent.class})
-    public void avoidCollisionWithOwner(CollideEvent event, EntityRef entity){
+    @ReceiveEvent(components = ShooterComponent.class)
+    public void resolveShooterState(OnActivatedComponent event, EntityRef entity){
+        updateExceptionListForShooterComponent(entity);
+    }
+    
+    @ReceiveEvent(components = ShooterComponent.class)
+    public void updateShooterState(OnChangedComponent event, EntityRef entity){
+        updateExceptionListForShooterComponent(entity);
+    }
+    
+    @ReceiveEvent(priority = EventPriority.PRIORITY_HIGH, components = {CollisionExceptionsComponent.class})
+    public void avoidCollisionWithExceptions(CollideEvent event, EntityRef entity){
         EntityRef otherEntity = event.getOtherEntity();
         
-        if(checkCollisionWithAllOwners(otherEntity.getId(), entity)){
+        if(checkCollisionWithAllExceptions(otherEntity.getId(), entity)){
             event.consume();
         }
-//        if(checkCollisionWithFirstOwner(otherEntity.getId(), entity)){
-//            event.consume();
-//        }
-        
     }
     
     @ReceiveEvent(components = {StickComponent.class})
@@ -62,10 +78,11 @@ public class CollisionHandlingSystem extends BaseComponentSystem{
             body.velocity.set(0, 0, 0);
             body.force.set(0, 0, 0);
             
+            entity.removeComponent(TriggerComponent.class);
+            
             // attaching entity to otherEntity so that it always follows otherEntity
             Location.attachChild(otherEntity, entity, offset, relativeRot, scale);
             
-            entity.removeComponent(TriggerComponent.class);
             entity.saveComponent(body);
             entity.saveComponent(location);
             
@@ -86,43 +103,51 @@ public class CollisionHandlingSystem extends BaseComponentSystem{
         
     }
     
-    //-------------private methods used in this system---------------
-    
-    // checks if the id is equal to any owners of the entity. For eg. the owner of the owner
-    // of the entity
-    private boolean checkCollisionWithAllOwners(long otherEntityId, EntityRef entity){
-        ShooterComponent shooter = entity.getComponent(ShooterComponent.class);
-        if(shooter == null){
-            return false;
-        }
-        if(shooter.shooter == EntityRef.NULL || shooter.shooter == null){
-            return false;
+    @ReceiveEvent(components = {BounceComponent.class})
+    public void bouncing(CollideEvent event, EntityRef entity){
+        MassComponent mass = entity.getComponent(MassComponent.class);
+        LocationComponent location = entity.getComponent(LocationComponent.class);
+        if(mass == null || location == null){
+            return;
         }
         
-        if(otherEntityId == shooter.shooter.getId()){
-            return true;
+        Vector3f bounceDir = event.getNormal();
+        bounceDir.normalize();
+        bounceDir.negate();
+        bounceDir.scale(2*bounceDir.dot(mass.velocity));
+        bounceDir.negate();
+        
+        mass.velocity.add(bounceDir);
+        
+        CollisionExceptionsComponent exceptions = entity.getComponent(CollisionExceptionsComponent.class);
+        if(exceptions == null){
+            exceptions = new CollisionExceptionsComponent();
         }
-        else{
-            return checkCollisionWithAllOwners(otherEntityId, shooter.shooter);
-        }
+        exceptions.exceptions.add(event.getOtherEntity());
+        
+        location.setWorldPosition(event.getEntityContactPoint());
+        
+        entity.saveComponent(mass);
+        entity.addOrSaveComponent(exceptions);
     }
     
-    // checks if the Id is equal to the owner of the given entity
-    private boolean checkCollisionWithFirstOwner(long otherEntityId, EntityRef entity){
-        ShooterComponent shooter = entity.getComponent(ShooterComponent.class);
-        if(shooter == null){
-            return false;
-        }
-        if(shooter.shooter == EntityRef.NULL || shooter.shooter == null){
+    //-------------private methods used in this system---------------
+    
+    private boolean checkCollisionWithAllExceptions(long otherEntityId, EntityRef entity){
+        CollisionExceptionsComponent exceptions = entity.getComponent(CollisionExceptionsComponent.class);
+        if(exceptions == null){
             return false;
         }
         
-        if(otherEntityId == shooter.shooter.getId()){
-            return true;
+        Iterator<EntityRef> entities = exceptions.exceptions.iterator();
+        while(entities.hasNext()){
+            EntityRef exception = entities.next();
+            if(exception.getId() == otherEntityId){
+                return true;
+            }
         }
-        else{
-            return false;
-        }
+        
+        return false;
     }
     
     // get the ultimate owner of the entity. The owner of the entity may have an owner of its
@@ -131,13 +156,87 @@ public class CollisionHandlingSystem extends BaseComponentSystem{
         ShooterComponent shooter = entity.getComponent(ShooterComponent.class);
         
         if(shooter == null){
+            return null;
+        }
+        if(shooter.shooter == EntityRef.NULL || shooter.shooter == null){
+            return null;
+        }
+        else{
+            return recursiveOwner(shooter.shooter);
+        }
+    }
+    
+    private EntityRef recursiveOwner(EntityRef entity){
+        ShooterComponent shooter = entity.getComponent(ShooterComponent.class);
+        
+        if(shooter == null){
             return entity;
         }
         if(shooter.shooter == EntityRef.NULL || shooter.shooter == null){
             return entity;
         }
         else{
-            return getUltimateOwner(shooter.shooter);
+            return recursiveOwner(shooter.shooter);
+        }
+    }
+    
+    private EntityRef getFirstOwner(EntityRef entity){
+        ShooterComponent shooter = entity.getComponent(ShooterComponent.class);
+        
+        if(shooter == null){
+            return null;
+        }
+        if(shooter.shooter == EntityRef.NULL || shooter.shooter == null){
+            return null;
+        }
+        else{
+            return shooter.shooter;
+        }
+    }
+    
+    private List<EntityRef> getAllOwners(EntityRef entity){
+        List<EntityRef> entityList = Lists.<EntityRef>newArrayList();
+        
+        EntityRef temp = getFirstOwner(entity);
+        while(temp != null){
+            entityList.add(temp);
+            temp = getFirstOwner(temp);
+        }
+        
+        if(entityList.isEmpty()){
+            return null;
+        }
+        else{
+            return entityList;
+        }
+    }
+    
+    private void updateExceptionListForShooterComponent(EntityRef entity){
+        ShooterComponent shooter = entity.getComponent(ShooterComponent.class);
+        if(shooter == null){
+            return;
+        }
+        
+        CollisionExceptionsComponent exceptions = entity.getComponent(CollisionExceptionsComponent.class);
+        if(exceptions == null){
+            exceptions = new CollisionExceptionsComponent();
+        }
+        
+        if(shooter.state == OwnerCollisionState.DISABLED){
+            List<EntityRef> entityList = getAllOwners(entity);
+            exceptions.exceptions.removeAll(entityList);
+            exceptions.exceptions.addAll(entityList);
+        }
+        else if(shooter.state == OwnerCollisionState.DISABLED_WITH_DIRECT_OWNER){
+            exceptions.exceptions.removeAll(getAllOwners(entity));
+            exceptions.exceptions.add(getFirstOwner(entity));
+        }
+        else if(shooter.state == OwnerCollisionState.DISABLED_WITH_ULTIMATE_OWNER){
+            exceptions.exceptions.removeAll(getAllOwners(entity));
+            exceptions.exceptions.add(getUltimateOwner(entity));
+        }
+        else if(shooter.state == OwnerCollisionState.ENABLED){
+            exceptions.exceptions.removeAll(getAllOwners(entity));
         }
     }
 
