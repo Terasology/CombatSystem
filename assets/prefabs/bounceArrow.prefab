@@ -1,0 +1,17 @@
+{
+    "Location" : {},
+	"Mass" : {},
+	"Gravity" : {},
+	"Arrow" : {},
+	"BoxShape" : {
+		"extents" : [0.5, 0.5, 1]
+	},
+	"Bounce" : {
+		"amount" : 3
+	},
+	"Mesh" : {
+        "mesh" : "CombatSystem:spear",
+        "material" : "CombatSystem:tool"
+    }
+}
+
