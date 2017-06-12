@@ -8,7 +8,7 @@
 		"usage": "IN_DIRECTION"
 	},
 	"LaunchEntity": {
-        "launchEntityPrefab":"CombatSystem:arrow"
+        "launchEntityPrefab":"CombatSystem:stickArrow"
     },
 	"Shooter": {},
 	"PrimaryAttack": {}

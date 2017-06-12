@@ -6,10 +6,12 @@ import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
+import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.registry.In;
 
+@RegisterSystem
 public class CombatForceSystem extends BaseComponentSystem implements UpdateSubscriberSystem{
 
     @In

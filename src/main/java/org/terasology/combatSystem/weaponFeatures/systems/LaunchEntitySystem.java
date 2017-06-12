@@ -7,6 +7,7 @@ import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
 import org.terasology.combatSystem.weaponFeatures.components.ArrowComponent;
 import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
 import org.terasology.combatSystem.weaponFeatures.components.ShooterComponent;
+import org.terasology.combatSystem.weaponFeatures.events.AddFeaturesEvent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -53,8 +54,15 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
         }
         
         if(launchEntity.primaryAttack){
+            EntityRef entityToLaunch = EntityRef.NULL;
+            // creates an entity with specified entityRef.
+            if(launchEntity.launchEntity != null){
+                entityToLaunch = launchEntity.launchEntity.copy();
+            }
             // creates an entity with specified prefab for eg. an arrow prefab
-            EntityRef entityToLaunch = entityManager.create(launchEntity.launchEntityPrefab);
+            else if(launchEntity.launchEntityPrefab != null){
+                entityToLaunch = entityManager.create(launchEntity.launchEntityPrefab);
+            }
             
             if(entityToLaunch != EntityRef.NULL){
                 LocationComponent location = entityToLaunch.getComponent(LocationComponent.class);
@@ -97,6 +105,11 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 impulse.normalize();
                 impulse.mul(launchEntity.impulse);
                 entityToLaunch.send(new CombatImpulseEvent(impulse));
+                
+                //----------------repetitive code for every component that triggers action-------
+                
+                //send a new AddFeaturesEvent with the collide event info as parameters
+                entity.send(new AddFeaturesEvent());
             }
             else{
                 // dispatch no ammo event

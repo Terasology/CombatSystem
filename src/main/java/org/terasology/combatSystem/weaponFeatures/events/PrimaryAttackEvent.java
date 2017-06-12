@@ -6,6 +6,10 @@ import org.terasology.logic.common.ActivateEvent;
 public class PrimaryAttackEvent implements Event{
     public ActivateEvent info;
     
+    public PrimaryAttackEvent(){
+        
+    }
+    
     public PrimaryAttackEvent(ActivateEvent info){
         this.info = info;
     }
