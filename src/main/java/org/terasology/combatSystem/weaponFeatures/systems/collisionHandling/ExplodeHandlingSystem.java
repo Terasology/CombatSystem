@@ -1,51 +1,56 @@
 package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
 import org.terasology.combatSystem.weaponFeatures.components.ExplodeComponent;
-import org.terasology.combatSystem.weaponFeatures.components.features.FeatureComponent;
-import org.terasology.combatSystem.weaponFeatures.components.hurting.ExplosionComponent;
-import org.terasology.combatSystem.weaponFeatures.events.AddFeaturesEvent;
+import org.terasology.combatSystem.weaponFeatures.components.ExplosionComponent;
+import org.terasology.combatSystem.weaponFeatures.components.HurtingComponent;
 import org.terasology.combatSystem.weaponFeatures.events.ExplodeEvent;
+import org.terasology.combatSystem.weaponFeatures.events.ExplosionEvent;
+import org.terasology.entitySystem.entity.EntityBuilder;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
+import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.physics.events.CollideEvent;
 import org.terasology.registry.In;
 
 @RegisterSystem(RegisterMode.AUTHORITY)
-public class ExplodeHandlingSystem extends CollisionHandlingSystem{
+public class ExplodeHandlingSystem extends BaseComponentSystem{
     @In
     EntityManager entityManager;
     
     @ReceiveEvent(components = ExplodeComponent.class)
     public void explosionOnContact(CollideEvent event, EntityRef entity){
-        entity.send(new ExplodeEvent());
+        explode(entity);
         
         event.consume();
     }
     
     @ReceiveEvent(components = ExplodeComponent.class)
-    public void explode(ExplodeEvent event, EntityRef entity){
+    public void exploding(ExplodeEvent event, EntityRef entity){
+        explode(entity);
+    }
+    
+    //--------------------------------private methods--------------------------------
+    
+    private void explode(EntityRef entity){
         LocationComponent location = entity.getComponent(LocationComponent.class);
         if(location == null){
             return;
         }
         ExplodeComponent explode = entity.getComponent(ExplodeComponent.class);
-        EntityRef explosion = EntityRef.NULL;
-        if(explode.explosionEntity != null){
-            explosion = explode.explosionEntity.copy();
-        }
-        else if(explode.explosionPrefab != null){
-            explosion = entityManager.create(explode.explosionPrefab);
+        EntityBuilder explosion = entityManager.newBuilder(explode.explosionPrefab);
+        
+        if(explosion == null){
+            explosion = entityManager.newBuilder();
         }
         
-        if(explosion == null || explosion == EntityRef.NULL){
-            explosion = entityManager.create();
+        if(!explosion.hasComponent(ExplosionComponent.class)){
+            explosion.addComponent(new ExplosionComponent());
         }
-        
-        explosion.addOrSaveComponent(new ExplosionComponent());
         
         LocationComponent explosionLoc = explosion.getComponent(LocationComponent.class);
         if(explosionLoc == null){
@@ -57,12 +62,16 @@ public class ExplodeHandlingSystem extends CollisionHandlingSystem{
         
         explosion.addOrSaveComponent(explosionLoc);
         
-        //----------------repetitive code for every component that triggers action-------
-        
-        //send a new AddFeaturesEvent with the collide event info as parameters
-        if(entity.hasComponent(FeatureComponent.class)){
-            entity.send(new AddFeaturesEvent());
+        if(!explosion.hasComponent(HurtingComponent.class)){
+            HurtingComponent hurting = new HurtingComponent();
+            hurting.amount = 4;
+            hurting.damageType = EngineDamageTypes.EXPLOSIVE.get();
+            explosion.addComponent(hurting);
         }
+        
+        EntityRef explosionEntity = explosion.build();
+        
+        explosionEntity.send(new ExplosionEvent());
     }
 
 }

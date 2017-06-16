@@ -1,8 +1,9 @@
-package org.terasology.combatSystem.weaponFeatures.components.hurting;
+package org.terasology.combatSystem.weaponFeatures.components;
 
+import org.terasology.entitySystem.Component;
 import org.terasology.entitySystem.entity.EntityRef;
 
-public class StickComponent extends HurtingComponent{
+public class StickComponent implements Component{
     EntityRef target = EntityRef.NULL;
     
     public void setTarget(EntityRef entity){

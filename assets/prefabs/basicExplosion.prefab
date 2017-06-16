@@ -1,7 +1,11 @@
 {
-    "Location" : {},
+    "parent" : "core:smokeExplosion",
+	"Hurting" : {
+		"amount":2,
+		"damageTypes":"engine:explosiveDamage"
+	},
 	"Explosion" : {
-		"hurting":4
+		
 	}
 }
 

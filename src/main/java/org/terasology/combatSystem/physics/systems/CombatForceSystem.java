@@ -11,12 +11,21 @@ import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.registry.In;
 
+/**
+ * handles the forces applied to an entity with {@code MassComponent}
+ * <p>
+ * It does not handle <b>gravity</b> and <b>friction</b>
+ */
 @RegisterSystem
 public class CombatForceSystem extends BaseComponentSystem implements UpdateSubscriberSystem{
 
     @In
     EntityManager entityManager;
     
+    /**
+     * converts the total force applied to an entity into acceleration.
+     * adds the acceleration into total acceleration.
+     */
     @Override
     public void update(float delta) {
         // TODO Auto-generated method stub

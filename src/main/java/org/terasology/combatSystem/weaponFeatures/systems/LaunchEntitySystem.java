@@ -7,12 +7,12 @@ import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
 import org.terasology.combatSystem.weaponFeatures.components.ArrowComponent;
 import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
 import org.terasology.combatSystem.weaponFeatures.components.ShooterComponent;
-import org.terasology.combatSystem.weaponFeatures.events.AddFeaturesEvent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
+import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.logic.location.LocationComponent;
@@ -28,7 +28,7 @@ import org.terasology.rendering.logic.MeshComponent;
 
 import com.google.common.collect.Lists;
 
-@RegisterSystem
+@RegisterSystem(RegisterMode.AUTHORITY)
 public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSubscriberSystem{
     @In
     private EntityManager entityManager;
@@ -90,26 +90,24 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 
                 entityToLaunch.saveComponent(location);
                 
-                TriggerComponent trigger = new TriggerComponent();
-                trigger.detectGroups = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.DEFAULT, StandardCollisionGroup.WORLD, StandardCollisionGroup.CHARACTER);
+                if(!entityToLaunch.hasComponent(TriggerComponent.class)){
+                    TriggerComponent trigger = new TriggerComponent();
+                    trigger.detectGroups = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.DEFAULT, StandardCollisionGroup.WORLD, StandardCollisionGroup.CHARACTER);
+                    entityToLaunch.addOrSaveComponent(trigger);
+                }
                 
-                MeshComponent mesh = entityToLaunch.getComponent(MeshComponent.class);
-                BoxShapeComponent box = new BoxShapeComponent();
-                box.extents = mesh.mesh.getAABB().getExtents().scale(2.0f);
-                
-                entityToLaunch.addOrSaveComponent(box);
-                entityToLaunch.addOrSaveComponent(trigger);
+                if(entityToLaunch.hasComponent(MeshComponent.class)){
+                    MeshComponent mesh = entityToLaunch.getComponent(MeshComponent.class);
+                    BoxShapeComponent box = new BoxShapeComponent();
+                    box.extents = mesh.mesh.getAABB().getExtents().scale(2.0f);
+                    entityToLaunch.addOrSaveComponent(box);
+                }
                 
                 // applies impulse to the entity
                 Vector3f impulse = finalDir;
                 impulse.normalize();
                 impulse.mul(launchEntity.impulse);
                 entityToLaunch.send(new CombatImpulseEvent(impulse));
-                
-                //----------------repetitive code for every component that triggers action-------
-                
-                //send a new AddFeaturesEvent with the collide event info as parameters
-                entity.send(new AddFeaturesEvent());
             }
             else{
                 // dispatch no ammo event

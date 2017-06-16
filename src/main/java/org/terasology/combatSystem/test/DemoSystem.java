@@ -14,6 +14,9 @@ import org.terasology.logic.inventory.InventoryManager;
 import org.terasology.logic.players.event.OnPlayerSpawnedEvent;
 import org.terasology.registry.In;
 
+/**
+ * implements a basic inventory at start of game for testing weapons.
+ */
 @RegisterSystem(RegisterMode.AUTHORITY)
 public class DemoSystem extends BaseComponentSystem{
     
@@ -73,7 +76,7 @@ public class DemoSystem extends BaseComponentSystem{
         if(launchEntity3 == null){
             launchEntity3 = new LaunchEntityComponent();
         }
-        launchEntity3.launchEntityPrefab = prefabManager.getPrefab("CombatSystem:stickAfterBounceArrow");
+        launchEntity3.launchEntityPrefab = prefabManager.getPrefab("CombatSystem:stickArrow");
         stickAfterBounceBow.addOrSaveComponent(launchEntity3);
         
         ShooterComponent shooter3 = stickAfterBounceBow.getComponent(ShooterComponent.class);

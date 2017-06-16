@@ -41,7 +41,7 @@ public class NPCSpawnSystem extends BaseComponentSystem{
         boxShape.extents = skeletalMesh.mesh.getStaticAabb().getExtents().scale(2.0f);
         
         RigidBodyComponent rigidBody = npc1.getComponent(RigidBodyComponent.class);
-        rigidBody.collidesWith = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.DEFAULT, StandardCollisionGroup.CHARACTER, StandardCollisionGroup.WORLD, StandardCollisionGroup.SENSOR);
+        rigidBody.collidesWith = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.DEFAULT, StandardCollisionGroup.CHARACTER, StandardCollisionGroup.WORLD);
         
         npc1.addOrSaveComponent(boxShape);
         npc1.saveComponent(rigidBody);

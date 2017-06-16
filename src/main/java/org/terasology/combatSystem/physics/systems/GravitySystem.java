@@ -11,12 +11,18 @@ import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.registry.In;
 
+/**
+ * handles the gravity applied to an entity with {@code MassComponent}
+ */
 @RegisterSystem
 public class GravitySystem extends BaseComponentSystem implements UpdateSubscriberSystem{
 
     @In
     EntityManager entityManager;
     
+    /**
+     * adds the acceleration due to gravity into total acceleration of entity.
+     */
     @Override
     public void update(float delta) {
         // TODO Auto-generated method stub
