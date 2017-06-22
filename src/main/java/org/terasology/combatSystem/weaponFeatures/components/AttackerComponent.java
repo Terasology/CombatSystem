@@ -4,25 +4,25 @@ import org.terasology.combatSystem.OwnerCollisionState;
 import org.terasology.entitySystem.Component;
 import org.terasology.entitySystem.entity.EntityRef;
 
-public class ShooterComponent implements Component{
-    public EntityRef shooter = EntityRef.NULL;
+public class AttackerComponent implements Component{
+    public EntityRef attacker = EntityRef.NULL;
     public OwnerCollisionState state = OwnerCollisionState.DISABLED;
     
-    public ShooterComponent(){
+    public AttackerComponent(){
         
     }
     
-    public ShooterComponent(EntityRef shooter){
+    public AttackerComponent(EntityRef shooter){
         this(shooter, null);
     }
     
-    public ShooterComponent(OwnerCollisionState state){
+    public AttackerComponent(OwnerCollisionState state){
         this(null, state);
     }
     
-    public ShooterComponent(EntityRef shooter, OwnerCollisionState state){
+    public AttackerComponent(EntityRef shooter, OwnerCollisionState state){
         if(shooter != null){
-            this.shooter = shooter;
+            this.attacker = shooter;
         }
         if(state != null){
             this.state = state;

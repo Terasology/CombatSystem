@@ -14,28 +14,41 @@ import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.logic.health.BeforeDestroyEvent;
 import org.terasology.logic.health.DestroyEvent;
+import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.location.Location;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.geom.Quat4f;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.components.TriggerComponent;
 import org.terasology.physics.events.CollideEvent;
+import org.terasology.world.block.BlockComponent;
 
 @RegisterSystem(RegisterMode.AUTHORITY)
 public class StickingHandlingSystem extends BaseComponentSystem{
     
     @ReceiveEvent(components = {StickComponent.class})
     public void stickingCollision(CollideEvent event, EntityRef entity){
-        sticking(entity, event.getOtherEntity());
+        EntityRef target = event.getOtherEntity();
+        if(target.hasComponent(BlockComponent.class)){
+            blockSticking(entity, target);
+        }
+        else{
+            sticking(entity, target);
+        }
         
         event.consume();
     }
     
     @ReceiveEvent( components = StickComponent.class)
     public void stick(StickEvent event, EntityRef entity){
-        sticking(entity, event.getTarget());
+        EntityRef target = event.getTarget();
+        if(target.hasComponent(BlockComponent.class)){
+            blockSticking(entity, target);
+        }
+        else{
+            sticking(entity, target);
+        }
     }
     
     @ReceiveEvent(components = ParentComponent.class)
@@ -117,8 +130,58 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         //-------------------------repetitive code for every HurtingComponent-----------
         
         // damage the other entity
-        if(entity.hasComponent(HurtingComponent.class)){
+        HurtingComponent hurting = entity.getComponent(HurtingComponent.class);
+        if(hurting != null){
+            hurting.amount = stick.amount;
+            hurting.damageType = EngineDamageTypes.DIRECT.get();
+            entity.saveComponent(hurting);
             entity.send(new HurtEvent(target));
+        }
+    }
+    
+    // if the entity wants to stick to a block
+    private void blockSticking(EntityRef entity, EntityRef target){
+        if(target == EntityRef.NULL || target == null){
+            return;
+        }
+        
+        BlockComponent block = target.getComponent(BlockComponent.class);
+        if(block == null){
+            return;
+        }
+        if(block.getBlock().isPenetrable()){
+            return;
+        }
+        LocationComponent location = entity.getComponent(LocationComponent.class);
+        if(location == null){
+            return;
+        }
+        
+        MassComponent body = entity.getComponent(MassComponent.class);
+        if(body != null){
+            Vector3f pos = location.getWorldPosition();
+            Vector3f dir = new Vector3f(body.velocity);
+            dir.absolute();
+            //we assume the peircing to be 0.1 units deep
+            dir.scale(0.1f);
+            pos.add(dir);
+            
+            location.setWorldPosition(pos);
+            entity.saveComponent(location);
+            
+            // resting all the movements of the entity
+            body.acceleration.set(0, 0, 0);
+            body.velocity.set(0, 0, 0);
+            body.force.set(0, 0, 0);
+            entity.saveComponent(body);
+        }
+        
+        if(entity.hasComponent(GravityComponent.class)){
+            entity.removeComponent(GravityComponent.class);
+        }
+        
+        if(entity.hasComponent(TriggerComponent.class)){
+            entity.removeComponent(TriggerComponent.class);
         }
     }
 

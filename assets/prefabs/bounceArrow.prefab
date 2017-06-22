@@ -1,20 +1,10 @@
 {
-    "Location" : {},
-	"Mass" : {},
-	"Gravity" : {},
-	"Arrow" : {},
-	"BoxShape" : {
-		"extents" : [0.5, 0.5, 1]
-	},
+    "parent" : "CombatSystem:arrow",
 	"Hurting" : {
 		"amount" : 3
 	},
 	"Bounce" : {
 		
-	},
-	"Mesh" : {
-        "mesh" : "CombatSystem:spear",
-        "material" : "CombatSystem:tool"
-    }
+	}
 }
 

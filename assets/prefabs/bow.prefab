@@ -4,8 +4,9 @@
 		"name": "CrossBow"
 	},
 	"Item": {
-		"icon": "engine:items#crossbow",
-		"usage": "IN_DIRECTION"
+		"icon": "CombatSystem:bow",
+		"usage": "IN_DIRECTION",
+		"cooldownTime": 200
 	},
 	"LaunchEntity": {
         "launchEntityPrefab":"CombatSystem:stickArrow"

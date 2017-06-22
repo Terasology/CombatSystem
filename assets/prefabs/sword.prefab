@@ -1,0 +1,21 @@
+{
+    "parent": "engine:iconItem",
+	"DisplayName": {
+		"name": "Sword"
+	},
+	"Item": {
+		"icon": "CombatSystem:sword",
+		"usage": "ON_ENTITY",
+		"cooldownTime": 300
+	},
+	"Melee": {
+		"primaryAttack" : true,
+		"amount" : 3,
+		"range" : 2
+	},
+	"Hurting": {
+		
+	},
+	"PrimaryAttack": {}
+}
+

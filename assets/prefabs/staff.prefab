@@ -1,0 +1,12 @@
+{
+    "parent": "engine:iconItem",
+	"DisplayName": {
+		"name": "Sword"
+	},
+	"Item": {
+		"icon": "CombatSystem:staff",
+		"usage": "ON_ENTITY"
+	},
+	"PrimaryAttack": {}
+}
+

@@ -11,13 +11,13 @@ import com.google.common.collect.Lists;
 public class ExplosionComponent implements Component{
     public List<CollisionGroup> collidesWith = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.DEFAULT, StandardCollisionGroup.WORLD, StandardCollisionGroup.CHARACTER);
     
-    public float innerRadius = 1.0f;
-    public float outerRadius = 2.0f;
-    public float outerDamageFactor = 0.5f;
+    public float radius = 2.0f;
     
     public float explosionStartTime = -1.0f;                 //sec
     public float explosionDelayTime = 0.0f;                 //sec
     
     public boolean explosionStarted = false;
+    
+    public int amount = 4;
 
 }

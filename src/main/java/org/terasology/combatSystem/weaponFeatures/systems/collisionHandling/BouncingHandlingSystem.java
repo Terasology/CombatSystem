@@ -13,6 +13,7 @@ import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.events.CollideEvent;
@@ -43,7 +44,7 @@ public class BouncingHandlingSystem extends BaseComponentSystem{
             return;
         }
         
-        if(checkPeircing(normal, mass.velocity, bounce.maxPierceAngle)){
+        if(checkPeircing(normal, mass.velocity, bounce.maxPierceAngle, bounce.minVelocity)){
             entity.addOrSaveComponent(new StickComponent());
             entity.send(new StickEvent(target));
             return;
@@ -64,12 +65,16 @@ public class BouncingHandlingSystem extends BaseComponentSystem{
         //-------------------------repetitive code for every HurtingComponent-----------
         
         // damage the other entity
-        if(entity.hasComponent(HurtingComponent.class)){
+        HurtingComponent hurting = entity.getComponent(HurtingComponent.class);
+        if(hurting != null){
+            hurting.amount = bounce.amount;
+            hurting.damageType = EngineDamageTypes.DIRECT.get();
+            entity.saveComponent(hurting);
             entity.send(new HurtEvent(target));
         }
     }
     
-    private boolean checkPeircing(Vector3f normal, Vector3f velocity, int maxAngle){
+    private boolean checkPeircing(Vector3f normal, Vector3f velocity, int maxAngle, Vector3f minVelocity){
         Vector3f vel = new Vector3f(velocity);
         vel.negate();
         
@@ -78,7 +83,7 @@ public class BouncingHandlingSystem extends BaseComponentSystem{
             angle -= 180;
         }
         
-        if(angle <= maxAngle){
+        if(angle <= maxAngle && velocity.lengthSquared() >= minVelocity.lengthSquared()){
             return true;
         }
         

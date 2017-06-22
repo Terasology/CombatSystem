@@ -2,7 +2,7 @@ package org.terasology.combatSystem.weaponFeatures;
 
 import java.util.List;
 
-import org.terasology.combatSystem.weaponFeatures.components.ShooterComponent;
+import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
 import org.terasology.entitySystem.entity.EntityRef;
 
 import com.google.common.collect.Lists;
@@ -11,44 +11,44 @@ public class OwnerSpecific {
     // get the ultimate owner of the entity. The owner of the entity may have an owner of its
     // own, that ultimate owner is returned from this method through recursion
     public static EntityRef getUltimateOwner(EntityRef entity){
-        ShooterComponent shooter = entity.getComponent(ShooterComponent.class);
+        AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
         
-        if(shooter == null){
+        if(attacker == null){
             return null;
         }
-        if(shooter.shooter == EntityRef.NULL || shooter.shooter == null){
+        if(attacker.attacker == EntityRef.NULL || attacker.attacker == null){
             return null;
         }
         else{
-            return recursiveOwner(shooter.shooter);
+            return recursiveOwner(attacker.attacker);
         }
     }
     
     private static EntityRef recursiveOwner(EntityRef entity){
-        ShooterComponent shooter = entity.getComponent(ShooterComponent.class);
+        AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
         
-        if(shooter == null){
+        if(attacker == null){
             return entity;
         }
-        if(shooter.shooter == EntityRef.NULL || shooter.shooter == null){
+        if(attacker.attacker == EntityRef.NULL || attacker.attacker == null){
             return entity;
         }
         else{
-            return recursiveOwner(shooter.shooter);
+            return recursiveOwner(attacker.attacker);
         }
     }
     
     public static EntityRef getFirstOwner(EntityRef entity){
-        ShooterComponent shooter = entity.getComponent(ShooterComponent.class);
+        AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
         
-        if(shooter == null){
+        if(attacker == null){
             return null;
         }
-        if(shooter.shooter == EntityRef.NULL || shooter.shooter == null){
+        if(attacker.attacker == EntityRef.NULL || attacker.attacker == null){
             return null;
         }
         else{
-            return shooter.shooter;
+            return attacker.attacker;
         }
     }
     

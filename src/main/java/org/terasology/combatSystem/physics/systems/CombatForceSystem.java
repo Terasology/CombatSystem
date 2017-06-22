@@ -30,9 +30,7 @@ public class CombatForceSystem extends BaseComponentSystem implements UpdateSubs
     public void update(float delta) {
         // TODO Auto-generated method stub
         Iterable<EntityRef> entitiesWith = entityManager.getEntitiesWith(MassComponent.class);
-        Iterator<EntityRef> entities = entitiesWith.iterator();
-        while(entities.hasNext()){
-            EntityRef entity = entities.next();
+        for(EntityRef entity : entitiesWith){
             MassComponent body = entity.getComponent(MassComponent.class);
             Vector3f force = new Vector3f(body.force);
             force.div(body.mass);
