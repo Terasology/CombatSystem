@@ -2,6 +2,7 @@ package org.terasology.combatSystem.weaponFeatures.systems;
 
 import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
+import org.terasology.combatSystem.weaponFeatures.OwnerSpecific;
 import org.terasology.combatSystem.weaponFeatures.components.ArrowComponent;
 import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
 import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
@@ -10,9 +11,9 @@ import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
+import org.terasology.logic.characters.GazeMountPointComponent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.Direction;
 import org.terasology.math.geom.Quat4f;
@@ -26,7 +27,7 @@ import org.terasology.rendering.logic.MeshComponent;
 
 import com.google.common.collect.Lists;
 
-@RegisterSystem(RegisterMode.AUTHORITY)
+@RegisterSystem
 public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSubscriberSystem{
     @In
     private EntityManager entityManager;
@@ -34,29 +35,19 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
     @ReceiveEvent(components = {LaunchEntityComponent.class})
     public void onFire(PrimaryAttackEvent event, EntityRef entity){
         LaunchEntityComponent launchEntity = entity.getComponent(LaunchEntityComponent.class);
-        AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
-        EntityRef player = EntityRef.NULL;
-        
-        // sets the owner of "entity" as "player"
-        if(attacker != null){
-            player = attacker.attacker;
-        }
+        EntityRef player = OwnerSpecific.getUltimateOwner(entity);;
         
         // if no owner of "entity" is present than "entity" becomes "player". e.g. world generated 
         // launcher that shot the projectile.
         
-        if(player == EntityRef.NULL){
+        if(player == EntityRef.NULL || player == null){
             player = entity;
         }
         
         if(launchEntity.primaryAttack){
             EntityRef entityToLaunch = EntityRef.NULL;
-            // creates an entity with specified entityRef.
-            if(launchEntity.launchEntity != null){
-                entityToLaunch = launchEntity.launchEntity.copy();
-            }
             // creates an entity with specified prefab for eg. an arrow prefab
-            else if(launchEntity.launchEntityPrefab != null){
+            if(launchEntity.launchEntityPrefab != null){
                 entityToLaunch = entityManager.create(launchEntity.launchEntityPrefab);
             }
             
@@ -81,7 +72,10 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 
                 // sets the location of entity to current player's location with an offset
                 location.setWorldScale(0.5f);
+                
+                
                 location.setWorldPosition(shooterLoc.getWorldPosition().addY(0.5f).add(finalDir.scale(0.5f)));
+                
                 
                 
                 entityToLaunch.saveComponent(location);

@@ -4,7 +4,6 @@ import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.prefab.Prefab;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.CollisionGroup;
@@ -17,7 +16,7 @@ import org.terasology.utilities.Assets;
 
 import com.google.common.collect.Lists;
 
-@RegisterSystem(RegisterMode.AUTHORITY)
+@RegisterSystem
 public class NPCSpawnSystem extends BaseComponentSystem{
     
     @In

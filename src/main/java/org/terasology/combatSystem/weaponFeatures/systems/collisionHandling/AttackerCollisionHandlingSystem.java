@@ -10,10 +10,9 @@ import org.terasology.entitySystem.entity.lifecycleEvents.OnActivatedComponent;
 import org.terasology.entitySystem.entity.lifecycleEvents.OnChangedComponent;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 
-@RegisterSystem(RegisterMode.AUTHORITY)
+@RegisterSystem
 public class AttackerCollisionHandlingSystem extends BaseComponentSystem{
     @ReceiveEvent(components = AttackerComponent.class)
     public void resolveShooterState(OnActivatedComponent event, EntityRef entity){
