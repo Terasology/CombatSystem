@@ -1,0 +1,10 @@
+{
+    "parent" : "CombatSystem:arrow",
+	"Hurting" : {
+		"amount" : 3
+	},
+	"Bounce" : {
+		
+	}
+}
+

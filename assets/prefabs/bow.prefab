@@ -1,0 +1,17 @@
+{
+    "parent": "engine:iconItem",
+	"DisplayName": {
+		"name": "CrossBow"
+	},
+	"Item": {
+		"icon": "CombatSystem:bow",
+		"usage": "IN_DIRECTION",
+		"cooldownTime": 200
+	},
+	"LaunchEntity": {
+        "launchEntityPrefab":"CombatSystem:stickArrow"
+    },
+	"Shooter": {},
+	"PrimaryAttack": {}
+}
+

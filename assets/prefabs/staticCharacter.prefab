@@ -1,0 +1,21 @@
+{
+    "alwaysRelevant": true,
+    "Location": {},
+    "BoxShape" : {
+        "extents" : [1, 1, 1]
+    },
+    "RigidBody" : {
+    },
+    "skeletalmesh" : {
+        "mesh" : "skeleton",
+        "heightOffset" : -0.5,
+        "material" : "skeletonSkin",
+        "animationPool": [
+            "skeletonStand"
+        ],
+        "loop" : true,
+        "scale" : [1, 1, 1]
+    },
+    "Network" : {}
+}
+
