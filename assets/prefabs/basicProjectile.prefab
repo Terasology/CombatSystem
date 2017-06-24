@@ -1,0 +1,4 @@
+{
+	"parent" : "CombatSystem:basicShoot",
+	"Gravity" : {}
+}

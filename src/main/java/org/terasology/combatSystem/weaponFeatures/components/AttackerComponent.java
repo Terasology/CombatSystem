@@ -3,9 +3,13 @@ package org.terasology.combatSystem.weaponFeatures.components;
 import org.terasology.combatSystem.OwnerCollisionState;
 import org.terasology.entitySystem.Component;
 import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.network.Replicate;
 
 public class AttackerComponent implements Component{
+    @Replicate
     public EntityRef attacker = EntityRef.NULL;
+    
+    @Replicate
     public OwnerCollisionState state = OwnerCollisionState.DISABLED;
     
     public AttackerComponent(){

@@ -12,7 +12,6 @@ import org.terasology.combatSystem.weaponFeatures.events.StickEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.health.DestroyEvent;
 import org.terasology.logic.health.EngineDamageTypes;
@@ -24,7 +23,7 @@ import org.terasology.physics.components.TriggerComponent;
 import org.terasology.physics.events.CollideEvent;
 import org.terasology.world.block.BlockComponent;
 
-@RegisterSystem(RegisterMode.AUTHORITY)
+@RegisterSystem
 public class StickingHandlingSystem extends BaseComponentSystem{
     
     @ReceiveEvent(components = {StickComponent.class})
@@ -159,15 +158,15 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         
         MassComponent body = entity.getComponent(MassComponent.class);
         if(body != null){
-            Vector3f pos = location.getWorldPosition();
-            Vector3f dir = new Vector3f(body.velocity);
-            dir.absolute();
-            //we assume the peircing to be 0.1 units deep
-            dir.scale(0.1f);
-            pos.add(dir);
-            
-            location.setWorldPosition(pos);
-            entity.saveComponent(location);
+//            Vector3f pos = location.getWorldPosition();
+//            Vector3f dir = new Vector3f(body.velocity);
+//            dir.normalize();
+//            //we assume the peircing to be 0.1 units deep
+//            dir.scale(0.1f);
+//            pos.add(dir);
+//            
+//            location.setWorldPosition(pos);
+//            entity.saveComponent(location);
             
             // resting all the movements of the entity
             body.acceleration.set(0, 0, 0);

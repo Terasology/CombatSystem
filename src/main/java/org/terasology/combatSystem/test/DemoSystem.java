@@ -7,7 +7,6 @@ import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.prefab.PrefabManager;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.inventory.InventoryComponent;
 import org.terasology.logic.inventory.InventoryManager;
@@ -17,7 +16,7 @@ import org.terasology.registry.In;
 /**
  * implements a basic inventory at start of game for testing weapons.
  */
-@RegisterSystem(RegisterMode.AUTHORITY)
+@RegisterSystem
 public class DemoSystem extends BaseComponentSystem{
     
     @In
@@ -101,6 +100,14 @@ public class DemoSystem extends BaseComponentSystem{
         
         // 4. Staff
         EntityRef staff = entityManager.create("CombatSystem:staff");
+        
+        AttackerComponent shooter5 = explodeBow.getComponent(AttackerComponent.class);
+        if(shooter5 == null){
+            shooter5 = new AttackerComponent(player);
+        }
+        shooter5.attacker = player;
+        
+        staff.addOrSaveComponent(shooter5);
         
         inventoryManager.giveItem(player, EntityRef.NULL, staff);
     }

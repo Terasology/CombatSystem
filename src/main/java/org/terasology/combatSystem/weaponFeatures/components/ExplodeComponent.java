@@ -1,8 +1,8 @@
 package org.terasology.combatSystem.weaponFeatures.components;
 
 import org.terasology.entitySystem.Component;
-import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.prefab.Prefab;
+import org.terasology.network.Replicate;
 
 /**
  * makes the entity explode into another entity.
@@ -11,5 +11,6 @@ import org.terasology.entitySystem.prefab.Prefab;
  * <b>explosionEntity</b> is given precedence over <b>explosionPrefab</b> if both are present.
  */
 public class ExplodeComponent implements Component{
+    @Replicate
     public Prefab explosionPrefab;
 }

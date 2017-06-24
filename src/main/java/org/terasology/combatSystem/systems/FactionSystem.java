@@ -8,10 +8,9 @@ import org.terasology.combatSystem.weaponFeatures.events.HurtEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 
-@RegisterSystem(RegisterMode.AUTHORITY)
+@RegisterSystem
 public class FactionSystem extends BaseComponentSystem{
     
     @ReceiveEvent(components = {FactionComponent.class, HurtingComponent.class})

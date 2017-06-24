@@ -13,17 +13,25 @@ import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.logic.location.LocationComponent;
+import org.terasology.logic.location.LocationResynchEvent;
+import org.terasology.math.geom.Quat4f;
 import org.terasology.math.geom.Vector3f;
+import org.terasology.network.NetworkComponent;
+import org.terasology.network.NetworkSystem;
+import org.terasology.physics.engine.RigidBody;
+import org.terasology.physics.events.PhysicsResynchEvent;
 import org.terasology.registry.In;
 
 /**
  * handles various physical operations applied to an entity with {@code MassComponent}
  */
-@RegisterSystem(RegisterMode.AUTHORITY)
+@RegisterSystem
 public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSubscriberSystem{
     
     @In
     private EntityManager entityManager;
+//    @In
+//    private NetworkSystem network;
     
     /**
      * applies impulse to specified entity.
@@ -98,5 +106,20 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
           
         }
     }
+    
+    //-----------------------------private methods----------------------
+    
+//    private void sendSynchMessages(){
+//        Iterable<EntityRef> entitiesWith = entityManager.getEntitiesWith(MassComponent.class, LocationComponent.class);
+//        Iterator<EntityRef> entities = entitiesWith.iterator();
+//        while(entities.hasNext()){
+//            EntityRef entity = entities.next();
+//            if (entity.hasComponent(NetworkComponent.class)) {
+//                LocationComponent location = entity.getComponent(LocationComponent.class);
+//                MassComponent mass = entity.getComponent(MassComponent.class);
+//                entity.send(new LocationResynchEvent(location.getWorldPosition(), location.getWorldRotation()));
+//            }
+//        }
+//    }
 
 }

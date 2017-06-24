@@ -1,5 +1,7 @@
 package org.terasology.combatSystem.weaponFeatures.systems;
 
+import java.util.Random;
+
 import org.terasology.combatSystem.weaponFeatures.components.HurtingComponent;
 import org.terasology.combatSystem.weaponFeatures.components.MeleeComponent;
 import org.terasology.combatSystem.weaponFeatures.events.CritHurtEvent;
@@ -7,12 +9,11 @@ import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.math.geom.Vector3f;
 
-@RegisterSystem(RegisterMode.AUTHORITY)
+@RegisterSystem
 public class MeleeAttackSystem extends BaseComponentSystem{
     
     @ReceiveEvent(components = MeleeComponent.class)
@@ -37,7 +38,8 @@ public class MeleeAttackSystem extends BaseComponentSystem{
             // damage the other entity
             HurtingComponent hurting = entity.getComponent(HurtingComponent.class);
             if(hurting != null){
-                hurting.amount = melee.amount;
+                Random rand = new Random();
+                hurting.amount = rand.nextInt(melee.maxDamage - melee.minDamage + 1) + melee.minDamage;
                 hurting.damageType = EngineDamageTypes.DIRECT.get();
                 entity.saveComponent(hurting);
                 entity.send(new CritHurtEvent(otherEntity));

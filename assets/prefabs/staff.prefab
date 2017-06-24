@@ -1,12 +1,17 @@
 {
     "parent": "engine:iconItem",
 	"DisplayName": {
-		"name": "Sword"
+		"name": "Staff"
 	},
 	"Item": {
 		"icon": "CombatSystem:staff",
-		"usage": "ON_ENTITY"
+		"usage": "IN_DIRECTION",
+		"cooldownTime": 200
 	},
+	"LaunchEntity": {
+        "launchEntityPrefab":"CombatSystem:fireBall"
+    },
+	"Shooter": {},
 	"PrimaryAttack": {}
 }
 
