@@ -1,0 +1,21 @@
+{
+    "parent": "engine:iconItem",
+	"DisplayName": {
+		"name": "War Axe"
+	},
+	"Item": {
+		"icon": "CombatSystem:waraxe",
+		"usage": "ON_ENTITY",
+		"cooldownTime": 800
+	},
+	"Melee": {
+		"primaryAttack" : true,
+		"amount" : 5,
+		"range" : 2
+	},
+	"Hurting": {
+		
+	},
+	"PrimaryAttack": {}
+}
+

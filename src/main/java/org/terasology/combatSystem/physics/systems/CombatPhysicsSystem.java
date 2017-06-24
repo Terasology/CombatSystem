@@ -14,15 +14,23 @@ import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.geom.Vector3f;
-import org.terasology.physics.engine.PhysicsEngine;
 import org.terasology.registry.In;
 
+/**
+ * handles various physical operations applied to an entity with {@code MassComponent}
+ */
 @RegisterSystem(RegisterMode.AUTHORITY)
 public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSubscriberSystem{
     
     @In
     private EntityManager entityManager;
     
+    /**
+     * applies impulse to specified entity.
+     * 
+     * @param event  stores the value of impulse to be applied.
+     * @param entity  the entity on which the impulse is applied.
+     */
     @ReceiveEvent(components = {MassComponent.class})
     public void onImpulse(CombatImpulseEvent event, EntityRef entity) {
         MassComponent body = entity.getComponent(MassComponent.class);
@@ -40,6 +48,15 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
         entity.saveComponent(body);
     }
     
+    /**
+     * applies force to specified entity.
+     * <p>
+     * the force is added to total force on entity. 
+     * Therefore, force is resolved in this system.
+     * 
+     * @param event  stores the value of force to be applied.
+     * @param entity  the entity on which the impulse is applied.
+     */
     @ReceiveEvent(components = {MassComponent.class})
     public void onApplyForce(CombatForceEvent event, EntityRef entity) {
         MassComponent body = entity.getComponent(MassComponent.class);
@@ -49,6 +66,9 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
         entity.saveComponent(body);
     }
     
+    /**
+     * changes velocity and location of an entity based on delta.
+     */
     @Override
     public void update(float delta){
         
