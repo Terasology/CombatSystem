@@ -1,8 +1,8 @@
 package org.terasology.combatSystem.weaponFeatures.components;
 
 import org.terasology.entitySystem.Component;
-import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.prefab.Prefab;
+import org.terasology.network.Replicate;
 
 /**
  * makes the entity launch another entity.
@@ -11,9 +11,12 @@ import org.terasology.entitySystem.prefab.Prefab;
  * <b>launchEntity</b> is given precedence over <b>launchEntityPrefab</b> if both are present.
  */
 public class LaunchEntityComponent implements Component{
+    @Replicate
     public Prefab launchEntityPrefab;
-    public EntityRef launchEntity;
+    
+    @Replicate
     public float impulse = 300.0f;
     
+    @Replicate(initialOnly = true)
     public boolean primaryAttack = true;
 }

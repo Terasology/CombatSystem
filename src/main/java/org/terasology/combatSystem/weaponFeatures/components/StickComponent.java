@@ -2,9 +2,13 @@ package org.terasology.combatSystem.weaponFeatures.components;
 
 import org.terasology.entitySystem.Component;
 import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.network.Replicate;
 
 public class StickComponent implements Component{
+    @Replicate
     EntityRef target = EntityRef.NULL;
+    
+    @Replicate
     public int amount = 3;
     
     public void setTarget(EntityRef entity){

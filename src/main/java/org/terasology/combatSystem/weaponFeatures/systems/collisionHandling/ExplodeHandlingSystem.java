@@ -10,14 +10,13 @@ import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.physics.events.CollideEvent;
 import org.terasology.registry.In;
 
-@RegisterSystem(RegisterMode.AUTHORITY)
+@RegisterSystem
 public class ExplodeHandlingSystem extends BaseComponentSystem{
     @In
     EntityManager entityManager;

@@ -10,7 +10,8 @@
 	},
 	"Melee": {
 		"primaryAttack" : true,
-		"amount" : 5,
+		"minDamage" : 4,
+		"maxDamage" : 6,
 		"range" : 2
 	},
 	"Hurting": {

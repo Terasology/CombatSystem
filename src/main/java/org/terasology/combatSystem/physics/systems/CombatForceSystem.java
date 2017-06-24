@@ -1,7 +1,5 @@
 package org.terasology.combatSystem.physics.systems;
 
-import java.util.Iterator;
-
 import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;

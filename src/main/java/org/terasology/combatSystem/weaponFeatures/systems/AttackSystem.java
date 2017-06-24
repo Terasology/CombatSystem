@@ -5,11 +5,10 @@ import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.common.ActivateEvent;
 
-@RegisterSystem(RegisterMode.AUTHORITY)
+@RegisterSystem
 public class AttackSystem extends BaseComponentSystem{
     
     @ReceiveEvent( components = {PrimaryAttackComponent.class})
