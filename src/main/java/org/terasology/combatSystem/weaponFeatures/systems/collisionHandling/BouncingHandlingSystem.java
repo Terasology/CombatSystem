@@ -43,21 +43,28 @@ public class BouncingHandlingSystem extends BaseComponentSystem{
             return;
         }
         
-        if(checkPeircing(normal, mass.velocity, bounce.maxPierceAngle, bounce.minVelocity)){
+        // check peircing
+        if(checkPeircing(normal, mass.velocity, bounce.maxPierceAngle, bounce.minPeirceVelocity)){
             entity.addOrSaveComponent(new StickComponent());
+            entity.removeComponent(BounceComponent.class);
             entity.send(new StickEvent(target));
             return;
         }
         
-        Vector3f bounceDir = new Vector3f(normal);
-        bounceDir.normalize();
-        bounceDir.negate();
-        bounceDir.scale(2*bounceDir.dot(mass.velocity));
-        bounceDir.negate();
-        bounceDir.scale(bounce.bounceFactor);
-        
-        mass.velocity.add(bounceDir);
-        entity.saveComponent(mass);
+        // check if the velocity is enough for another bounce else just destroy the arrow
+        if(mass.velocity.lengthSquared() <= (bounce.minBounceVelocity*bounce.minBounceVelocity)){
+            entity.destroy();
+        }
+        else{
+            Vector3f bounceDir = new Vector3f(normal);
+            bounceDir.normalize();
+            bounceDir.scale(2*bounceDir.dot(mass.velocity));
+            bounceDir.sub(mass.velocity);
+            bounceDir.scale(bounce.bounceFactor);
+            
+            mass.velocity.set(bounceDir);
+            entity.saveComponent(mass);
+        }
         
         entity.send(new AddCollisionExceptionEvent(target));
         
@@ -73,16 +80,15 @@ public class BouncingHandlingSystem extends BaseComponentSystem{
         }
     }
     
-    private boolean checkPeircing(Vector3f normal, Vector3f velocity, int maxAngle, Vector3f minVelocity){
+    private boolean checkPeircing(Vector3f normal, Vector3f velocity, int maxAngle, float minVelocity){
         Vector3f vel = new Vector3f(velocity);
-        vel.negate();
         
         int angle = (int) Math.toDegrees(vel.angle(normal));
         if(angle > 90){
-            angle -= 180;
+            angle = 180 - angle;
         }
         
-        if(angle <= maxAngle && velocity.lengthSquared() >= minVelocity.lengthSquared()){
+        if(angle <= maxAngle && velocity.lengthSquared() >= (minVelocity*minVelocity)){
             return true;
         }
         

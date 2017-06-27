@@ -1,5 +1,5 @@
 {
-    "parent": "engine:iconItem",
+    "parent": "CombatSystem:weapon",
 	"DisplayName": {
 		"name": "War Axe"
 	},
@@ -13,10 +13,6 @@
 		"minDamage" : 4,
 		"maxDamage" : 6,
 		"range" : 2
-	},
-	"Hurting": {
-		
-	},
-	"PrimaryAttack": {}
+	}
 }
 

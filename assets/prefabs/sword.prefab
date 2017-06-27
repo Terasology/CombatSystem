@@ -1,5 +1,5 @@
 {
-    "parent": "engine:iconItem",
+    "parent": "CombatSystem:weapon",
 	"DisplayName": {
 		"name": "Sword"
 	},
@@ -13,10 +13,6 @@
 		"minDamage" : 2,
 		"maxDamage" : 4,
 		"range" : 2
-	},
-	"Hurting": {
-		
-	},
-	"PrimaryAttack": {}
+	}
 }
 

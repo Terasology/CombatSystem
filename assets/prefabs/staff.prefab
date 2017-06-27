@@ -1,5 +1,5 @@
 {
-    "parent": "engine:iconItem",
+    "parent": "CombatSystem:weapon",
 	"DisplayName": {
 		"name": "Staff"
 	},
@@ -10,8 +10,6 @@
 	},
 	"LaunchEntity": {
         "launchEntityPrefab":"CombatSystem:fireBall"
-    },
-	"Shooter": {},
-	"PrimaryAttack": {}
+    }
 }
 

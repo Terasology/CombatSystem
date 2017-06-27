@@ -13,4 +13,7 @@ import org.terasology.network.Replicate;
 public class ExplodeComponent implements Component{
     @Replicate
     public Prefab explosionPrefab;
+    
+    @Replicate
+    public int amount = 3;
 }

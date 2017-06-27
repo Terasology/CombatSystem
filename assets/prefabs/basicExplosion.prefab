@@ -5,10 +5,12 @@
 		"damageTypes":"engine:explosiveDamage"
 	},
 	"Explosion" : {
-		
+		"amount" : 10
 	},
-	"Network" : {
-		"replicateMode" : "RELEVANT"
+	"Health" : {
+		"maxHealth" : 1,
+		"currentHealth" : 1,
+		"regenRate" : 0
 	}
 }
 

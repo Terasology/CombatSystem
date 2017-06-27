@@ -14,7 +14,9 @@ import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
+import org.terasology.logic.health.DestroyEvent;
 import org.terasology.logic.health.EngineDamageTypes;
+import org.terasology.logic.health.HealthComponent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.AABB;
 import org.terasology.math.geom.Vector3f;
@@ -46,6 +48,25 @@ public class ExplosionHandlingSystem extends BaseComponentSystem implements Upda
         }
         
         explosion.explosionStarted = true;
+        
+        entity.saveComponent(explosion);
+        
+        doExplosion(entity);
+    }
+    
+    @ReceiveEvent(components = ExplosionComponent.class)
+    public void explosionOnDestroy(DestroyEvent event, EntityRef entity){
+        ExplosionComponent explosion = entity.getComponent(ExplosionComponent.class);
+        if(explosion.explosionStarted){
+            return;
+        }
+        
+        explosion.explosionStartTime = time.getGameTime();
+        
+        explosion.explosionStarted = true;
+        
+        entity.saveComponent(explosion);
+        
         doExplosion(entity);
     }
 
@@ -65,6 +86,9 @@ public class ExplosionHandlingSystem extends BaseComponentSystem implements Upda
             if(!explosion.explosionStarted){
                 if(currentGameTime >= (explosion.explosionStartTime + explosion.explosionDelayTime)){
                     explosion.explosionStarted = true;
+                    
+                    entity.saveComponent(explosion);
+                    
                     doExplosion(entity);
                 }
             }
@@ -79,6 +103,10 @@ public class ExplosionHandlingSystem extends BaseComponentSystem implements Upda
         LocationComponent location = entity.getComponent(LocationComponent.class);
         if(explosion == null || location == null){
             return;
+        }
+        
+        if(entity.hasComponent(HealthComponent.class)){
+            entity.removeComponent(HealthComponent.class);
         }
         
         List<EntityRef> broadPhaseEntities = physics.scanArea(AABB.createCenterExtent(location.getWorldPosition(), 
@@ -111,13 +139,6 @@ public class ExplosionHandlingSystem extends BaseComponentSystem implements Upda
                     hurting.amount = (int)(explosion.amount * explosionFactor);
                     entity.saveComponent(hurting);
                     entity.send(new HurtEvent(otherEntity));
-                }
-            }
-            
-            if(otherEntity.hasComponent(ExplosionComponent.class)){
-                ExplosionComponent otherEntityExplosion = otherEntity.getComponent(ExplosionComponent.class);
-                if(!otherEntityExplosion.explosionStarted){
-                    otherEntity.send(new ExplosionEvent());
                 }
             }
         }

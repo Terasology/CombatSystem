@@ -5,12 +5,14 @@ import org.terasology.combatSystem.weaponFeatures.components.ExplosionComponent;
 import org.terasology.combatSystem.weaponFeatures.components.HurtingComponent;
 import org.terasology.combatSystem.weaponFeatures.events.ExplodeEvent;
 import org.terasology.combatSystem.weaponFeatures.events.ExplosionEvent;
+import org.terasology.combatSystem.weaponFeatures.events.HurtEvent;
 import org.terasology.entitySystem.entity.EntityBuilder;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.logic.health.DestroyEvent;
 import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.physics.events.CollideEvent;
@@ -22,7 +24,17 @@ public class ExplodeHandlingSystem extends BaseComponentSystem{
     EntityManager entityManager;
     
     @ReceiveEvent(components = ExplodeComponent.class)
-    public void explosionOnContact(CollideEvent event, EntityRef entity){
+    public void explodeOnContact(CollideEvent event, EntityRef entity){
+        // damage the other entity
+        HurtingComponent hurting = entity.getComponent(HurtingComponent.class);
+        if(hurting != null){
+            ExplodeComponent destroy = entity.getComponent(ExplodeComponent.class);
+            hurting.amount = destroy.amount;
+            hurting.damageType = EngineDamageTypes.DIRECT.get();
+            entity.saveComponent(hurting);
+            entity.send(new HurtEvent(event.getOtherEntity()));
+        }
+        
         explode(entity);
         
         event.consume();
@@ -30,6 +42,11 @@ public class ExplodeHandlingSystem extends BaseComponentSystem{
     
     @ReceiveEvent(components = ExplodeComponent.class)
     public void exploding(ExplodeEvent event, EntityRef entity){
+        explode(entity);
+    }
+    
+    @ReceiveEvent(components = ExplodeComponent.class)
+    public void explodeOnDestroy(DestroyEvent event, EntityRef entity){
         explode(entity);
     }
     
@@ -43,34 +60,27 @@ public class ExplodeHandlingSystem extends BaseComponentSystem{
         ExplodeComponent explode = entity.getComponent(ExplodeComponent.class);
         EntityBuilder explosion = entityManager.newBuilder(explode.explosionPrefab);
         
-        if(explosion == null){
-            explosion = entityManager.newBuilder();
+        if(explosion != null){
+            LocationComponent explosionLoc = explosion.getComponent(LocationComponent.class);
+            if(explosionLoc != null){
+                explosionLoc.setWorldPosition(location.getWorldPosition());
+                explosionLoc.setWorldRotation(location.getWorldRotation());
+                explosionLoc.setWorldScale(location.getWorldScale());
+                
+                explosion.addOrSaveComponent(explosionLoc);
+            }
         }
+        entity.removeComponent(ExplodeComponent.class);
         
-        if(!explosion.hasComponent(ExplosionComponent.class)){
-            explosion.addComponent(new ExplosionComponent());
+        entity.destroy();
+        
+        if(explosion != null){
+            EntityRef explosionEntity = explosion.build();
+            
+            if(explosionEntity.hasComponent(ExplosionComponent.class)){
+                explosionEntity.send(new ExplosionEvent());
+            }
         }
-        
-        LocationComponent explosionLoc = explosion.getComponent(LocationComponent.class);
-        if(explosionLoc == null){
-            explosionLoc = new LocationComponent();
-        }
-        explosionLoc.setWorldPosition(location.getWorldPosition());
-        explosionLoc.setWorldRotation(location.getWorldRotation());
-        explosionLoc.setWorldScale(location.getWorldScale());
-        
-        explosion.addOrSaveComponent(explosionLoc);
-        
-        if(!explosion.hasComponent(HurtingComponent.class)){
-            HurtingComponent hurting = new HurtingComponent();
-            hurting.amount = 4;
-            hurting.damageType = EngineDamageTypes.EXPLOSIVE.get();
-            explosion.addComponent(hurting);
-        }
-        
-        EntityRef explosionEntity = explosion.build();
-        
-        explosionEntity.send(new ExplosionEvent());
     }
 
 }
