@@ -2,7 +2,6 @@ package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
 import org.terasology.combatSystem.weaponFeatures.components.ExplodeComponent;
 import org.terasology.combatSystem.weaponFeatures.components.ExplosionComponent;
-import org.terasology.combatSystem.weaponFeatures.components.HurtingComponent;
 import org.terasology.combatSystem.weaponFeatures.events.ExplodeEvent;
 import org.terasology.combatSystem.weaponFeatures.events.ExplosionEvent;
 import org.terasology.combatSystem.weaponFeatures.events.HurtEvent;
@@ -25,15 +24,10 @@ public class ExplodeHandlingSystem extends BaseComponentSystem{
     
     @ReceiveEvent(components = ExplodeComponent.class)
     public void explodeOnContact(CollideEvent event, EntityRef entity){
+        ExplodeComponent destroy = entity.getComponent(ExplodeComponent.class);
+        
         // damage the other entity
-        HurtingComponent hurting = entity.getComponent(HurtingComponent.class);
-        if(hurting != null){
-            ExplodeComponent destroy = entity.getComponent(ExplodeComponent.class);
-            hurting.amount = destroy.amount;
-            hurting.damageType = EngineDamageTypes.DIRECT.get();
-            entity.saveComponent(hurting);
-            entity.send(new HurtEvent(event.getOtherEntity()));
-        }
+        entity.send(new HurtEvent(event.getOtherEntity(), destroy.amount, EngineDamageTypes.DIRECT.get()));
         
         explode(entity);
         

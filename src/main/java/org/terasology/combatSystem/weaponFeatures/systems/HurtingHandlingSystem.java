@@ -31,7 +31,7 @@ public class HurtingHandlingSystem extends BaseComponentSystem{
         if(otherEntity.hasComponent(HealthComponent.class)){
             EntityRef instigator = OwnerSpecific.getUltimateOwner(entity);
             
-            otherEntity.send(new DoDamageEvent(hurting.amount, hurting.damageType, instigator, entity));
+            otherEntity.send(new DoDamageEvent(event.getAmount(), event.getDamageType(), instigator, entity));
         }
     }
     
@@ -54,11 +54,11 @@ public class HurtingHandlingSystem extends BaseComponentSystem{
             int value = rand.nextInt(100);
             
             // We take the crit chances to be 10% approx and damage doubles when crit
-            if(value < 10){
-                otherEntity.send(new DoDamageEvent(hurting.amount*2, hurting.damageType, instigator, entity));
+            if(value < event.getCritChance()){
+                otherEntity.send(new DoDamageEvent(event.getAmount()*2, event.getDamageType(), instigator, entity));
             }
             else{
-                otherEntity.send(new DoDamageEvent(hurting.amount, hurting.damageType, instigator, entity));
+                otherEntity.send(new DoDamageEvent(event.getAmount(), event.getDamageType(), instigator, entity));
             }
         }
     }

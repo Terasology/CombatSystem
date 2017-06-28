@@ -161,18 +161,6 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
     
     //-----------------------------private methods----------------------
     
-//    private void sendSynchMessages(){
-//        Iterable<EntityRef> entitiesWith = entityManager.getEntitiesWith(MassComponent.class, LocationComponent.class);
-//        Iterator<EntityRef> entities = entitiesWith.iterator();
-//        while(entities.hasNext()){
-//            EntityRef entity = entities.next();
-//            if (entity.hasComponent(NetworkComponent.class)) {
-//                LocationComponent location = entity.getComponent(LocationComponent.class);
-//                MassComponent mass = entity.getComponent(MassComponent.class);
-//                entity.send(new LocationResynchEvent(location.getWorldPosition(), location.getWorldRotation()));
-//            }
-//        }
-//    }
     
     private CollisionGroup[] collisionGroupListToArray(EntityRef entity){
         TriggerComponent trigger = entity.getComponent(TriggerComponent.class);
@@ -180,14 +168,8 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
             return null;
         }
         List<CollisionGroup> collidesWith = trigger.detectGroups;
-        CollisionGroup[] group = new CollisionGroup[collidesWith.size()];
-        Iterator<CollisionGroup> iter = collidesWith.iterator();
-        int i=0;
-        while(iter.hasNext()){
-            CollisionGroup collisionGroup = iter.next();
-            group[i] = collisionGroup;
-            i++;
-        }
+        
+        CollisionGroup[] group = (CollisionGroup[]) collidesWith.toArray();
         
         return group;
     }
@@ -198,9 +180,7 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
     
     private short combineGroups(List<CollisionGroup> collisionGroup){
         short flag = 0;
-        Iterator<CollisionGroup> iter = collisionGroup.iterator();
-        while(iter.hasNext()){
-            CollisionGroup group = iter.next();
+        for(CollisionGroup group : collisionGroup){
             flag |= group.getFlag();
         }
         return flag;

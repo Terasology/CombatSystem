@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.terasology.combatSystem.weaponFeatures.components.ExplosionComponent;
-import org.terasology.combatSystem.weaponFeatures.components.HurtingComponent;
 import org.terasology.combatSystem.weaponFeatures.events.ExplosionEvent;
 import org.terasology.combatSystem.weaponFeatures.events.HurtEvent;
 import org.terasology.engine.Time;
@@ -112,10 +111,7 @@ public class ExplosionHandlingSystem extends BaseComponentSystem implements Upda
         List<EntityRef> broadPhaseEntities = physics.scanArea(AABB.createCenterExtent(location.getWorldPosition(), 
                 new Vector3f(explosion.radius, explosion.radius, explosion.radius)), explosion.collidesWith);
         
-        Iterator<EntityRef> otherEntitiesIter = broadPhaseEntities.iterator();
-        while(otherEntitiesIter.hasNext()){
-            EntityRef otherEntity = otherEntitiesIter.next();
-            
+        for(EntityRef otherEntity : broadPhaseEntities){
             if(otherEntity.getId() == entity.getId()){
                 continue;
             }
@@ -124,22 +120,16 @@ public class ExplosionHandlingSystem extends BaseComponentSystem implements Upda
                 continue;
             }
             
-            HurtingComponent hurting = entity.getComponent(HurtingComponent.class);
-            if(hurting != null){
-                hurting.damageType = EngineDamageTypes.EXPLOSIVE.get();
-                
-                float distanceSq = location.getWorldPosition().distanceSquared(otherEntityLocation.getWorldPosition());
-                float radiusSquared = explosion.radius*explosion.radius;
-                float explosionFactor = 1 - (distanceSq/radiusSquared);
-                if(explosionFactor < 0){
-                    explosionFactor = 0;
-                }
-                
-                if(distanceSq <= radiusSquared){
-                    hurting.amount = (int)(explosion.amount * explosionFactor);
-                    entity.saveComponent(hurting);
-                    entity.send(new HurtEvent(otherEntity));
-                }
+            float distanceSq = location.getWorldPosition().distanceSquared(otherEntityLocation.getWorldPosition());
+            float radiusSquared = explosion.radius*explosion.radius;
+            float explosionFactor = 1 - (distanceSq/radiusSquared);
+            if(explosionFactor < 0){
+                explosionFactor = 0;
+            }
+            
+            if(distanceSq <= radiusSquared){
+                int amount = (int)(explosion.amount * explosionFactor);
+                entity.send(new HurtEvent(otherEntity, amount, EngineDamageTypes.EXPLOSIVE.get()));
             }
         }
     }

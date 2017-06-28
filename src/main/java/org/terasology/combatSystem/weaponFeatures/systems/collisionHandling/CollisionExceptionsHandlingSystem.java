@@ -6,12 +6,15 @@ import java.util.List;
 import org.terasology.combatSystem.physics.components.CollisionExceptionsComponent;
 import org.terasology.combatSystem.weaponFeatures.events.AddCollisionExceptionEvent;
 import org.terasology.combatSystem.weaponFeatures.events.RemoveCollisionExceptionEvent;
+import org.terasology.combatSystem.weaponFeatures.events.ReplaceCollisionExceptionEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.physics.events.CollideEvent;
+
+import com.google.api.client.util.Lists;
 
 @RegisterSystem
 public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
@@ -35,9 +38,7 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
         List<EntityRef> exceptionsList = event.getCollisionExceptionsList();
         
         if(exceptionsList != null){
-            Iterator<EntityRef> entities = exceptionsList.iterator();
-            while(entities.hasNext()){
-                EntityRef exceptionEntity = entities.next();
+            for(EntityRef exceptionEntity : exceptionsList){
                 if(exceptionEntity != null){
                     if(!exceptions.exceptions.contains(exceptionEntity)){
                         exceptions.exceptions.add(exceptionEntity);
@@ -59,9 +60,7 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
         List<EntityRef> exceptionsList = event.getCollisionExceptionsList();
         
         if(exceptionsList != null){
-            Iterator<EntityRef> entities = exceptionsList.iterator();
-            while(entities.hasNext()){
-                EntityRef exceptionEntity = entities.next();
+            for(EntityRef exceptionEntity : exceptionsList){
                 if(exceptionEntity != null){
                     if(exceptions.exceptions.contains(exceptionEntity)){
                         exceptions.exceptions.remove(exceptionEntity);
@@ -69,6 +68,24 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
                 }
             }
         }
+
+        entity.addOrSaveComponent(exceptions);
+    }
+    
+    @ReceiveEvent
+    public void replaceException(ReplaceCollisionExceptionEvent event, EntityRef entity){
+        CollisionExceptionsComponent exceptions = entity.getComponent(CollisionExceptionsComponent.class);
+        if(exceptions == null){
+            exceptions = new CollisionExceptionsComponent();
+        }
+        
+        List<EntityRef> exceptionsList = event.getCollisionExceptionsList();
+        
+        if(exceptionsList == null){
+            exceptionsList = Lists.<EntityRef>newArrayList();
+        }
+        
+        exceptions.exceptions = exceptionsList;
 
         entity.addOrSaveComponent(exceptions);
     }

@@ -11,7 +11,7 @@ public class BounceComponent implements Component{
     public int maxPierceAngle = 10;                        // in degrees 
     
     @Replicate
-    public float minPeirceVelocity = 0.0f;
+    public float minPierceVelocity = 0.0f;
     
     @Replicate
     public float minBounceVelocity = 3.0f;
