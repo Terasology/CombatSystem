@@ -16,9 +16,6 @@ public class MeleeComponent implements Component{
     @Replicate
     public float range = 2.0f;
     
-    @Replicate
-    public int critChance = 10;
-    
     @Replicate(initialOnly = true)
     public boolean primaryAttack = false;
 }

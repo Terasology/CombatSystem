@@ -3,8 +3,8 @@ package org.terasology.combatSystem.weaponFeatures.systems;
 import java.util.Random;
 
 import org.terasology.combatSystem.weaponFeatures.OwnerSpecific;
+import org.terasology.combatSystem.weaponFeatures.components.CritDamageComponent;
 import org.terasology.combatSystem.weaponFeatures.components.HurtingComponent;
-import org.terasology.combatSystem.weaponFeatures.events.CritHurtEvent;
 import org.terasology.combatSystem.weaponFeatures.events.HurtEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
@@ -23,6 +23,11 @@ public class HurtingHandlingSystem extends BaseComponentSystem{
             return;
         }
         
+        // checking if the damage can crit. If yes than letting the critHurting function to handle it.
+        if(entity.hasComponent(CritDamageComponent.class)){
+            return;
+        }
+        
         EntityRef otherEntity = event.getTarget();
         if(otherEntity == null || otherEntity == EntityRef.NULL){
             return;
@@ -35,9 +40,10 @@ public class HurtingHandlingSystem extends BaseComponentSystem{
         }
     }
     
-    @ReceiveEvent(components = HurtingComponent.class)
-    public void critHurting(CritHurtEvent event, EntityRef entity){
+    @ReceiveEvent(components = {HurtingComponent.class, CritDamageComponent.class})
+    public void critHurting(HurtEvent event, EntityRef entity){
         HurtingComponent hurting = entity.getComponent(HurtingComponent.class);
+        CritDamageComponent critDamage = entity.getComponent(CritDamageComponent.class);
         if(!hurting.canHurt){
             return;
         }
@@ -54,8 +60,8 @@ public class HurtingHandlingSystem extends BaseComponentSystem{
             int value = rand.nextInt(100);
             
             // We take the crit chances to be 10% approx and damage doubles when crit
-            if(value < event.getCritChance()){
-                otherEntity.send(new DoDamageEvent(event.getAmount()*2, event.getDamageType(), instigator, entity));
+            if(value < critDamage.critChance){
+                otherEntity.send(new DoDamageEvent((int)(event.getAmount()*critDamage.critFactor), event.getDamageType(), instigator, entity));
             }
             else{
                 otherEntity.send(new DoDamageEvent(event.getAmount(), event.getDamageType(), instigator, entity));

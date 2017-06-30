@@ -14,7 +14,7 @@ import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.physics.events.CollideEvent;
 
-import com.google.api.client.util.Lists;
+import com.google.common.collect.Lists;
 
 @RegisterSystem
 public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
@@ -85,7 +85,8 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
             exceptionsList = Lists.<EntityRef>newArrayList();
         }
         
-        exceptions.exceptions = exceptionsList;
+        exceptions.exceptions.clear();
+        exceptions.exceptions.addAll(exceptionsList);
 
         entity.addOrSaveComponent(exceptions);
     }

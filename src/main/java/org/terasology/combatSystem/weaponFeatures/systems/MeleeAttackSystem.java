@@ -3,7 +3,7 @@ package org.terasology.combatSystem.weaponFeatures.systems;
 import java.util.Random;
 
 import org.terasology.combatSystem.weaponFeatures.components.MeleeComponent;
-import org.terasology.combatSystem.weaponFeatures.events.CritHurtEvent;
+import org.terasology.combatSystem.weaponFeatures.events.HurtEvent;
 import org.terasology.combatSystem.weaponFeatures.events.MeleeEvent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -43,7 +43,7 @@ public class MeleeAttackSystem extends BaseComponentSystem{
             // damage the other entity
             Random rand = new Random();
             int amount = rand.nextInt(melee.maxDamage - melee.minDamage + 1) + melee.minDamage;
-            entity.send(new CritHurtEvent(target, amount, EngineDamageTypes.DIRECT.get(), melee.critChance));
+            entity.send(new HurtEvent(target, amount, EngineDamageTypes.DIRECT.get()));
         }
     }
 

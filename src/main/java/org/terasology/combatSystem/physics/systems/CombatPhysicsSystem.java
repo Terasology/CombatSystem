@@ -169,7 +169,7 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
         }
         List<CollisionGroup> collidesWith = trigger.detectGroups;
         
-        CollisionGroup[] group = (CollisionGroup[]) collidesWith.toArray();
+        CollisionGroup[] group = collidesWith.toArray(new CollisionGroup[collidesWith.size()]);
         
         return group;
     }

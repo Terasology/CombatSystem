@@ -1,6 +1,5 @@
 package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.terasology.combatSystem.weaponFeatures.components.ExplosionComponent;

@@ -5,7 +5,7 @@ import java.util.List;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.Event;
 
-import com.google.api.client.util.Lists;
+import com.google.common.collect.Lists;
 
 public class ReplaceCollisionExceptionEvent implements Event{
     List<EntityRef> exceptions;
