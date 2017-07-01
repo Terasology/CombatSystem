@@ -13,7 +13,6 @@ import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
-import org.terasology.logic.characters.GazeMountPointComponent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.Direction;
 import org.terasology.math.geom.Quat4f;
@@ -35,7 +34,7 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
     @ReceiveEvent(components = {LaunchEntityComponent.class})
     public void onFire(PrimaryAttackEvent event, EntityRef entity){
         LaunchEntityComponent launchEntity = entity.getComponent(LaunchEntityComponent.class);
-        EntityRef player = OwnerSpecific.getUltimateOwner(entity);;
+        EntityRef player = OwnerSpecific.getUltimateOwner(entity);
         
         // if no owner of "entity" is present than "entity" becomes "player". e.g. world generated 
         // launcher that shot the projectile.
@@ -76,12 +75,11 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 
                 location.setWorldPosition(shooterLoc.getWorldPosition().addY(0.5f).add(finalDir.scale(0.5f)));
                 
-                
-                
                 entityToLaunch.saveComponent(location);
                 
                 if(!entityToLaunch.hasComponent(TriggerComponent.class)){
                     TriggerComponent trigger = new TriggerComponent();
+                    trigger.collisionGroup = StandardCollisionGroup.ALL;
                     trigger.detectGroups = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.DEFAULT, StandardCollisionGroup.WORLD, StandardCollisionGroup.CHARACTER);
                     entityToLaunch.addOrSaveComponent(trigger);
                 }

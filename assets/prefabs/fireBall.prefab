@@ -3,9 +3,6 @@
 	"Hurting" : {
 		"amount" : 3
 	},
-	"DestroyOnCollision" : {
-		"amount" : 3
-	},
 	"BoxShape" : {
 		"extents" : [0.5, 0.5, 1]
 	},
@@ -13,7 +10,11 @@
         "mesh" : "CombatSystem:ballSpell",
         "material" : "CombatSystem:fireBall"
     },
+	"Explode" : {
+		"explosionPrefab" : "core:dustEffect"
+	},
 	"Trigger" : {
-		"detectGroups" : ["engine:world", "engine:character", "engine:default", "engine:sensor"]
+		"collisionGroup" : "engine:all",
+		"detectGroups" : ["engine:world", "engine:character", "engine:default"]
 	}
 }

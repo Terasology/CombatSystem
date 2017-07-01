@@ -11,6 +11,7 @@ import org.terasology.entitySystem.entity.lifecycleEvents.OnChangedComponent;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.logic.inventory.events.GiveItemEvent;
 
 @RegisterSystem
 public class AttackerCollisionHandlingSystem extends BaseComponentSystem{
@@ -22,6 +23,14 @@ public class AttackerCollisionHandlingSystem extends BaseComponentSystem{
     @ReceiveEvent(components = AttackerComponent.class)
     public void updateShooterState(OnChangedComponent event, EntityRef entity){
         updateExceptionListForShooterComponent(entity);
+    }
+    
+    @ReceiveEvent(components = AttackerComponent.class)
+    public void makeEntityAsWeaponOwner(GiveItemEvent event, EntityRef entity){
+        AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
+        attacker.attacker = event.getTargetEntity();
+        
+        entity.saveComponent(attacker);
     }
     
     //--------------------private methods--------------------------------

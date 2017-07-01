@@ -7,18 +7,18 @@ import org.terasology.entitySystem.event.Event;
 
 import com.google.common.collect.Lists;
 
-public class RemoveCollisionExceptionEvent implements Event{
+public class ReplaceCollisionExceptionEvent implements Event{
     List<EntityRef> exceptions;
     
-    public RemoveCollisionExceptionEvent(){
+    public ReplaceCollisionExceptionEvent(){
         
     }
     
-    public RemoveCollisionExceptionEvent(List<EntityRef> exceptions){
+    public ReplaceCollisionExceptionEvent(List<EntityRef> exceptions){
         this.exceptions = exceptions;
     }
     
-    public RemoveCollisionExceptionEvent(EntityRef entity){
+    public ReplaceCollisionExceptionEvent(EntityRef entity){
         exceptions = Lists.<EntityRef>newArrayList();
         exceptions.add(entity);
     }
@@ -26,5 +26,4 @@ public class RemoveCollisionExceptionEvent implements Event{
     public List<EntityRef> getCollisionExceptionsList(){
         return exceptions;
     }
-
 }

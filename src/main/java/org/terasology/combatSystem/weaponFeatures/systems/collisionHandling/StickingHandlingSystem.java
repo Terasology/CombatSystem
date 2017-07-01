@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import org.terasology.combatSystem.physics.components.GravityComponent;
 import org.terasology.combatSystem.physics.components.MassComponent;
-import org.terasology.combatSystem.weaponFeatures.components.HurtingComponent;
 import org.terasology.combatSystem.weaponFeatures.components.ParentComponent;
 import org.terasology.combatSystem.weaponFeatures.components.StickComponent;
 import org.terasology.combatSystem.weaponFeatures.events.HurtEvent;
@@ -129,13 +128,7 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         //-------------------------repetitive code for every HurtingComponent-----------
         
         // damage the other entity
-        HurtingComponent hurting = entity.getComponent(HurtingComponent.class);
-        if(hurting != null){
-            hurting.amount = stick.amount;
-            hurting.damageType = EngineDamageTypes.DIRECT.get();
-            entity.saveComponent(hurting);
-            entity.send(new HurtEvent(target));
-        }
+        entity.send(new HurtEvent(target, stick.amount, EngineDamageTypes.DIRECT.get()));
     }
     
     // if the entity wants to stick to a block

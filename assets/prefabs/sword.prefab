@@ -1,5 +1,5 @@
 {
-    "parent": "engine:iconItem",
+    "parent": "CombatSystem:weapon",
 	"DisplayName": {
 		"name": "Sword"
 	},
@@ -8,15 +8,15 @@
 		"usage": "ON_ENTITY",
 		"cooldownTime": 300
 	},
+	"CritDamage" : {
+		"critChance" : 10,
+		"critFactor" : 2
+	},
 	"Melee": {
 		"primaryAttack" : true,
 		"minDamage" : 2,
 		"maxDamage" : 4,
 		"range" : 2
-	},
-	"Hurting": {
-		
-	},
-	"PrimaryAttack": {}
+	}
 }
 

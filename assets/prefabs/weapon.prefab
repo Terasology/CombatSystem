@@ -1,0 +1,19 @@
+{
+    "parent": "engine:iconItem",
+	"DisplayName": {
+		"name": "Weapon"
+	},
+	"Item": {
+		"icon": "CombatSystem:sword",
+		"usage": "ON_ENTITY",
+		"cooldownTime": 300
+	},
+	"Attacker" : {
+		
+	},
+	"Hurting": {
+		
+	},
+	"PrimaryAttack": {}
+}
+

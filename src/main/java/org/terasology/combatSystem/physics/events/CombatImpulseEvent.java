@@ -1,5 +1,6 @@
 package org.terasology.combatSystem.physics.events;
 
+import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.entitySystem.event.Event;
 import org.terasology.math.geom.Vector3f;
 
