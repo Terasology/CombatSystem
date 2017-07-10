@@ -2,6 +2,8 @@ package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
 import java.util.Iterator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.physics.components.GravityComponent;
 import org.terasology.combatSystem.physics.components.MassComponent;
@@ -13,6 +15,7 @@ import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.logic.console.ConsoleImpl;
 import org.terasology.logic.health.DestroyEvent;
 import org.terasology.logic.location.Location;
 import org.terasology.logic.location.LocationComponent;
@@ -24,6 +27,7 @@ import org.terasology.world.block.BlockComponent;
 
 @RegisterSystem
 public class StickingHandlingSystem extends BaseComponentSystem{
+    private static final Logger logger = LoggerFactory.getLogger(StickingHandlingSystem.class);
     
     @ReceiveEvent(components = {StickComponent.class})
     public void stickingCollision(CollideEvent event, EntityRef entity){
@@ -151,12 +155,33 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         
         MassComponent body = entity.getComponent(MassComponent.class);
         if(body != null){
+            Vector3f blockPos = block.getPosition().toVector3f();
             Vector3f pos = location.getWorldPosition();
+            
+            float initialDisSq = blockPos.distanceSquared(pos);
+            
+            float tempDisSq = initialDisSq;
             Vector3f dir = new Vector3f(body.velocity);
-            dir.normalize();
-            //we assume the peircing to be 0.1 units deep
-            dir.scale(1.0f);
-//            pos.add(dir);
+            int count = 0;
+            
+            if(initialDisSq >= 0.36f){
+                //1/2 frame distance
+                dir.scale(1.0f/120.0f);
+            }
+            
+            while(initialDisSq >= 0.36f && count < 10){
+                pos.add(dir);
+                
+                tempDisSq = blockPos.distanceSquared(pos);
+                
+                if(tempDisSq > initialDisSq){
+                    pos.sub(dir);
+                    dir.negate();
+                }
+                
+                initialDisSq = tempDisSq;
+                count++;
+            }
             
             location.setWorldPosition(pos);
             entity.saveComponent(location);
