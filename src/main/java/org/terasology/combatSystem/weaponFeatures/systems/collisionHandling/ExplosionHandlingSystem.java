@@ -2,9 +2,10 @@ package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
 import java.util.List;
 
+import org.terasology.combatSystem.hurting.HurtEvent;
+import org.terasology.combatSystem.hurting.HurtingComponent;
 import org.terasology.combatSystem.weaponFeatures.components.ExplosionComponent;
 import org.terasology.combatSystem.weaponFeatures.events.ExplosionEvent;
-import org.terasology.combatSystem.weaponFeatures.events.HurtEvent;
 import org.terasology.engine.Time;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -127,8 +128,13 @@ public class ExplosionHandlingSystem extends BaseComponentSystem implements Upda
             }
             
             if(distanceSq <= radiusSquared){
-                int amount = (int)(explosion.amount * explosionFactor);
-                entity.send(new HurtEvent(otherEntity, amount, EngineDamageTypes.EXPLOSIVE.get()));
+                HurtingComponent hurting = entity.getComponent(HurtingComponent.class);
+                if(hurting == null){
+                    return;
+                }
+                hurting.amount = (int) (hurting.amount*explosionFactor);
+                entity.saveComponent(hurting);
+                entity.send(new HurtEvent(otherEntity));
             }
         }
     }

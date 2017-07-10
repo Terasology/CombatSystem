@@ -1,10 +1,10 @@
 package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
+import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.weaponFeatures.components.ExplodeComponent;
 import org.terasology.combatSystem.weaponFeatures.components.ExplosionComponent;
 import org.terasology.combatSystem.weaponFeatures.events.ExplodeEvent;
 import org.terasology.combatSystem.weaponFeatures.events.ExplosionEvent;
-import org.terasology.combatSystem.weaponFeatures.events.HurtEvent;
 import org.terasology.entitySystem.entity.EntityBuilder;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -27,7 +27,7 @@ public class ExplodeHandlingSystem extends BaseComponentSystem{
         ExplodeComponent destroy = entity.getComponent(ExplodeComponent.class);
         
         // damage the other entity
-        entity.send(new HurtEvent(event.getOtherEntity(), destroy.amount, EngineDamageTypes.DIRECT.get()));
+        entity.send(new HurtEvent(event.getOtherEntity()));
         
         explode(entity);
         
