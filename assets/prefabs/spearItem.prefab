@@ -1,0 +1,25 @@
+{
+    "parent": "CombatSystem:weapon",
+	"DisplayName": {
+		"name": "Spear"
+	},
+	"Item": {
+		"icon" : "CombatSystem:bow",
+		"usage": "IN_DIRECTION",
+		"stackId": "CombatSystem:spearItem",
+		"cooldownTime": 200,
+		"consumedOnUse" : true
+	},
+	"Mesh" : {
+        "mesh" : "CombatSystem:spear",
+        "material" : "CombatSystem:arrow"
+    },
+	"LaunchEntity": {
+        "launchEntityPrefab":"CombatSystem:spearThrow"
+    },
+	"FirstPersonHeldItemTransform": {
+        "rotateDegrees": [0, -180, 0],
+        "translate": [0, -0.5, -0.75],
+        "scale": 0.75
+    }
+}

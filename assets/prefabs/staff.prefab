@@ -10,6 +10,7 @@
 	},
 	"LaunchEntity": {
         "launchEntityPrefab":"CombatSystem:fireBall"
-    }
+    },
+	"RenderItemIconMesh": {}
 }
 

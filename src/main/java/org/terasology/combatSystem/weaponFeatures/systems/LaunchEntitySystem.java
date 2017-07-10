@@ -69,10 +69,10 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 finalDir.normalize();
                 location.setWorldRotation(Quat4f.shortestArcQuat(initialDir, finalDir));
                 
-                // sets the location of entity to current player's location with an offset
+                // sets the scale of the entity
                 location.setWorldScale(0.5f);
                 
-                
+                // sets the location of entity to current player's location with an offset
                 location.setWorldPosition(shooterLoc.getWorldPosition().addY(0.5f).add(finalDir.scale(0.5f)));
                 
                 entityToLaunch.saveComponent(location);

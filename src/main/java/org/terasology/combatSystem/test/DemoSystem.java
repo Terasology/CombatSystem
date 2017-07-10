@@ -68,5 +68,10 @@ public class DemoSystem extends BaseComponentSystem{
         EntityRef staff = entityManager.create("CombatSystem:staff");
         
         staff.send(new GiveItemEvent(player));
+        
+        //5. Spear
+        EntityRef spear = entityManager.create("CombatSystem:spearItem");
+        
+        spear.send(new GiveItemEvent(player));
     }
 }
