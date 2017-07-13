@@ -63,6 +63,13 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                     return;
                 }
                 
+                if(entityToLaunch.hasComponent(MeshComponent.class)){
+                    MeshComponent mesh = entityToLaunch.getComponent(MeshComponent.class);
+                    BoxShapeComponent box = new BoxShapeComponent();
+                    box.extents = mesh.mesh.getAABB().getExtents().scale(2.0f);
+                    entityToLaunch.addOrSaveComponent(box);
+                }
+                
                 // rotates the entity to face in the direction of pointer
                 Vector3f initialDir = location.getWorldDirection();
                 Vector3f finalDir = new Vector3f(event.getDirection());
@@ -82,13 +89,6 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                     trigger.collisionGroup = StandardCollisionGroup.ALL;
                     trigger.detectGroups = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.DEFAULT, StandardCollisionGroup.WORLD, StandardCollisionGroup.CHARACTER);
                     entityToLaunch.addOrSaveComponent(trigger);
-                }
-                
-                if(entityToLaunch.hasComponent(MeshComponent.class)){
-                    MeshComponent mesh = entityToLaunch.getComponent(MeshComponent.class);
-                    BoxShapeComponent box = new BoxShapeComponent();
-                    box.extents = mesh.mesh.getAABB().getExtents().scale(2.0f);
-                    entityToLaunch.addOrSaveComponent(box);
                 }
                 
                 // applies impulse to the entity
