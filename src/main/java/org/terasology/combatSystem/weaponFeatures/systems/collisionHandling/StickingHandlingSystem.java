@@ -15,7 +15,6 @@ import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.logic.console.ConsoleImpl;
 import org.terasology.logic.health.BlockDamagedComponent;
 import org.terasology.logic.health.DestroyEvent;
 import org.terasology.logic.location.Location;
@@ -28,7 +27,6 @@ import org.terasology.world.block.BlockComponent;
 
 @RegisterSystem
 public class StickingHandlingSystem extends BaseComponentSystem{
-    private static final Logger logger = LoggerFactory.getLogger(StickingHandlingSystem.class);
     
     @ReceiveEvent(components = {StickComponent.class})
     public void stickingCollision(CollideEvent event, EntityRef entity){
@@ -228,8 +226,6 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         Vector3f direction = location.getWorldDirection();
         direction.scale(-0.2f);
         
-        logger.info("distance squeared : " + distanceVisSq);
-        logger.info("distance : " + Math.sqrt(distanceVisSq));
 //        if(distanceVisSq >= 0.16f && distanceVisSq < 0.25f){
 //            entityLoc.add(direction);
 //        }

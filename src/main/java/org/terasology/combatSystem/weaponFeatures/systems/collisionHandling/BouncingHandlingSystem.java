@@ -57,9 +57,11 @@ public class BouncingHandlingSystem extends BaseComponentSystem{
         else{
             Vector3f bounceDir = new Vector3f(normal);
             bounceDir.normalize();
+            bounceDir.negate();
             bounceDir.scale(2*bounceDir.dot(mass.velocity));
             bounceDir.sub(mass.velocity);
             bounceDir.scale(bounce.bounceFactor);
+            bounceDir.negate();
             
             mass.velocity.set(bounceDir);
             entity.saveComponent(mass);
