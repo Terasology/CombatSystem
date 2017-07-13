@@ -2,8 +2,6 @@ package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
 import java.util.Iterator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.physics.components.GravityComponent;
 import org.terasology.combatSystem.physics.components.MassComponent;
@@ -33,7 +31,6 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         EntityRef target = event.getOtherEntity();
         if(target.hasComponent(BlockComponent.class)){
             blockSticking(entity, target);
-            pierce(entity, target, event.getOtherEntityContactPoint());
         }
         else{
             sticking(entity, target);
@@ -99,6 +96,8 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         // resting all the movements of the entity
         MassComponent body = entity.getComponent(MassComponent.class);
         if(body != null){
+            pierce(entity, 1.0f);
+            
             body.acceleration.set(0, 0, 0);
             body.velocity.set(0, 0, 0);
             body.force.set(0, 0, 0);
@@ -155,36 +154,7 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         
         MassComponent body = entity.getComponent(MassComponent.class);
         if(body != null){
-//            Vector3f blockPos = block.getPosition().toVector3f();
-//            Vector3f pos = location.getWorldPosition();
-            
-//            float initialDisSq = blockPos.distanceSquared(pos);
-//            
-//            float tempDisSq = initialDisSq;
-//            Vector3f dir = new Vector3f(body.velocity);
-//            int count = 0;
-//            
-//            if(initialDisSq >= 0.36f){
-//                //1/2 frame distance
-//                dir.scale(1.0f/120.0f);
-//            }
-//            
-//            while(initialDisSq >= 0.36f && count < 10){
-//                pos.add(dir);
-//                
-//                tempDisSq = blockPos.distanceSquared(pos);
-//                
-//                if(tempDisSq > initialDisSq){
-//                    pos.sub(dir);
-//                    dir.negate();
-//                }
-//                
-//                initialDisSq = tempDisSq;
-//                count++;
-//            }
-//            
-//            location.setWorldPosition(pos);
-//            entity.saveComponent(location);
+            pierce(entity, 1.0f);
             
             // resting all the movements of the entity
             body.acceleration.set(0, 0, 0);
@@ -215,24 +185,20 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         }
     }
     
-    public void pierce(EntityRef entity, EntityRef otherEntity, Vector3f entityContactPoint){
+    public void pierce(EntityRef entity, float amount){
         LocationComponent location = entity.getComponent(LocationComponent.class);
         if(location == null){
             return;
         }
         Vector3f entityLoc = location.getWorldPosition();
         
-        float distanceVisSq = entityContactPoint.distance(entityLoc);
         Vector3f direction = location.getWorldDirection();
-        direction.scale(-0.2f);
+        direction.scale(amount);
+        entityLoc.add(direction);
         
-//        if(distanceVisSq >= 0.16f && distanceVisSq < 0.25f){
-//            entityLoc.add(direction);
-//        }
-//        
-//        location.setWorldPosition(entityLoc);
-//        
-//        entity.saveComponent(location);
+        location.setWorldPosition(entityLoc);
+        
+        entity.saveComponent(location);
     }
 
 }
