@@ -64,7 +64,7 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 }
                 
                 // rotates the entity to face in the direction of pointer
-                Vector3f initialDir = location.getWorldDirection().invert();
+                Vector3f initialDir = location.getWorldDirection();
                 Vector3f finalDir = new Vector3f(event.getDirection());
                 finalDir.normalize();
                 location.setWorldRotation(Quat4f.shortestArcQuat(initialDir, finalDir));
@@ -115,7 +115,7 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
             if(body != null && location != null){
                 Vector3f finalDir = new Vector3f(body.velocity);
                 if(finalDir.length() != 0.0f){
-                    Vector3f initialDir = Direction.FORWARD.getVector3f().invert();
+                    Vector3f initialDir = Direction.FORWARD.getVector3f();
                     finalDir.normalize();
                     location.setWorldRotation(Quat4f.shortestArcQuat(initialDir, finalDir));
                 }

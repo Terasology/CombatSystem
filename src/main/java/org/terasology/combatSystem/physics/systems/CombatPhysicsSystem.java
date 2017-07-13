@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.terasology.combatSystem.physics.components.MassComponent;
+import org.terasology.combatSystem.physics.components.WorldCollisionComponent;
 import org.terasology.combatSystem.physics.events.CombatForceEvent;
 import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
 import org.terasology.entitySystem.entity.EntityManager;
@@ -25,6 +26,7 @@ import org.terasology.physics.Physics;
 import org.terasology.physics.components.TriggerComponent;
 import org.terasology.physics.events.CollideEvent;
 import org.terasology.registry.In;
+import org.terasology.world.WorldComponent;
 
 import com.google.common.collect.Maps;
 
@@ -33,7 +35,7 @@ import com.google.common.collect.Maps;
  */
 @RegisterSystem
 public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSubscriberSystem{
-    private static final float TUNNELING_MIN_VELOCITY_SQ = 40000.0f;
+    private static final float TUNNELING_MIN_VELOCITY_SQ = 0.0f;
     
     private Map<EntityRef, CollisionGroup[]> entityCollidesWithGroup = Maps.newHashMap();
     
@@ -119,9 +121,15 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
                 body.velocity.add(body.acceleration);
                 body.acceleration.set(0, 0, 0);
                 
+                // raycasting for world collisions
+                float velocityMagSq = body.velocity.lengthSquared();
+                if(entity.hasComponent(WorldCollisionComponent.class)){
+                    
+                }
+                
                 // raycasting to resolve tunneling in fast moving small objects
                 CollisionGroup[] group = entityCollidesWithGroup.get(entity);
-                float velocityMagSq = body.velocity.lengthSquared();
+                
                 if(velocityMagSq >= TUNNELING_MIN_VELOCITY_SQ 
                         && group != null){
                     Vector3f from = location.getWorldPosition();

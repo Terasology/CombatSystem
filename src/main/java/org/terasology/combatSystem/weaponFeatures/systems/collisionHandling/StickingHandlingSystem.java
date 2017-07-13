@@ -16,6 +16,7 @@ import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.console.ConsoleImpl;
+import org.terasology.logic.health.BlockDamagedComponent;
 import org.terasology.logic.health.DestroyEvent;
 import org.terasology.logic.location.Location;
 import org.terasology.logic.location.LocationComponent;
@@ -34,6 +35,7 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         EntityRef target = event.getOtherEntity();
         if(target.hasComponent(BlockComponent.class)){
             blockSticking(entity, target);
+            pierce(entity, target, event.getOtherEntityContactPoint());
         }
         else{
             sticking(entity, target);
@@ -155,42 +157,46 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         
         MassComponent body = entity.getComponent(MassComponent.class);
         if(body != null){
-            Vector3f blockPos = block.getPosition().toVector3f();
-            Vector3f pos = location.getWorldPosition();
+//            Vector3f blockPos = block.getPosition().toVector3f();
+//            Vector3f pos = location.getWorldPosition();
             
-            float initialDisSq = blockPos.distanceSquared(pos);
-            
-            float tempDisSq = initialDisSq;
-            Vector3f dir = new Vector3f(body.velocity);
-            int count = 0;
-            
-            if(initialDisSq >= 0.36f){
-                //1/2 frame distance
-                dir.scale(1.0f/120.0f);
-            }
-            
-            while(initialDisSq >= 0.36f && count < 10){
-                pos.add(dir);
-                
-                tempDisSq = blockPos.distanceSquared(pos);
-                
-                if(tempDisSq > initialDisSq){
-                    pos.sub(dir);
-                    dir.negate();
-                }
-                
-                initialDisSq = tempDisSq;
-                count++;
-            }
-            
-            location.setWorldPosition(pos);
-            entity.saveComponent(location);
+//            float initialDisSq = blockPos.distanceSquared(pos);
+//            
+//            float tempDisSq = initialDisSq;
+//            Vector3f dir = new Vector3f(body.velocity);
+//            int count = 0;
+//            
+//            if(initialDisSq >= 0.36f){
+//                //1/2 frame distance
+//                dir.scale(1.0f/120.0f);
+//            }
+//            
+//            while(initialDisSq >= 0.36f && count < 10){
+//                pos.add(dir);
+//                
+//                tempDisSq = blockPos.distanceSquared(pos);
+//                
+//                if(tempDisSq > initialDisSq){
+//                    pos.sub(dir);
+//                    dir.negate();
+//                }
+//                
+//                initialDisSq = tempDisSq;
+//                count++;
+//            }
+//            
+//            location.setWorldPosition(pos);
+//            entity.saveComponent(location);
             
             // resting all the movements of the entity
             body.acceleration.set(0, 0, 0);
             body.velocity.set(0, 0, 0);
             body.force.set(0, 0, 0);
             entity.saveComponent(body);
+        }
+        
+        if(!target.hasComponent(BlockDamagedComponent.class)){
+            target.addComponent(new BlockDamagedComponent());
         }
         
         ParentComponent parent = target.getComponent(ParentComponent.class);
@@ -209,6 +215,28 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         if(entity.hasComponent(TriggerComponent.class)){
             entity.removeComponent(TriggerComponent.class);
         }
+    }
+    
+    public void pierce(EntityRef entity, EntityRef otherEntity, Vector3f entityContactPoint){
+        LocationComponent location = entity.getComponent(LocationComponent.class);
+        if(location == null){
+            return;
+        }
+        Vector3f entityLoc = location.getWorldPosition();
+        
+        float distanceVisSq = entityContactPoint.distance(entityLoc);
+        Vector3f direction = location.getWorldDirection();
+        direction.scale(-0.2f);
+        
+        logger.info("distance squeared : " + distanceVisSq);
+        logger.info("distance : " + Math.sqrt(distanceVisSq));
+//        if(distanceVisSq >= 0.16f && distanceVisSq < 0.25f){
+//            entityLoc.add(direction);
+//        }
+//        
+//        location.setWorldPosition(entityLoc);
+//        
+//        entity.saveComponent(location);
     }
 
 }

@@ -18,7 +18,7 @@
         "launchEntityPrefab":"CombatSystem:spearThrow"
     },
 	"FirstPersonHeldItemTransform": {
-        "rotateDegrees": [0, -180, 0],
+        "rotateDegrees": [0, 180, 0],
         "translate": [0, -0.5, -0.75],
         "scale": 0.75
     }
