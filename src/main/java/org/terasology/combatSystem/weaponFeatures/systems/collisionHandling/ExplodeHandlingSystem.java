@@ -39,6 +39,10 @@ public class ExplodeHandlingSystem extends BaseComponentSystem{
         explode(entity);
     }
     
+//    public void trapExplode(EntitySensedEvent event, EntityRef entity){
+//        
+//    }
+    
     @ReceiveEvent(components = ExplodeComponent.class)
     public void explodeOnDestroy(DestroyEvent event, EntityRef entity){
         explode(entity);
