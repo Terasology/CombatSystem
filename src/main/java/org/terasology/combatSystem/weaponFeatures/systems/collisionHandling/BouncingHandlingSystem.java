@@ -2,10 +2,10 @@ package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
 import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.physics.components.MassComponent;
+import org.terasology.combatSystem.physics.events.ReplaceCollisionExceptionEvent;
 import org.terasology.combatSystem.weaponFeatures.components.BounceComponent;
 import org.terasology.combatSystem.weaponFeatures.components.StickComponent;
 import org.terasology.combatSystem.weaponFeatures.events.BounceEvent;
-import org.terasology.combatSystem.weaponFeatures.events.ReplaceCollisionExceptionEvent;
 import org.terasology.combatSystem.weaponFeatures.events.StickEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;

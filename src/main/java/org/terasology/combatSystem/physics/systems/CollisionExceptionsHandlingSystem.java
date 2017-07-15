@@ -1,12 +1,12 @@
-package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
+package org.terasology.combatSystem.physics.systems;
 
 import java.util.Iterator;
 import java.util.List;
 
 import org.terasology.combatSystem.physics.components.CollisionExceptionsComponent;
-import org.terasology.combatSystem.weaponFeatures.events.AddCollisionExceptionEvent;
-import org.terasology.combatSystem.weaponFeatures.events.RemoveCollisionExceptionEvent;
-import org.terasology.combatSystem.weaponFeatures.events.ReplaceCollisionExceptionEvent;
+import org.terasology.combatSystem.physics.events.AddCollisionExceptionEvent;
+import org.terasology.combatSystem.physics.events.RemoveCollisionExceptionEvent;
+import org.terasology.combatSystem.physics.events.ReplaceCollisionExceptionEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;

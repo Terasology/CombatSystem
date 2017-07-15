@@ -1,4 +1,4 @@
-package org.terasology.combatSystem.weaponFeatures.events;
+package org.terasology.combatSystem.physics.events;
 
 import java.util.List;
 
