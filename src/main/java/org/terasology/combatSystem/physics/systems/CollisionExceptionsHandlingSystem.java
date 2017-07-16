@@ -13,6 +13,7 @@ import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.physics.events.CollideEvent;
+import org.terasology.sensors.EntitySensedEvent;
 
 import com.google.common.collect.Lists;
 
@@ -24,6 +25,21 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
         EntityRef otherEntity = event.getOtherEntity();
         
         if(checkCollisionWithAllExceptions(otherEntity.getId(), entity)){
+            event.consume();
+        }
+        else if(checkCollisionWithAllExceptions(entity.getId(), otherEntity)){
+            event.consume();
+        }
+    }
+    
+    @ReceiveEvent(components = CollisionExceptionsComponent.class, priority = EventPriority.PRIORITY_CRITICAL)
+    public void avoidSensingExceptions(EntitySensedEvent event, EntityRef entity){
+        EntityRef otherEntity = event.getEntity();
+        
+        if(checkCollisionWithAllExceptions(otherEntity.getId(), entity)){
+            event.consume();
+        }
+        else if(checkCollisionWithAllExceptions(entity.getId(), otherEntity)){
             event.consume();
         }
     }

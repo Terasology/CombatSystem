@@ -25,10 +25,12 @@ public class NPCSpawnSystem extends BaseComponentSystem{
     private EntityRef npc1 = EntityRef.NULL;
     
     private Prefab staticCharacterPrefab;
+    private Prefab trapTest;
     
     @Override
     public void initialise(){
         staticCharacterPrefab = Assets.getPrefab("CombatSystem:staticCharacter").get();
+        trapTest = Assets.getPrefab("CombatSystem:explodeMineTrap").get();
     }
     
     @Override
@@ -44,6 +46,8 @@ public class NPCSpawnSystem extends BaseComponentSystem{
         
         npc1.addOrSaveComponent(boxShape);
         npc1.saveComponent(rigidBody);
+        
+        entityManager.create(trapTest, new Vector3f(10, 1.5f, 5));
     }
 
 }

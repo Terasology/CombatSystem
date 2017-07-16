@@ -6,6 +6,7 @@ import org.terasology.combatSystem.weaponFeatures.OwnerSpecific;
 import org.terasology.combatSystem.weaponFeatures.components.ArrowComponent;
 import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
 import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
+import org.terasology.combatSystem.weaponFeatures.events.LaunchEntityEvent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -33,74 +34,12 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
     
     @ReceiveEvent(components = {LaunchEntityComponent.class})
     public void onFire(PrimaryAttackEvent event, EntityRef entity){
-        LaunchEntityComponent launchEntity = entity.getComponent(LaunchEntityComponent.class);
-        EntityRef player = OwnerSpecific.getUltimateOwner(entity);
-        
-        // if no owner of "entity" is present than "entity" becomes "player". e.g. world generated 
-        // launcher that shot the projectile.
-        
-        if(player == EntityRef.NULL || player == null){
-            player = entity;
-        }
-        
-        if(launchEntity.primaryAttack){
-            EntityRef entityToLaunch = EntityRef.NULL;
-            // creates an entity with specified prefab for eg. an arrow prefab
-            if(launchEntity.launchEntityPrefab != null){
-                entityToLaunch = entityManager.create(launchEntity.launchEntityPrefab);
-            }
-            
-            if(entityToLaunch != EntityRef.NULL){
-                LocationComponent location = entityToLaunch.getComponent(LocationComponent.class);
-                
-                // adds the "player" as the shooter for the arrow. It may be the character or 
-                // the launcher itself.
-                entityToLaunch.addOrSaveComponent(new AttackerComponent(player));
-                
-                LocationComponent shooterLoc = player.getComponent(LocationComponent.class);
-                
-                if(shooterLoc == null){
-                    return;
-                }
-                
-                if(entityToLaunch.hasComponent(MeshComponent.class)){
-                    MeshComponent mesh = entityToLaunch.getComponent(MeshComponent.class);
-                    BoxShapeComponent box = new BoxShapeComponent();
-                    box.extents = mesh.mesh.getAABB().getExtents().scale(2.0f);
-                    entityToLaunch.addOrSaveComponent(box);
-                }
-                
-                // rotates the entity to face in the direction of pointer
-                Vector3f initialDir = location.getWorldDirection();
-                Vector3f finalDir = new Vector3f(event.getDirection());
-                finalDir.normalize();
-                location.setWorldRotation(Quat4f.shortestArcQuat(initialDir, finalDir));
-                
-                // sets the scale of the entity
-                location.setWorldScale(0.5f);
-                
-                // sets the location of entity to current player's location with an offset
-                location.setWorldPosition(shooterLoc.getWorldPosition().addY(0.5f).add(finalDir.scale(0.5f)));
-                
-                entityToLaunch.saveComponent(location);
-                
-                if(!entityToLaunch.hasComponent(TriggerComponent.class)){
-                    TriggerComponent trigger = new TriggerComponent();
-                    trigger.collisionGroup = StandardCollisionGroup.ALL;
-                    trigger.detectGroups = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.DEFAULT, StandardCollisionGroup.WORLD, StandardCollisionGroup.CHARACTER);
-                    entityToLaunch.addOrSaveComponent(trigger);
-                }
-                
-                // applies impulse to the entity
-                Vector3f impulse = finalDir;
-                impulse.normalize();
-                impulse.mul(launchEntity.impulse);
-                entityToLaunch.send(new CombatImpulseEvent(impulse));
-            }
-            else{
-                // dispatch no ammo event
-            }
-        }
+        entity.send(new LaunchEntityEvent(event.getDirection()));
+    }
+    
+    @ReceiveEvent(components = {LaunchEntityComponent.class})
+    public void launchingEntity(LaunchEntityEvent event, EntityRef entity){
+        launchEntity(event.getDirection(), entity);
     }
 
     @Override
@@ -122,6 +61,78 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
             }
             
             arrow.saveComponent(location);
+        }
+    }
+    
+    //---------------------------------private methods--------------------------
+    
+    private void launchEntity(Vector3f direction, EntityRef entity){
+        LaunchEntityComponent launchEntity = entity.getComponent(LaunchEntityComponent.class);
+        EntityRef player = OwnerSpecific.getUltimateOwner(entity);
+        
+        // if no owner of "entity" is present than "entity" becomes "player". e.g. world generated 
+        // launcher that shot the projectile.
+        
+        if(player == EntityRef.NULL || player == null){
+            player = entity;
+        }
+        
+        if(launchEntity.primaryAttack){
+            EntityRef entityToLaunch = EntityRef.NULL;
+            // creates an entity with specified prefab for eg. an arrow prefab
+            if(launchEntity.launchEntityPrefab != null){
+                entityToLaunch = entityManager.create(launchEntity.launchEntityPrefab);
+            }
+            
+            if(entityToLaunch != EntityRef.NULL){
+                LocationComponent location = entityToLaunch.getComponent(LocationComponent.class);
+                
+                // adds the entity as the shooter for the arrow. It will be the launcher itself.
+                entityToLaunch.addOrSaveComponent(new AttackerComponent(entity));
+                
+                LocationComponent shooterLoc = player.getComponent(LocationComponent.class);
+                
+                if(shooterLoc == null){
+                    return;
+                }
+                
+                if(entityToLaunch.hasComponent(MeshComponent.class)){
+                    MeshComponent mesh = entityToLaunch.getComponent(MeshComponent.class);
+                    BoxShapeComponent box = new BoxShapeComponent();
+                    box.extents = mesh.mesh.getAABB().getExtents().scale(2.0f);
+                    entityToLaunch.addOrSaveComponent(box);
+                }
+                
+                // rotates the entity to face in the direction of pointer
+                Vector3f initialDir = location.getWorldDirection();
+                Vector3f finalDir = new Vector3f(direction);
+                finalDir.normalize();
+                location.setWorldRotation(Quat4f.shortestArcQuat(initialDir, finalDir));
+                
+                // sets the scale of the entity
+                location.setWorldScale(0.5f);
+                
+                // sets the location of entity to current player's location with an offset
+                location.setWorldPosition(shooterLoc.getWorldPosition().addY(0.5f).add(finalDir.scale(0.5f)));
+                
+                entityToLaunch.saveComponent(location);
+                
+                if(!entityToLaunch.hasComponent(TriggerComponent.class)){
+                    TriggerComponent trigger = new TriggerComponent();
+                    trigger.collisionGroup = StandardCollisionGroup.ALL;
+                    trigger.detectGroups = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.DEFAULT, StandardCollisionGroup.WORLD, StandardCollisionGroup.CHARACTER, StandardCollisionGroup.SENSOR);
+                    entityToLaunch.addOrSaveComponent(trigger);
+                }
+                
+                // applies impulse to the entity
+                Vector3f impulse = finalDir;
+                impulse.normalize();
+                impulse.mul(launchEntity.impulse);
+                entityToLaunch.send(new CombatImpulseEvent(impulse));
+            }
+            else{
+                // dispatch no ammo event
+            }
         }
     }
 }

@@ -12,7 +12,6 @@ import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.health.DestroyEvent;
-import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.physics.events.CollideEvent;
 import org.terasology.registry.In;
@@ -24,7 +23,6 @@ public class ExplodeHandlingSystem extends BaseComponentSystem{
     
     @ReceiveEvent(components = ExplodeComponent.class)
     public void explodeOnContact(CollideEvent event, EntityRef entity){
-        ExplodeComponent destroy = entity.getComponent(ExplodeComponent.class);
         
         // damage the other entity
         entity.send(new HurtEvent(event.getOtherEntity()));
@@ -38,10 +36,6 @@ public class ExplodeHandlingSystem extends BaseComponentSystem{
     public void exploding(ExplodeEvent event, EntityRef entity){
         explode(entity);
     }
-    
-//    public void trapExplode(EntitySensedEvent event, EntityRef entity){
-//        
-//    }
     
     @ReceiveEvent(components = ExplodeComponent.class)
     public void explodeOnDestroy(DestroyEvent event, EntityRef entity){
