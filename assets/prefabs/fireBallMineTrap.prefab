@@ -1,0 +1,11 @@
+{
+    "parent" : "CombatSystem:mineTrap",
+	"LaunchEntity": {
+        "launchEntityPrefab":"CombatSystem:fireBall",
+		"impulse" : 200,
+		"cooldownTime" : 1000
+    },
+	"VolumeSensor" : {
+		"range" : 15
+	}
+}

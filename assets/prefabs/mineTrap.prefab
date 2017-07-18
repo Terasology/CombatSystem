@@ -2,10 +2,6 @@
     "Hurting" : {
 		
 	},
-	"Mesh" : {
-		"mesh" : "CombatSystem:arrow",
-        "material" : "CombatSystem:arrow"
-	},
 	"Location" : {
 		
 	},

@@ -19,7 +19,6 @@ public class AttackSystem extends BaseComponentSystem{
             attacker.attacker = event.getInstigator();
             entity.saveComponent(attacker);
         }
-        
         entity.send(new PrimaryAttackEvent(event));
     }
 }

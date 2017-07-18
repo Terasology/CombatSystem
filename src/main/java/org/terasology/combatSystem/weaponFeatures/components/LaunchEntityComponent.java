@@ -18,6 +18,9 @@ public class LaunchEntityComponent implements Component{
     public int cooldownTime = 200;
     
     @Replicate
+    public float launchTime = -1.0f;
+    
+    @Replicate
     public float impulse = 300.0f;
     
     @Replicate(initialOnly = true)

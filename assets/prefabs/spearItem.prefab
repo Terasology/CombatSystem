@@ -4,7 +4,7 @@
 		"name": "Spear"
 	},
 	"Item": {
-		"icon" : "CombatSystem:bow",
+		"icon" : "CombatSystem:spear",
 		"usage": "IN_DIRECTION",
 		"stackId": "CombatSystem:spearItem",
 		"cooldownTime": 200,

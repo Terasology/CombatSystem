@@ -8,6 +8,7 @@ import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
 import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
 import org.terasology.combatSystem.weaponFeatures.events.LaunchEntityEvent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
+import org.terasology.engine.Time;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
@@ -31,6 +32,9 @@ import com.google.common.collect.Lists;
 public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSubscriberSystem{
     @In
     private EntityManager entityManager;
+    
+    @In
+    private Time time;
     
     @ReceiveEvent(components = {LaunchEntityComponent.class})
     public void onFire(PrimaryAttackEvent event, EntityRef entity){
@@ -67,7 +71,20 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
     //---------------------------------private methods--------------------------
     
     private void launchEntity(Vector3f direction, EntityRef entity){
+        
         LaunchEntityComponent launchEntity = entity.getComponent(LaunchEntityComponent.class);
+        
+        // checking if its alright to fire.
+        if(launchEntity.launchTime >= 0.0f){
+            float currentTime = time.getGameTimeInMs();
+            if(currentTime - launchEntity.launchTime < launchEntity.cooldownTime){
+                return;
+            }
+        }
+        
+        launchEntity.launchTime = time.getGameTimeInMs();
+        entity.saveComponent(launchEntity);
+        
         EntityRef player = OwnerSpecific.getUltimateOwner(entity);
         
         // if no owner of "entity" is present than "entity" becomes "player". e.g. world generated 
@@ -128,6 +145,7 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 Vector3f impulse = finalDir;
                 impulse.normalize();
                 impulse.mul(launchEntity.impulse);
+                
                 entityToLaunch.send(new CombatImpulseEvent(impulse));
             }
             else{
