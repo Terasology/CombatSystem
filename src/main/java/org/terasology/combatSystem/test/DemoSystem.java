@@ -8,9 +8,13 @@ import org.terasology.entitySystem.prefab.PrefabManager;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.inventory.InventoryComponent;
+import org.terasology.logic.inventory.InventoryManager;
 import org.terasology.logic.inventory.events.GiveItemEvent;
 import org.terasology.logic.players.event.OnPlayerSpawnedEvent;
 import org.terasology.registry.In;
+import org.terasology.world.block.BlockManager;
+import org.terasology.world.block.family.BlockFamily;
+import org.terasology.world.block.items.BlockItemFactory;
 
 /**
  * implements a basic inventory at start of game for testing weapons.
@@ -20,6 +24,8 @@ public class DemoSystem extends BaseComponentSystem{
     
     @In
     EntityManager entityManager;
+    @In
+    BlockManager blockManager;
     
     @ReceiveEvent( components = {InventoryComponent.class})
     public void givingWeaponsToPlayers(OnPlayerSpawnedEvent event, EntityRef player){
@@ -59,19 +65,37 @@ public class DemoSystem extends BaseComponentSystem{
         
         sword.send(new GiveItemEvent(player));
         
-        // 4. war axe
+        // 5. war axe
         EntityRef warAxe = entityManager.create("CombatSystem:waraxe");
         
         warAxe.send(new GiveItemEvent(player));
         
-        // 4. Staff
+        // 6. Staff
         EntityRef staff = entityManager.create("CombatSystem:staff");
         
         staff.send(new GiveItemEvent(player));
         
-        //5. Spear
+        // 7. Spear
         EntityRef spear = entityManager.create("CombatSystem:spearItem");
         
         spear.send(new GiveItemEvent(player));
+        
+        // 8. Fire ball Launcher
+//        BlockFamily fireBallLauncherItem = blockManager.getBlockFamily("fireBallMine");
+//        if (fireBallLauncherItem != null) {
+//            BlockItemFactory blockItemFactory = new BlockItemFactory(entityManager);
+//            EntityRef blockItem = blockItemFactory.newInstance(fireBallLauncherItem);
+//            
+//            blockItem.send(new GiveItemEvent(player));
+//        }
+//        
+//        // 9. Exploding mine
+//        BlockFamily explodingMineItem = blockManager.getBlockFamily("explodeMine");
+//        if (explodingMineItem != null) {
+//            BlockItemFactory blockItemFactory = new BlockItemFactory(entityManager);
+//            EntityRef blockItem = blockItemFactory.newInstance(explodingMineItem);
+//            
+//            blockItem.send(new GiveItemEvent(player));
+//        }
     }
 }
