@@ -15,6 +15,7 @@ import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.health.BlockDamagedComponent;
 import org.terasology.logic.health.DestroyEvent;
+import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.location.Location;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.geom.Quat4f;
@@ -36,6 +37,9 @@ public class StickingHandlingSystem extends BaseComponentSystem{
             sticking(entity, target);
         }
         
+        // damage the other entity
+        entity.send(new HurtEvent(target));
+        
         event.consume();
     }
     
@@ -48,6 +52,9 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         else{
             sticking(entity, target);
         }
+        
+        // damage the other entity
+        entity.send(new HurtEvent(target));
     }
     
     @ReceiveEvent(components = ParentComponent.class, priority = EventPriority.PRIORITY_HIGH)
@@ -63,7 +70,7 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         Iterator<EntityRef> childrenList = parent.children.iterator();
         while(childrenList.hasNext()){
             EntityRef children = childrenList.next();
-            children.destroy();
+            children.send(new DestroyEvent(entity, event.getInstigator(), EngineDamageTypes.DIRECT.get()));
         }
     }
     
@@ -127,11 +134,6 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         if(entity.hasComponent(GravityComponent.class)){
             entity.removeComponent(GravityComponent.class);
         }
-        
-        //-------------------------repetitive code for every HurtingComponent-----------
-        
-        // damage the other entity
-        entity.send(new HurtEvent(target));
     }
     
     // if the entity wants to stick to a block

@@ -81,21 +81,21 @@ public class DemoSystem extends BaseComponentSystem{
         spear.send(new GiveItemEvent(player));
         
         // 8. Fire ball Launcher
-//        BlockFamily fireBallLauncherItem = blockManager.getBlockFamily("fireBallMine");
-//        if (fireBallLauncherItem != null) {
-//            BlockItemFactory blockItemFactory = new BlockItemFactory(entityManager);
-//            EntityRef blockItem = blockItemFactory.newInstance(fireBallLauncherItem);
-//            
-//            blockItem.send(new GiveItemEvent(player));
-//        }
-//        
-//        // 9. Exploding mine
-//        BlockFamily explodingMineItem = blockManager.getBlockFamily("explodeMine");
-//        if (explodingMineItem != null) {
-//            BlockItemFactory blockItemFactory = new BlockItemFactory(entityManager);
-//            EntityRef blockItem = blockItemFactory.newInstance(explodingMineItem);
-//            
-//            blockItem.send(new GiveItemEvent(player));
-//        }
+        BlockFamily fireBallLauncherItem = blockManager.getBlockFamily("fireBallMine");
+        if (fireBallLauncherItem != null) {
+            BlockItemFactory blockItemFactory = new BlockItemFactory(entityManager);
+            EntityRef blockItem = blockItemFactory.newInstance(fireBallLauncherItem);
+            
+            blockItem.send(new GiveItemEvent(player));
+        }
+        
+        // 9. Exploding mine
+        BlockFamily explodingMineItem = blockManager.getBlockFamily("explodeMine");
+        if (explodingMineItem != null) {
+            BlockItemFactory blockItemFactory = new BlockItemFactory(entityManager);
+            EntityRef blockItem = blockItemFactory.newInstance(explodingMineItem);
+            
+            blockItem.send(new GiveItemEvent(player));
+        }
     }
 }

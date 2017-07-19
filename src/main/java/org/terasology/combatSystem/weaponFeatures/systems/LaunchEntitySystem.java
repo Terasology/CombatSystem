@@ -15,6 +15,7 @@ import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
+import org.terasology.logic.inventory.ItemComponent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.Direction;
 import org.terasology.math.geom.Quat4f;
@@ -85,7 +86,11 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
         launchEntity.launchTime = time.getGameTimeInMs();
         entity.saveComponent(launchEntity);
         
-        EntityRef player = OwnerSpecific.getUltimateOwner(entity);
+        EntityRef player = EntityRef.NULL;
+        
+        if(entity.hasComponent(ItemComponent.class)){
+            player = OwnerSpecific.getUltimateOwner(entity);
+        }
         
         // if no owner of "entity" is present than "entity" becomes "player". e.g. world generated 
         // launcher that shot the projectile.
@@ -130,7 +135,12 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 location.setWorldScale(0.5f);
                 
                 // sets the location of entity to current player's location with an offset
-                location.setWorldPosition(shooterLoc.getWorldPosition().addY(0.5f).add(finalDir.scale(0.5f)));
+                if(entity.hasComponent(ItemComponent.class)){
+                    location.setWorldPosition(shooterLoc.getWorldPosition().addY(0.5f).add(finalDir.scale(0.5f)));
+                }
+                else{
+                    location.setWorldPosition(shooterLoc.getWorldPosition());
+                }
                 
                 entityToLaunch.saveComponent(location);
                 

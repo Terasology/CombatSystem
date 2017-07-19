@@ -8,10 +8,12 @@ import org.terasology.combatSystem.weaponFeatures.events.ExplosionEvent;
 import org.terasology.entitySystem.entity.EntityBuilder;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.health.DestroyEvent;
+import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.physics.events.CollideEvent;
 import org.terasology.registry.In;
@@ -37,7 +39,7 @@ public class ExplodeHandlingSystem extends BaseComponentSystem{
         explode(entity);
     }
     
-    @ReceiveEvent(components = ExplodeComponent.class)
+    @ReceiveEvent(components = ExplodeComponent.class, priority = EventPriority.PRIORITY_HIGH)
     public void explodeOnDestroy(DestroyEvent event, EntityRef entity){
         explode(entity);
     }
@@ -64,7 +66,7 @@ public class ExplodeHandlingSystem extends BaseComponentSystem{
         }
         entity.removeComponent(ExplodeComponent.class);
         
-        entity.destroy();
+        entity.send(new DestroyEvent(EntityRef.NULL, EntityRef.NULL, EngineDamageTypes.EXPLOSIVE.get()));
         
         if(explosion != null){
             EntityRef explosionEntity = explosion.build();

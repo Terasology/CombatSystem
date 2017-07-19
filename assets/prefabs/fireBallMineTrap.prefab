@@ -5,6 +5,13 @@
 		"impulse" : 200,
 		"cooldownTime" : 1000
     },
+	"Health": {
+		"maxHealth" : 20,
+		"currentHealth" : 20,
+		"regenRate" : 4,
+		"waitBeforeRegen" : 1,
+		"destroyEntityOnNoHealth" : true
+	},
 	"VolumeSensor" : {
 		"range" : 15
 	}

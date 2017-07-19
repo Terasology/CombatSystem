@@ -11,6 +11,8 @@ import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.logic.health.DestroyEvent;
+import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.events.CollideEvent;
@@ -52,7 +54,7 @@ public class BouncingHandlingSystem extends BaseComponentSystem{
         // check if the velocity is not enough for another bounce. Destroy if true else 
         // bounce the arrow.
         if(mass.velocity.lengthSquared() <= (bounce.minBounceVelocity*bounce.minBounceVelocity)){
-            entity.destroy();
+            entity.send(new DestroyEvent(EntityRef.NULL, EntityRef.NULL, EngineDamageTypes.DIRECT.get()));
         }
         else{
             Vector3f bounceDir = new Vector3f(normal);

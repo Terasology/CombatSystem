@@ -1,6 +1,5 @@
 package org.terasology.combatSystem.traps.systems;
 
-import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
@@ -31,17 +30,9 @@ public class TrapPlacingSystem extends BaseComponentSystem{
         entity.send(new DeactivateSensorEvent());
     }
     
-//    @ReceiveEvent(components = {VolumeSensorComponent.class})
-//    public void activateOnBlockConversion(OnBlockItemPlaced event, EntityRef entity){
-//        EntityRef block = event.getPlacedBlock();
-//        
-////        AttackerComponent attacker = block.getComponent(AttackerComponent.class);
-////        if(attacker != null){
-////            attacker.attacker = entity;
-////            block.saveComponent(attacker);
-////        }
-//        
-//        block.send(new ActivateSensorEvent());
-//    }
+    @ReceiveEvent(components = {VolumeSensorComponent.class})
+    public void activateOnBlockConversion(OnBlockItemPlaced event, EntityRef entity){
+        entity.send(new ActivateSensorEvent());
+    }
 
 }
