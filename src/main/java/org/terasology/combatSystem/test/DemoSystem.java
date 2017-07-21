@@ -8,7 +8,6 @@ import org.terasology.entitySystem.prefab.PrefabManager;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.inventory.InventoryComponent;
-import org.terasology.logic.inventory.InventoryManager;
 import org.terasology.logic.inventory.events.GiveItemEvent;
 import org.terasology.logic.players.event.OnPlayerSpawnedEvent;
 import org.terasology.registry.In;
@@ -45,6 +44,10 @@ public class DemoSystem extends BaseComponentSystem{
         }
         launchEntity2.launchEntityPrefab = prefabManager.getPrefab("CombatSystem:bounceArrow");
         bounceBow.addOrSaveComponent(launchEntity2);
+        
+        EntityRef testItem = entityManager.create("CombatSystem:sword");
+        
+        testItem.send(new GiveItemEvent(bounceBow));
         
         bounceBow.send(new GiveItemEvent(player));
         

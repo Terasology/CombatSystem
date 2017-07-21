@@ -11,6 +11,9 @@
 	"LaunchEntity": {
         "launchEntityPrefab":"CombatSystem:stickArrow"
     },
+	"Inventory": {
+		"itemSlots" : [0]
+	},
 	"RenderItemIconMesh": {}
 }
 

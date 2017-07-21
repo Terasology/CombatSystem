@@ -30,9 +30,9 @@ public class TrapPlacingSystem extends BaseComponentSystem{
         entity.send(new DeactivateSensorEvent());
     }
     
-    @ReceiveEvent(components = {VolumeSensorComponent.class})
-    public void activateOnBlockConversion(OnBlockItemPlaced event, EntityRef entity){
-        entity.send(new ActivateSensorEvent());
-    }
+//    @ReceiveEvent(components = {VolumeSensorComponent.class})
+//    public void activateOnBlockConversion(OnBlockItemPlaced event, EntityRef entity){
+//        entity.send(new ActivateSensorEvent());
+//    }
 
 }
