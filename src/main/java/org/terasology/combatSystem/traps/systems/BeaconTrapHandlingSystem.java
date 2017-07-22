@@ -16,7 +16,4 @@ public class BeaconTrapHandlingSystem extends BaseComponentSystem{
             beacon.base.send(event);
         }
     }
-    
-    
-
 }

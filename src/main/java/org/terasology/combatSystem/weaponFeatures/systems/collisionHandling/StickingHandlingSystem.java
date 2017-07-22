@@ -1,6 +1,7 @@
 package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.physics.components.GravityComponent;
@@ -8,11 +9,13 @@ import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.combatSystem.weaponFeatures.components.ParentComponent;
 import org.terasology.combatSystem.weaponFeatures.components.StickComponent;
 import org.terasology.combatSystem.weaponFeatures.events.StickEvent;
+import org.terasology.engine.Time;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.logic.health.BlockDamagedComponent;
 import org.terasology.logic.health.DestroyEvent;
 import org.terasology.logic.health.EngineDamageTypes;
@@ -22,10 +25,18 @@ import org.terasology.math.geom.Quat4f;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.components.TriggerComponent;
 import org.terasology.physics.events.CollideEvent;
+import org.terasology.registry.In;
 import org.terasology.world.block.BlockComponent;
 
+import com.google.common.collect.Lists;
+
 @RegisterSystem
-public class StickingHandlingSystem extends BaseComponentSystem{
+public class StickingHandlingSystem extends BaseComponentSystem implements UpdateSubscriberSystem{
+    List<EntityRef> stuckArrows = Lists.newArrayList();
+    List<EntityRef> destroyList = Lists.newArrayList();
+    
+    @In
+    Time time;
     
     @ReceiveEvent(components = {StickComponent.class})
     public void stickingCollision(CollideEvent event, EntityRef entity){
@@ -74,6 +85,24 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         }
     }
     
+    @Override
+    public void update(float delta) {
+        for(EntityRef arrow : stuckArrows){
+            StickComponent stick = arrow.getComponent(StickComponent.class);
+            float currentGameTime = time.getGameTime();
+            if(currentGameTime >= stick.stickTime + stick.totalStickingTime){
+                destroyList.add(arrow);
+            }
+        }
+        
+        for(EntityRef arrow : destroyList){
+            stuckArrows.remove(arrow);
+            arrow.send(new DestroyEvent(arrow, arrow, EngineDamageTypes.DIRECT.get()));
+        }
+        
+        destroyList.clear();
+    }
+    
     //------------------------------private methods-----------------------
     
     private void sticking(EntityRef entity, EntityRef target){
@@ -120,6 +149,7 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         
         StickComponent stick = entity.getComponent(StickComponent.class);
         stick.setTarget(target);
+        stick.stickTime = time.getGameTime();
         entity.saveComponent(stick);
         
         ParentComponent parent = target.getComponent(ParentComponent.class);
@@ -173,10 +203,13 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         if(parent == null){
             parent = new ParentComponent();
         }
-        
         parent.children.add(entity);
-        
         target.addOrSaveComponent(parent);
+        
+        StickComponent stick = entity.getComponent(StickComponent.class);
+        stick.setTarget(target);
+        stick.stickTime = time.getGameTime();
+        entity.saveComponent(stick);
         
         if(entity.hasComponent(GravityComponent.class)){
             entity.removeComponent(GravityComponent.class);
@@ -201,6 +234,11 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         location.setWorldPosition(entityLoc);
         
         entity.saveComponent(location);
+        
+        StickComponent stick = entity.getComponent(StickComponent.class);
+        if(stick.totalStickingTime >= 0){
+            stuckArrows.add(entity);
+        }
     }
 
 }

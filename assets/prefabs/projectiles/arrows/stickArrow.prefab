@@ -4,7 +4,7 @@
 		"amount" : 3
 	},
 	"Stick" : {
-		
+		"totalStickingTime" : 10
 	},
 	"Health" : {
 		"maxHealth" : 1,
