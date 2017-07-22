@@ -13,8 +13,11 @@
 	"Explode" : {
 		"explosionPrefab" : "core:dustEffect"
 	},
+	"Light" : {
+		
+	},
 	"Trigger" : {
 		"collisionGroup" : "engine:all",
-		"detectGroups" : ["engine:world", "engine:character", "engine:default"]
+		"detectGroups" : ["engine:world", "engine:character", "engine:default", "engine:sensor"]
 	}
 }

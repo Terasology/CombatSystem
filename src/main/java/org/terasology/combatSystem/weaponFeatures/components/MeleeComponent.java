@@ -5,14 +5,6 @@ import org.terasology.network.Replicate;
 
 public class MeleeComponent implements Component{
     
-    //inclusive
-    @Replicate
-    public int minDamage = 2;
-    
-    //inclusive
-    @Replicate
-    public int maxDamage = 4;
-    
     @Replicate
     public float range = 2.0f;
     

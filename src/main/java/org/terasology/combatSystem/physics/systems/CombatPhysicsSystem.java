@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.combatSystem.physics.events.CombatForceEvent;
 import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
@@ -22,10 +24,14 @@ import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.CollisionGroup;
 import org.terasology.physics.HitResult;
 import org.terasology.physics.Physics;
+import org.terasology.physics.StandardCollisionGroup;
 import org.terasology.physics.components.TriggerComponent;
 import org.terasology.physics.events.CollideEvent;
+import org.terasology.physics.shapes.BoxShapeComponent;
+import org.terasology.physics.shapes.CapsuleShapeComponent;
+import org.terasology.physics.shapes.CylinderShapeComponent;
+import org.terasology.physics.shapes.SphereShapeComponent;
 import org.terasology.registry.In;
-
 import com.google.common.collect.Maps;
 
 /**
@@ -33,7 +39,7 @@ import com.google.common.collect.Maps;
  */
 @RegisterSystem
 public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSubscriberSystem{
-    private static final float TUNNELING_MIN_VELOCITY_SQ = 40000.0f;
+    private static final float TUNNELING_MIN_VELOCITY_SQ = 400.0f;
     
     private Map<EntityRef, CollisionGroup[]> entityCollidesWithGroup = Maps.newHashMap();
     
@@ -119,15 +125,46 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
                 body.velocity.add(body.acceleration);
                 body.acceleration.set(0, 0, 0);
                 
-                // raycasting to resolve tunneling in fast moving small objects
-                CollisionGroup[] group = entityCollidesWithGroup.get(entity);
+                // raycasting for world collisions
                 float velocityMagSq = body.velocity.lengthSquared();
+                
+                CollisionGroup[] group = entityCollidesWithGroup.get(entity);
+                short combinedGroup = combineGroups(group);
+                if((combinedGroup & StandardCollisionGroup.WORLD.getFlag()) != 0){
+                    Vector3f direction = new Vector3f(body.velocity);
+                    float distance = ((float)Math.sqrt(velocityMagSq)) * delta;
+                    Vector3f from = calculateStartingPoint(location.getWorldPosition(), direction, entity);
+                    direction.normalize();
+                    
+                    HitResult result = physics.rayTrace(from, direction, distance, group);
+                    
+                    if(result.isHit() && result.isWorldHit()){
+                        EntityRef otherEntity = result.getEntity();
+                        Vector3f hitPoint = result.getHitPoint();
+                        Vector3f normal = result.getHitNormal();
+                        
+                        // updating position so that tip of entity is at point of contact
+                        Vector3f newPos = new Vector3f(hitPoint);
+                        from.sub(location.getWorldPosition());
+                        newPos.sub(from);
+                        location.setWorldPosition(newPos);
+                        
+                        entity.saveComponent(location);
+                        
+                        entity.send(new CollideEvent(otherEntity, hitPoint,
+                                hitPoint, 0.0f, normal));
+                        
+                        continue;
+                    }
+                }
+                
+                // raycasting to resolve tunneling in fast moving small objects
                 if(velocityMagSq >= TUNNELING_MIN_VELOCITY_SQ 
                         && group != null){
-                    Vector3f from = location.getWorldPosition();
                     Vector3f direction = new Vector3f(body.velocity);
-                    direction.normalize();
                     float distance = ((float)Math.sqrt(velocityMagSq)) * delta;
+                    Vector3f from = calculateStartingPoint(location.getWorldPosition(), direction, entity);
+                    direction.normalize();
                     
                     HitResult result = physics.rayTrace(from, direction, distance, group);
                     
@@ -136,12 +173,22 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
                         Vector3f hitPoint = result.getHitPoint();
                         Vector3f normal = result.getHitNormal();
                         
+                        // updating position so that tip of entity is at point of contact
+                        Vector3f newPos = new Vector3f(hitPoint);
+                        from.sub(location.getWorldPosition());
+                        newPos.sub(from);
+                        location.setWorldPosition(newPos);
+                        
+                        entity.saveComponent(location);
+                        
                         entity.send(new CollideEvent(otherEntity, hitPoint,
                                 hitPoint, 0.0f, result.getHitNormal()));
                         
                         if(otherEntity.hasComponent(TriggerComponent.class)){
                             otherEntity.send(new CollideEvent(entity, hitPoint, hitPoint, 0.0f, normal));
                         }
+                        
+                        continue;
                     }
                 }
                 
@@ -154,6 +201,8 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
                 
                 entity.saveComponent(body);
                 entity.saveComponent(location);
+                
+                
             }
           
         }
@@ -175,15 +224,48 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
     }
     
     private short combineGroups(CollisionGroup... collisionGroups){
+        if(collisionGroups == null){
+            return 0;
+        }
         return combineGroups(Arrays.asList(collisionGroups));
     }
     
     private short combineGroups(List<CollisionGroup> collisionGroup){
         short flag = 0;
+        if(collisionGroup == null){
+            return flag;
+        }
         for(CollisionGroup group : collisionGroup){
             flag |= group.getFlag();
         }
         return flag;
+    }
+    
+    //right now it only works for entities whose +ve z-axis always faces the direction of movement
+    private Vector3f calculateStartingPoint(Vector3f origin, Vector3f direction, EntityRef entity){
+        direction.normalize();
+        BoxShapeComponent box = entity.getComponent(BoxShapeComponent.class);
+        if (box != null) {
+            direction.scale(box.extents.z/2.0f);
+            origin.add(direction);
+        }
+        SphereShapeComponent sphere = entity.getComponent(SphereShapeComponent.class);
+        if (sphere != null) {
+            direction.scale(sphere.radius);
+            origin.add(direction);
+        }
+        CapsuleShapeComponent capsule = entity.getComponent(CapsuleShapeComponent.class);
+        if (capsule != null) {
+            direction.scale((capsule.radius + (capsule.height/2.0f)));
+            origin.add(direction);
+        }
+        CylinderShapeComponent cylinder = entity.getComponent(CylinderShapeComponent.class);
+        if (cylinder != null) {
+            direction.scale(cylinder.height/2.0f);
+            origin.add(direction);
+        }
+        
+        return origin;
     }
 
 }

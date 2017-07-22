@@ -2,16 +2,18 @@ package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
 import java.util.Iterator;
 
+import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.physics.components.GravityComponent;
 import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.combatSystem.weaponFeatures.components.ParentComponent;
 import org.terasology.combatSystem.weaponFeatures.components.StickComponent;
-import org.terasology.combatSystem.weaponFeatures.events.HurtEvent;
 import org.terasology.combatSystem.weaponFeatures.events.StickEvent;
 import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.logic.health.BlockDamagedComponent;
 import org.terasology.logic.health.DestroyEvent;
 import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.location.Location;
@@ -35,6 +37,9 @@ public class StickingHandlingSystem extends BaseComponentSystem{
             sticking(entity, target);
         }
         
+        // damage the other entity
+        entity.send(new HurtEvent(target));
+        
         event.consume();
     }
     
@@ -47,9 +52,12 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         else{
             sticking(entity, target);
         }
+        
+        // damage the other entity
+        entity.send(new HurtEvent(target));
     }
     
-    @ReceiveEvent(components = ParentComponent.class)
+    @ReceiveEvent(components = ParentComponent.class, priority = EventPriority.PRIORITY_HIGH)
     public void removeChildEntities(DestroyEvent event, EntityRef entity){
         ParentComponent parent = entity.getComponent(ParentComponent.class);
         if(parent == null){
@@ -62,7 +70,7 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         Iterator<EntityRef> childrenList = parent.children.iterator();
         while(childrenList.hasNext()){
             EntityRef children = childrenList.next();
-            children.destroy();
+            children.send(new DestroyEvent(entity, event.getInstigator(), EngineDamageTypes.DIRECT.get()));
         }
     }
     
@@ -95,6 +103,8 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         // resting all the movements of the entity
         MassComponent body = entity.getComponent(MassComponent.class);
         if(body != null){
+            pierce(entity, 1.0f);
+            
             body.acceleration.set(0, 0, 0);
             body.velocity.set(0, 0, 0);
             body.force.set(0, 0, 0);
@@ -124,11 +134,6 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         if(entity.hasComponent(GravityComponent.class)){
             entity.removeComponent(GravityComponent.class);
         }
-        
-        //-------------------------repetitive code for every HurtingComponent-----------
-        
-        // damage the other entity
-        entity.send(new HurtEvent(target, stick.amount, EngineDamageTypes.DIRECT.get()));
     }
     
     // if the entity wants to stick to a block
@@ -151,15 +156,7 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         
         MassComponent body = entity.getComponent(MassComponent.class);
         if(body != null){
-//            Vector3f pos = location.getWorldPosition();
-//            Vector3f dir = new Vector3f(body.velocity);
-//            dir.normalize();
-//            //we assume the peircing to be 0.1 units deep
-//            dir.scale(0.1f);
-//            pos.add(dir);
-//            
-//            location.setWorldPosition(pos);
-//            entity.saveComponent(location);
+            pierce(entity, 1.0f);
             
             // resting all the movements of the entity
             body.acceleration.set(0, 0, 0);
@@ -168,6 +165,19 @@ public class StickingHandlingSystem extends BaseComponentSystem{
             entity.saveComponent(body);
         }
         
+        if(!target.hasComponent(BlockDamagedComponent.class)){
+            target.addComponent(new BlockDamagedComponent());
+        }
+        
+        ParentComponent parent = target.getComponent(ParentComponent.class);
+        if(parent == null){
+            parent = new ParentComponent();
+        }
+        
+        parent.children.add(entity);
+        
+        target.addOrSaveComponent(parent);
+        
         if(entity.hasComponent(GravityComponent.class)){
             entity.removeComponent(GravityComponent.class);
         }
@@ -175,6 +185,22 @@ public class StickingHandlingSystem extends BaseComponentSystem{
         if(entity.hasComponent(TriggerComponent.class)){
             entity.removeComponent(TriggerComponent.class);
         }
+    }
+    
+    public void pierce(EntityRef entity, float amount){
+        LocationComponent location = entity.getComponent(LocationComponent.class);
+        if(location == null){
+            return;
+        }
+        Vector3f entityLoc = location.getWorldPosition();
+        
+        Vector3f direction = location.getWorldDirection();
+        direction.scale(amount);
+        entityLoc.add(direction);
+        
+        location.setWorldPosition(entityLoc);
+        
+        entity.saveComponent(location);
     }
 
 }

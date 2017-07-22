@@ -1,13 +1,14 @@
 package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
+import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.weaponFeatures.components.ExplodeComponent;
 import org.terasology.combatSystem.weaponFeatures.components.ExplosionComponent;
 import org.terasology.combatSystem.weaponFeatures.events.ExplodeEvent;
 import org.terasology.combatSystem.weaponFeatures.events.ExplosionEvent;
-import org.terasology.combatSystem.weaponFeatures.events.HurtEvent;
 import org.terasology.entitySystem.entity.EntityBuilder;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
@@ -24,10 +25,9 @@ public class ExplodeHandlingSystem extends BaseComponentSystem{
     
     @ReceiveEvent(components = ExplodeComponent.class)
     public void explodeOnContact(CollideEvent event, EntityRef entity){
-        ExplodeComponent destroy = entity.getComponent(ExplodeComponent.class);
         
         // damage the other entity
-        entity.send(new HurtEvent(event.getOtherEntity(), destroy.amount, EngineDamageTypes.DIRECT.get()));
+        entity.send(new HurtEvent(event.getOtherEntity()));
         
         explode(entity);
         
@@ -39,7 +39,7 @@ public class ExplodeHandlingSystem extends BaseComponentSystem{
         explode(entity);
     }
     
-    @ReceiveEvent(components = ExplodeComponent.class)
+    @ReceiveEvent(components = ExplodeComponent.class, priority = EventPriority.PRIORITY_HIGH)
     public void explodeOnDestroy(DestroyEvent event, EntityRef entity){
         explode(entity);
     }
@@ -66,7 +66,7 @@ public class ExplodeHandlingSystem extends BaseComponentSystem{
         }
         entity.removeComponent(ExplodeComponent.class);
         
-        entity.destroy();
+        entity.send(new DestroyEvent(EntityRef.NULL, EntityRef.NULL, EngineDamageTypes.EXPLOSIVE.get()));
         
         if(explosion != null){
             EntityRef explosionEntity = explosion.build();

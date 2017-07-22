@@ -22,9 +22,5 @@ public class MassComponent implements Component{
     public Vector3f acceleration = new Vector3f();
     @Replicate
     public Vector3f force = new Vector3f();
-    
-    //TODO Implement the usage of this feature.
-    @Replicate
-    public Vector3f friction = new Vector3f();
 
 }

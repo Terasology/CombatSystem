@@ -1,4 +1,4 @@
-package org.terasology.combatSystem.weaponFeatures.components;
+package org.terasology.combatSystem.hurting;
 
 import org.terasology.entitySystem.Component;
 import org.terasology.network.Replicate;

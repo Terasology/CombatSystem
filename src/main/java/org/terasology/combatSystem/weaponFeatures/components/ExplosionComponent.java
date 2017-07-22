@@ -23,8 +23,5 @@ public class ExplosionComponent implements Component{
     
     @Replicate
     public boolean explosionStarted = false;
-    
-    @Replicate
-    public int amount = 4;
 
 }

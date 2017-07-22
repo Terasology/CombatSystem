@@ -1,0 +1,7 @@
+{
+    "parent" : "CombatSystem:mineTrap",
+	"Explode" : {
+		"explosionPrefab":"CombatSystem:basicExplosion"
+	}
+}
+

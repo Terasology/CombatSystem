@@ -1,0 +1,16 @@
+{
+    "parent": "engine:itemBase",
+	"DisplayName": {
+		"name": "Explode Arrow"
+	},
+	"Item": {
+		"icon" : "CombatSystem:spear",
+		"usage": "IN_DIRECTION",
+		"stackId": "CombatSystem:explodeArrowItem",
+		"cooldownTime": 0,
+		"consumedOnUse" : true
+	},
+	"WorldAvatar": {
+        "worldAvatarPrefab":"CombatSystem:explodeArrow"
+    }
+}
