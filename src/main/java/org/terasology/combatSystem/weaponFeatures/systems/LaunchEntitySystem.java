@@ -16,6 +16,7 @@ import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
+import org.terasology.logic.characters.GazeMountPointComponent;
 import org.terasology.logic.inventory.ItemComponent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.Direction;
@@ -137,8 +138,9 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 location.setWorldScale(0.5f);
                 
                 // sets the location of entity to current player's location with an offset
-                if(entity.hasComponent(ItemComponent.class)){
-                    location.setWorldPosition(shooterLoc.getWorldPosition().addY(0.5f).add(finalDir.scale(0.5f)));
+                GazeMountPointComponent gaze = player.getComponent(GazeMountPointComponent.class);
+                if(gaze != null){
+                    location.setWorldPosition(shooterLoc.getWorldPosition().add(gaze.translate).add(finalDir.scale(0.3f)));
                 }
                 else{
                     location.setWorldPosition(shooterLoc.getWorldPosition());

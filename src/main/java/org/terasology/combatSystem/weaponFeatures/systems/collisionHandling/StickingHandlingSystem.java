@@ -132,7 +132,7 @@ public class StickingHandlingSystem extends BaseComponentSystem implements Updat
         // resting all the movements of the entity
         MassComponent body = entity.getComponent(MassComponent.class);
         if(body != null){
-            pierce(entity, 1.0f);
+            pierce(entity);
             
             body.acceleration.set(0, 0, 0);
             body.velocity.set(0, 0, 0);
@@ -186,7 +186,7 @@ public class StickingHandlingSystem extends BaseComponentSystem implements Updat
         
         MassComponent body = entity.getComponent(MassComponent.class);
         if(body != null){
-            pierce(entity, 1.0f);
+            pierce(entity);
             
             // resting all the movements of the entity
             body.acceleration.set(0, 0, 0);
@@ -220,22 +220,23 @@ public class StickingHandlingSystem extends BaseComponentSystem implements Updat
         }
     }
     
-    public void pierce(EntityRef entity, float amount){
+    public void pierce(EntityRef entity){
         LocationComponent location = entity.getComponent(LocationComponent.class);
         if(location == null){
             return;
         }
+        
+        StickComponent stick = entity.getComponent(StickComponent.class);
         Vector3f entityLoc = location.getWorldPosition();
         
         Vector3f direction = location.getWorldDirection();
-        direction.scale(amount);
+        direction.scale(stick.pierceAmount);
         entityLoc.add(direction);
         
         location.setWorldPosition(entityLoc);
         
         entity.saveComponent(location);
         
-        StickComponent stick = entity.getComponent(StickComponent.class);
         if(stick.totalStickingTime >= 0){
             stuckArrows.add(entity);
         }
