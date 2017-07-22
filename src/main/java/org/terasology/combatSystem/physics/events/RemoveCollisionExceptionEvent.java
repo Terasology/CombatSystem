@@ -1,4 +1,4 @@
-package org.terasology.combatSystem.weaponFeatures.events;
+package org.terasology.combatSystem.physics.events;
 
 import java.util.List;
 
@@ -7,20 +7,20 @@ import org.terasology.entitySystem.event.Event;
 
 import com.google.common.collect.Lists;
 
-public class AddCollisionExceptionEvent implements Event{
+public class RemoveCollisionExceptionEvent implements Event{
     List<EntityRef> exceptions;
     
-    public AddCollisionExceptionEvent(){
+    public RemoveCollisionExceptionEvent(){
         
     }
     
-    public AddCollisionExceptionEvent(List<EntityRef> exceptions){
+    public RemoveCollisionExceptionEvent(List<EntityRef> exceptions){
         this.exceptions = exceptions;
     }
     
-    public AddCollisionExceptionEvent(EntityRef entity){
+    public RemoveCollisionExceptionEvent(EntityRef entity){
         exceptions = Lists.<EntityRef>newArrayList();
-        this.exceptions.add(entity);
+        exceptions.add(entity);
     }
     
     public List<EntityRef> getCollisionExceptionsList(){

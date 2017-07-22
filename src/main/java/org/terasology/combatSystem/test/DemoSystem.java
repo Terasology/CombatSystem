@@ -1,6 +1,5 @@
 package org.terasology.combatSystem.test;
 
-import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
 import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -10,8 +9,12 @@ import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.inventory.InventoryComponent;
 import org.terasology.logic.inventory.InventoryManager;
+import org.terasology.logic.inventory.events.GiveItemEvent;
 import org.terasology.logic.players.event.OnPlayerSpawnedEvent;
 import org.terasology.registry.In;
+import org.terasology.world.block.BlockManager;
+import org.terasology.world.block.family.BlockFamily;
+import org.terasology.world.block.items.BlockItemFactory;
 
 /**
  * implements a basic inventory at start of game for testing weapons.
@@ -22,7 +25,7 @@ public class DemoSystem extends BaseComponentSystem{
     @In
     EntityManager entityManager;
     @In
-    InventoryManager inventoryManager;
+    BlockManager blockManager;
     
     @ReceiveEvent( components = {InventoryComponent.class})
     public void givingWeaponsToPlayers(OnPlayerSpawnedEvent event, EntityRef player){
@@ -31,22 +34,7 @@ public class DemoSystem extends BaseComponentSystem{
         // 1. Stick Arrows
         EntityRef stickBow = entityManager.create("CombatSystem:bow");
         
-        LaunchEntityComponent launchEntity = stickBow.getComponent(LaunchEntityComponent.class);
-        if(launchEntity == null){
-            launchEntity = new LaunchEntityComponent();
-        }
-        launchEntity.launchEntityPrefab = prefabManager.getPrefab("CombatSystem:stickArrow");
-        stickBow.addOrSaveComponent(launchEntity);
-        
-        AttackerComponent stickShooter = stickBow.getComponent(AttackerComponent.class);
-        if(stickShooter == null){
-            stickShooter = new AttackerComponent(player);
-        }
-        stickShooter.attacker = player;
-        
-        stickBow.addOrSaveComponent(stickShooter);
-        
-        inventoryManager.giveItem(player, EntityRef.NULL, stickBow);
+        stickBow.send(new GiveItemEvent(player));
         
         // 2. Bounce Arrows
         EntityRef bounceBow = entityManager.create("CombatSystem:bow");
@@ -58,15 +46,7 @@ public class DemoSystem extends BaseComponentSystem{
         launchEntity2.launchEntityPrefab = prefabManager.getPrefab("CombatSystem:bounceArrow");
         bounceBow.addOrSaveComponent(launchEntity2);
         
-        AttackerComponent shooter2 = bounceBow.getComponent(AttackerComponent.class);
-        if(shooter2 == null){
-            shooter2 = new AttackerComponent(player);
-        }
-        shooter2.attacker = player;
-        
-        bounceBow.addOrSaveComponent(shooter2);
-        
-        inventoryManager.giveItem(player, EntityRef.NULL, bounceBow);
+        bounceBow.send(new GiveItemEvent(player));
         
         // 3. Explode Arrows
         EntityRef explodeBow = entityManager.create("CombatSystem:bow");
@@ -78,37 +58,44 @@ public class DemoSystem extends BaseComponentSystem{
         launchEntity4.launchEntityPrefab = prefabManager.getPrefab("CombatSystem:explodeArrow");
         explodeBow.addOrSaveComponent(launchEntity4);
         
-        AttackerComponent shooter4 = explodeBow.getComponent(AttackerComponent.class);
-        if(shooter4 == null){
-            shooter4 = new AttackerComponent(player);
-        }
-        shooter4.attacker = player;
-        
-        explodeBow.addOrSaveComponent(shooter4);
-        
-        inventoryManager.giveItem(player, EntityRef.NULL, explodeBow);
+        explodeBow.send(new GiveItemEvent(player));
         
         // 4. Sword
         EntityRef sword = entityManager.create("CombatSystem:sword");
         
-        inventoryManager.giveItem(player, EntityRef.NULL, sword);
+        sword.send(new GiveItemEvent(player));
         
-        // 4. war axe
+        // 5. war axe
         EntityRef warAxe = entityManager.create("CombatSystem:waraxe");
         
-        inventoryManager.giveItem(player, EntityRef.NULL, warAxe);
+        warAxe.send(new GiveItemEvent(player));
         
-        // 4. Staff
+        // 6. Staff
         EntityRef staff = entityManager.create("CombatSystem:staff");
         
-        AttackerComponent shooter5 = explodeBow.getComponent(AttackerComponent.class);
-        if(shooter5 == null){
-            shooter5 = new AttackerComponent(player);
+        staff.send(new GiveItemEvent(player));
+        
+        // 7. Spear
+        EntityRef spear = entityManager.create("CombatSystem:spearItem");
+        
+        spear.send(new GiveItemEvent(player));
+        
+        // 8. Fire ball Launcher
+        BlockFamily fireBallLauncherItem = blockManager.getBlockFamily("fireBallMine");
+        if (fireBallLauncherItem != null) {
+            BlockItemFactory blockItemFactory = new BlockItemFactory(entityManager);
+            EntityRef blockItem = blockItemFactory.newInstance(fireBallLauncherItem);
+            
+            blockItem.send(new GiveItemEvent(player));
         }
-        shooter5.attacker = player;
         
-        staff.addOrSaveComponent(shooter5);
-        
-        inventoryManager.giveItem(player, EntityRef.NULL, staff);
+        // 9. Exploding mine
+        BlockFamily explodingMineItem = blockManager.getBlockFamily("explodeMine");
+        if (explodingMineItem != null) {
+            BlockItemFactory blockItemFactory = new BlockItemFactory(entityManager);
+            EntityRef blockItem = blockItemFactory.newInstance(explodingMineItem);
+            
+            blockItem.send(new GiveItemEvent(player));
+        }
     }
 }

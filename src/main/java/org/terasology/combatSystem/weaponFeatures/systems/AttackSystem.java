@@ -1,8 +1,10 @@
 package org.terasology.combatSystem.weaponFeatures.systems;
 
+import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
 import org.terasology.combatSystem.weaponFeatures.components.PrimaryAttackComponent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
 import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
@@ -14,6 +16,12 @@ public class AttackSystem extends BaseComponentSystem{
     @ReceiveEvent( components = {PrimaryAttackComponent.class})
     public void primaryAttack(ActivateEvent event, EntityRef entity){
         entity.send(new PrimaryAttackEvent(event));
+    }
+    
+    @ReceiveEvent( components = {AttackerComponent.class}, priority = EventPriority.PRIORITY_HIGH)
+    public void addAttacker(ActivateEvent event, EntityRef entity, AttackerComponent attacker){
+        attacker.attacker = event.getInstigator();
+        entity.saveComponent(attacker);
     }
 }
         

@@ -1,16 +1,17 @@
 package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
 import org.terasology.combatSystem.OwnerCollisionState;
+import org.terasology.combatSystem.physics.events.AddCollisionExceptionEvent;
+import org.terasology.combatSystem.physics.events.RemoveCollisionExceptionEvent;
 import org.terasology.combatSystem.weaponFeatures.OwnerSpecific;
 import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
-import org.terasology.combatSystem.weaponFeatures.events.AddCollisionExceptionEvent;
-import org.terasology.combatSystem.weaponFeatures.events.RemoveCollisionExceptionEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.entity.lifecycleEvents.OnActivatedComponent;
 import org.terasology.entitySystem.entity.lifecycleEvents.OnChangedComponent;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.logic.inventory.events.GiveItemEvent;
 
 @RegisterSystem
 public class AttackerCollisionHandlingSystem extends BaseComponentSystem{
@@ -22,6 +23,14 @@ public class AttackerCollisionHandlingSystem extends BaseComponentSystem{
     @ReceiveEvent(components = AttackerComponent.class)
     public void updateShooterState(OnChangedComponent event, EntityRef entity){
         updateExceptionListForShooterComponent(entity);
+    }
+    
+    @ReceiveEvent(components = AttackerComponent.class)
+    public void makeEntityAsWeaponOwner(GiveItemEvent event, EntityRef entity){
+        AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
+        attacker.attacker = event.getTargetEntity();
+        
+        entity.saveComponent(attacker);
     }
     
     //--------------------private methods--------------------------------

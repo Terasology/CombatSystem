@@ -1,9 +1,11 @@
-package org.terasology.combatSystem.weaponFeatures.events;
+package org.terasology.combatSystem.hurting;
 
 import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.event.Event;
+import org.terasology.entitySystem.event.AbstractConsumableEvent;
 
-public class HurtEvent implements Event{
+public class HurtEvent extends AbstractConsumableEvent{
+    
+    
     EntityRef target = EntityRef.NULL;
     
     public HurtEvent(){
@@ -11,7 +13,7 @@ public class HurtEvent implements Event{
     }
     
     public HurtEvent(EntityRef entity){
-        target = entity;
+        this.target = entity;
     }
     
     public EntityRef getTarget(){

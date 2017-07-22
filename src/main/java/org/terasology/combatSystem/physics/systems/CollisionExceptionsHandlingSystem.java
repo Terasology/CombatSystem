@@ -1,17 +1,21 @@
-package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
+package org.terasology.combatSystem.physics.systems;
 
 import java.util.Iterator;
 import java.util.List;
 
 import org.terasology.combatSystem.physics.components.CollisionExceptionsComponent;
-import org.terasology.combatSystem.weaponFeatures.events.AddCollisionExceptionEvent;
-import org.terasology.combatSystem.weaponFeatures.events.RemoveCollisionExceptionEvent;
+import org.terasology.combatSystem.physics.events.AddCollisionExceptionEvent;
+import org.terasology.combatSystem.physics.events.RemoveCollisionExceptionEvent;
+import org.terasology.combatSystem.physics.events.ReplaceCollisionExceptionEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.physics.events.CollideEvent;
+import org.terasology.sensors.EntitySensedEvent;
+
+import com.google.common.collect.Lists;
 
 @RegisterSystem
 public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
@@ -21,6 +25,21 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
         EntityRef otherEntity = event.getOtherEntity();
         
         if(checkCollisionWithAllExceptions(otherEntity.getId(), entity)){
+            event.consume();
+        }
+        else if(checkCollisionWithAllExceptions(entity.getId(), otherEntity)){
+            event.consume();
+        }
+    }
+    
+    @ReceiveEvent(components = CollisionExceptionsComponent.class, priority = EventPriority.PRIORITY_CRITICAL)
+    public void avoidSensingExceptions(EntitySensedEvent event, EntityRef entity){
+        EntityRef otherEntity = event.getEntity();
+        
+        if(checkCollisionWithAllExceptions(otherEntity.getId(), entity)){
+            event.consume();
+        }
+        else if(checkCollisionWithAllExceptions(entity.getId(), otherEntity)){
             event.consume();
         }
     }
@@ -35,9 +54,7 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
         List<EntityRef> exceptionsList = event.getCollisionExceptionsList();
         
         if(exceptionsList != null){
-            Iterator<EntityRef> entities = exceptionsList.iterator();
-            while(entities.hasNext()){
-                EntityRef exceptionEntity = entities.next();
+            for(EntityRef exceptionEntity : exceptionsList){
                 if(exceptionEntity != null){
                     if(!exceptions.exceptions.contains(exceptionEntity)){
                         exceptions.exceptions.add(exceptionEntity);
@@ -59,9 +76,7 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
         List<EntityRef> exceptionsList = event.getCollisionExceptionsList();
         
         if(exceptionsList != null){
-            Iterator<EntityRef> entities = exceptionsList.iterator();
-            while(entities.hasNext()){
-                EntityRef exceptionEntity = entities.next();
+            for(EntityRef exceptionEntity : exceptionsList){
                 if(exceptionEntity != null){
                     if(exceptions.exceptions.contains(exceptionEntity)){
                         exceptions.exceptions.remove(exceptionEntity);
@@ -69,6 +84,25 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
                 }
             }
         }
+
+        entity.addOrSaveComponent(exceptions);
+    }
+    
+    @ReceiveEvent
+    public void replaceException(ReplaceCollisionExceptionEvent event, EntityRef entity){
+        CollisionExceptionsComponent exceptions = entity.getComponent(CollisionExceptionsComponent.class);
+        if(exceptions == null){
+            exceptions = new CollisionExceptionsComponent();
+        }
+        
+        List<EntityRef> exceptionsList = event.getCollisionExceptionsList();
+        
+        if(exceptionsList == null){
+            exceptionsList = Lists.<EntityRef>newArrayList();
+        }
+        
+        exceptions.exceptions.clear();
+        exceptions.exceptions.addAll(exceptionsList);
 
         entity.addOrSaveComponent(exceptions);
     }

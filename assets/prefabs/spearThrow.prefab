@@ -3,6 +3,10 @@
 	"Hurting" : {
 		"amount" : 3
 	},
+	"Mesh" : {
+        "mesh" : "CombatSystem:spear",
+        "material" : "CombatSystem:arrow"
+    },
 	"Stick" : {
 		
 	},
@@ -12,4 +16,3 @@
 		"regenRate" : 0
 	}
 }
-

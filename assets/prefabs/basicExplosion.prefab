@@ -1,14 +1,16 @@
 {
     "parent" : "core:smokeExplosion",
 	"Hurting" : {
-		"amount":2,
+		"amount":10,
 		"damageTypes":"engine:explosiveDamage"
 	},
 	"Explosion" : {
 		
 	},
-	"Network" : {
-		"replicateMode" : "RELEVANT"
+	"Health" : {
+		"maxHealth" : 1,
+		"currentHealth" : 1,
+		"regenRate" : 0
 	}
 }
 

@@ -1,17 +1,17 @@
 package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
+import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.physics.components.MassComponent;
+import org.terasology.combatSystem.physics.events.ReplaceCollisionExceptionEvent;
 import org.terasology.combatSystem.weaponFeatures.components.BounceComponent;
-import org.terasology.combatSystem.weaponFeatures.components.HurtingComponent;
 import org.terasology.combatSystem.weaponFeatures.components.StickComponent;
-import org.terasology.combatSystem.weaponFeatures.events.AddCollisionExceptionEvent;
 import org.terasology.combatSystem.weaponFeatures.events.BounceEvent;
-import org.terasology.combatSystem.weaponFeatures.events.HurtEvent;
 import org.terasology.combatSystem.weaponFeatures.events.StickEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.logic.health.DestroyEvent;
 import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.geom.Vector3f;
@@ -43,46 +43,49 @@ public class BouncingHandlingSystem extends BaseComponentSystem{
             return;
         }
         
-        if(checkPeircing(normal, mass.velocity, bounce.maxPierceAngle, bounce.minVelocity)){
+        // check peircing
+        if(checkPiercing(normal, mass.velocity, bounce.maxPierceAngle, bounce.minPierceVelocity)){
             entity.addOrSaveComponent(new StickComponent());
+            entity.removeComponent(BounceComponent.class);
             entity.send(new StickEvent(target));
             return;
         }
         
-        Vector3f bounceDir = new Vector3f(normal);
-        bounceDir.normalize();
-        bounceDir.negate();
-        bounceDir.scale(2*bounceDir.dot(mass.velocity));
-        bounceDir.negate();
-        bounceDir.scale(bounce.bounceFactor);
-        
-        mass.velocity.add(bounceDir);
-        entity.saveComponent(mass);
-        
-        entity.send(new AddCollisionExceptionEvent(target));
+        // check if the velocity is not enough for another bounce. Destroy if true else 
+        // bounce the arrow.
+        if(mass.velocity.lengthSquared() <= (bounce.minBounceVelocity*bounce.minBounceVelocity)){
+            entity.send(new DestroyEvent(EntityRef.NULL, EntityRef.NULL, EngineDamageTypes.DIRECT.get()));
+        }
+        else{
+            Vector3f bounceDir = new Vector3f(normal);
+            bounceDir.normalize();
+            bounceDir.negate();
+            bounceDir.scale(2*bounceDir.dot(mass.velocity));
+            bounceDir.sub(mass.velocity);
+            bounceDir.scale(bounce.bounceFactor);
+            bounceDir.negate();
+            
+            mass.velocity.set(bounceDir);
+            entity.saveComponent(mass);
+            
+            entity.send(new ReplaceCollisionExceptionEvent(target));
+        }
         
         //-------------------------repetitive code for every HurtingComponent-----------
         
         // damage the other entity
-        HurtingComponent hurting = entity.getComponent(HurtingComponent.class);
-        if(hurting != null){
-            hurting.amount = bounce.amount;
-            hurting.damageType = EngineDamageTypes.DIRECT.get();
-            entity.saveComponent(hurting);
-            entity.send(new HurtEvent(target));
-        }
+        entity.send(new HurtEvent(target));
     }
     
-    private boolean checkPeircing(Vector3f normal, Vector3f velocity, int maxAngle, Vector3f minVelocity){
+    private boolean checkPiercing(Vector3f normal, Vector3f velocity, int maxAngle, float minVelocity){
         Vector3f vel = new Vector3f(velocity);
-        vel.negate();
         
         int angle = (int) Math.toDegrees(vel.angle(normal));
         if(angle > 90){
-            angle -= 180;
+            angle = 180 - angle;
         }
         
-        if(angle <= maxAngle && velocity.lengthSquared() >= minVelocity.lengthSquared()){
+        if(angle <= maxAngle && velocity.lengthSquared() >= (minVelocity*minVelocity)){
             return true;
         }
         

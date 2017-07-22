@@ -8,9 +8,6 @@ public class StickComponent implements Component{
     @Replicate
     EntityRef target = EntityRef.NULL;
     
-    @Replicate
-    public int amount = 3;
-    
     public void setTarget(EntityRef entity){
         target = entity;
     }

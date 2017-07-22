@@ -1,5 +1,5 @@
 {
-    "parent": "engine:iconItem",
+    "parent": "CombatSystem:weapon",
 	"DisplayName": {
 		"name": "CrossBow"
 	},
@@ -11,7 +11,6 @@
 	"LaunchEntity": {
         "launchEntityPrefab":"CombatSystem:stickArrow"
     },
-	"Shooter": {},
-	"PrimaryAttack": {}
+	"RenderItemIconMesh": {}
 }
 

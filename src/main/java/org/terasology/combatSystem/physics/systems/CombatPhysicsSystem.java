@@ -1,37 +1,69 @@
 package org.terasology.combatSystem.physics.systems;
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.combatSystem.physics.events.CombatForceEvent;
 import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.entitySystem.entity.lifecycleEvents.BeforeDeactivateComponent;
+import org.terasology.entitySystem.entity.lifecycleEvents.OnActivatedComponent;
+import org.terasology.entitySystem.entity.lifecycleEvents.OnChangedComponent;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.logic.location.LocationComponent;
-import org.terasology.logic.location.LocationResynchEvent;
-import org.terasology.math.geom.Quat4f;
 import org.terasology.math.geom.Vector3f;
-import org.terasology.network.NetworkComponent;
-import org.terasology.network.NetworkSystem;
-import org.terasology.physics.engine.RigidBody;
-import org.terasology.physics.events.PhysicsResynchEvent;
+import org.terasology.physics.CollisionGroup;
+import org.terasology.physics.HitResult;
+import org.terasology.physics.Physics;
+import org.terasology.physics.StandardCollisionGroup;
+import org.terasology.physics.components.TriggerComponent;
+import org.terasology.physics.events.CollideEvent;
+import org.terasology.physics.shapes.BoxShapeComponent;
+import org.terasology.physics.shapes.CapsuleShapeComponent;
+import org.terasology.physics.shapes.CylinderShapeComponent;
+import org.terasology.physics.shapes.SphereShapeComponent;
 import org.terasology.registry.In;
+import com.google.common.collect.Maps;
 
 /**
  * handles various physical operations applied to an entity with {@code MassComponent}
  */
 @RegisterSystem
 public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSubscriberSystem{
+    private static final float TUNNELING_MIN_VELOCITY_SQ = 400.0f;
+    
+    private Map<EntityRef, CollisionGroup[]> entityCollidesWithGroup = Maps.newHashMap();
     
     @In
     private EntityManager entityManager;
+    @In
+    private Physics physics;
 //    @In
 //    private NetworkSystem network;
+    
+    @ReceiveEvent(components = {TriggerComponent.class})
+    public void addCollisionGroupOnMap(OnActivatedComponent event, EntityRef entity) {
+        entityCollidesWithGroup.put(entity, collisionGroupListToArray(entity));
+    }
+    
+    @ReceiveEvent(components = {TriggerComponent.class})
+    public void updateCollisionGroupOnMap(OnChangedComponent event, EntityRef entity) {
+        entityCollidesWithGroup.put(entity, collisionGroupListToArray(entity));
+    }
+    
+    @ReceiveEvent(components = {TriggerComponent.class})
+    public void removeCollisionGroupOnMap(BeforeDeactivateComponent event, EntityRef entity) {
+        entityCollidesWithGroup.remove(entity);
+    }
     
     /**
      * applies impulse to specified entity.
@@ -93,6 +125,73 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
                 body.velocity.add(body.acceleration);
                 body.acceleration.set(0, 0, 0);
                 
+                // raycasting for world collisions
+                float velocityMagSq = body.velocity.lengthSquared();
+                
+                CollisionGroup[] group = entityCollidesWithGroup.get(entity);
+                short combinedGroup = combineGroups(group);
+                if((combinedGroup & StandardCollisionGroup.WORLD.getFlag()) != 0){
+                    Vector3f direction = new Vector3f(body.velocity);
+                    float distance = ((float)Math.sqrt(velocityMagSq)) * delta;
+                    Vector3f from = calculateStartingPoint(location.getWorldPosition(), direction, entity);
+                    direction.normalize();
+                    
+                    HitResult result = physics.rayTrace(from, direction, distance, group);
+                    
+                    if(result.isHit() && result.isWorldHit()){
+                        EntityRef otherEntity = result.getEntity();
+                        Vector3f hitPoint = result.getHitPoint();
+                        Vector3f normal = result.getHitNormal();
+                        
+                        // updating position so that tip of entity is at point of contact
+                        Vector3f newPos = new Vector3f(hitPoint);
+                        from.sub(location.getWorldPosition());
+                        newPos.sub(from);
+                        location.setWorldPosition(newPos);
+                        
+                        entity.saveComponent(location);
+                        
+                        entity.send(new CollideEvent(otherEntity, hitPoint,
+                                hitPoint, 0.0f, normal));
+                        
+                        continue;
+                    }
+                }
+                
+                // raycasting to resolve tunneling in fast moving small objects
+                if(velocityMagSq >= TUNNELING_MIN_VELOCITY_SQ 
+                        && group != null){
+                    Vector3f direction = new Vector3f(body.velocity);
+                    float distance = ((float)Math.sqrt(velocityMagSq)) * delta;
+                    Vector3f from = calculateStartingPoint(location.getWorldPosition(), direction, entity);
+                    direction.normalize();
+                    
+                    HitResult result = physics.rayTrace(from, direction, distance, group);
+                    
+                    if(result.isHit()){
+                        EntityRef otherEntity = result.getEntity();
+                        Vector3f hitPoint = result.getHitPoint();
+                        Vector3f normal = result.getHitNormal();
+                        
+                        // updating position so that tip of entity is at point of contact
+                        Vector3f newPos = new Vector3f(hitPoint);
+                        from.sub(location.getWorldPosition());
+                        newPos.sub(from);
+                        location.setWorldPosition(newPos);
+                        
+                        entity.saveComponent(location);
+                        
+                        entity.send(new CollideEvent(otherEntity, hitPoint,
+                                hitPoint, 0.0f, result.getHitNormal()));
+                        
+                        if(otherEntity.hasComponent(TriggerComponent.class)){
+                            otherEntity.send(new CollideEvent(entity, hitPoint, hitPoint, 0.0f, normal));
+                        }
+                        
+                        continue;
+                    }
+                }
+                
                 // change location based on velocity
                 Vector3f velocity = new Vector3f(body.velocity);
                 velocity.mul(delta);
@@ -102,6 +201,8 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
                 
                 entity.saveComponent(body);
                 entity.saveComponent(location);
+                
+                
             }
           
         }
@@ -109,17 +210,62 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
     
     //-----------------------------private methods----------------------
     
-//    private void sendSynchMessages(){
-//        Iterable<EntityRef> entitiesWith = entityManager.getEntitiesWith(MassComponent.class, LocationComponent.class);
-//        Iterator<EntityRef> entities = entitiesWith.iterator();
-//        while(entities.hasNext()){
-//            EntityRef entity = entities.next();
-//            if (entity.hasComponent(NetworkComponent.class)) {
-//                LocationComponent location = entity.getComponent(LocationComponent.class);
-//                MassComponent mass = entity.getComponent(MassComponent.class);
-//                entity.send(new LocationResynchEvent(location.getWorldPosition(), location.getWorldRotation()));
-//            }
-//        }
-//    }
+    
+    private CollisionGroup[] collisionGroupListToArray(EntityRef entity){
+        TriggerComponent trigger = entity.getComponent(TriggerComponent.class);
+        if(trigger == null){
+            return null;
+        }
+        List<CollisionGroup> collidesWith = trigger.detectGroups;
+        
+        CollisionGroup[] group = collidesWith.toArray(new CollisionGroup[collidesWith.size()]);
+        
+        return group;
+    }
+    
+    private short combineGroups(CollisionGroup... collisionGroups){
+        if(collisionGroups == null){
+            return 0;
+        }
+        return combineGroups(Arrays.asList(collisionGroups));
+    }
+    
+    private short combineGroups(List<CollisionGroup> collisionGroup){
+        short flag = 0;
+        if(collisionGroup == null){
+            return flag;
+        }
+        for(CollisionGroup group : collisionGroup){
+            flag |= group.getFlag();
+        }
+        return flag;
+    }
+    
+    //right now it only works for entities whose +ve z-axis always faces the direction of movement
+    private Vector3f calculateStartingPoint(Vector3f origin, Vector3f direction, EntityRef entity){
+        direction.normalize();
+        BoxShapeComponent box = entity.getComponent(BoxShapeComponent.class);
+        if (box != null) {
+            direction.scale(box.extents.z/2.0f);
+            origin.add(direction);
+        }
+        SphereShapeComponent sphere = entity.getComponent(SphereShapeComponent.class);
+        if (sphere != null) {
+            direction.scale(sphere.radius);
+            origin.add(direction);
+        }
+        CapsuleShapeComponent capsule = entity.getComponent(CapsuleShapeComponent.class);
+        if (capsule != null) {
+            direction.scale((capsule.radius + (capsule.height/2.0f)));
+            origin.add(direction);
+        }
+        CylinderShapeComponent cylinder = entity.getComponent(CylinderShapeComponent.class);
+        if (cylinder != null) {
+            direction.scale(cylinder.height/2.0f);
+            origin.add(direction);
+        }
+        
+        return origin;
+    }
 
 }
