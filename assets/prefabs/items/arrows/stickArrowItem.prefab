@@ -4,7 +4,7 @@
 		"name": "Stick Arrow"
 	},
 	"Item": {
-		"icon" : "CombatSystem:spear",
+		"icon" : "CombatSystem:arrowIcon",
 		"usage": "IN_DIRECTION",
 		"stackId": "CombatSystem:stickArrowItem",
 		"cooldownTime": 0

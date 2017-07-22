@@ -4,7 +4,7 @@
 		"name": "Bounce Arrow"
 	},
 	"Item": {
-		"icon" : "CombatSystem:spear",
+		"icon" : "CombatSystem:arrowIcon",
 		"usage": "IN_DIRECTION",
 		"stackId": "CombatSystem:bounceArrowItem",
 		"cooldownTime": 0

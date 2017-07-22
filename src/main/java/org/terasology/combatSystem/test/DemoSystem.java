@@ -31,20 +31,22 @@ public class DemoSystem extends BaseComponentSystem{
         
         bow.send(new GiveItemEvent(player));
         
-        // 1. Stick Arrow
-        EntityRef stickArrow = entityManager.create("CombatSystem:stickArrowItem");
-        
-        stickArrow.send(new GiveItemEvent(player));
-        
-        // 2. Bounce Arrow
-        EntityRef bounceArrow = entityManager.create("CombatSystem:bounceArrowItem");
-        
-        bounceArrow.send(new GiveItemEvent(player));
-        
-        // 3. Explode Arrow
-        EntityRef explodeArrow = entityManager.create("CombatSystem:explodeArrowItem");
-        
-        explodeArrow.send(new GiveItemEvent(player));
+        for(int i=0; i<16; i++){
+         // 1. Stick Arrow
+            EntityRef stickArrow = entityManager.create("CombatSystem:stickArrowItem");
+            
+            stickArrow.send(new GiveItemEvent(player));
+            
+            // 2. Bounce Arrow
+            EntityRef bounceArrow = entityManager.create("CombatSystem:bounceArrowItem");
+            
+            bounceArrow.send(new GiveItemEvent(player));
+            
+            // 3. Explode Arrow
+            EntityRef explodeArrow = entityManager.create("CombatSystem:explodeArrowItem");
+            
+            explodeArrow.send(new GiveItemEvent(player));
+        }
         
         // 4. Sword
         EntityRef sword = entityManager.create("CombatSystem:sword");
