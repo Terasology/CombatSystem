@@ -8,6 +8,7 @@ import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
 import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
 import org.terasology.combatSystem.weaponFeatures.events.LaunchEntityEvent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
+import org.terasology.combatSystem.weaponFeatures.events.ReduceAmmoEvent;
 import org.terasology.engine.Time;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -158,6 +159,7 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 impulse.mul(launchEntity.impulse);
                 
                 entityToLaunch.send(new CombatImpulseEvent(impulse));
+                entity.send(new ReduceAmmoEvent());
             }
             else{
                 // dispatch no ammo event

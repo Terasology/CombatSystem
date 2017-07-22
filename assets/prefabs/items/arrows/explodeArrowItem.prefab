@@ -7,8 +7,7 @@
 		"icon" : "CombatSystem:spear",
 		"usage": "IN_DIRECTION",
 		"stackId": "CombatSystem:explodeArrowItem",
-		"cooldownTime": 0,
-		"consumedOnUse" : true
+		"cooldownTime": 0
 	},
 	"WorldAvatar": {
         "worldAvatarPrefab":"CombatSystem:explodeArrow"
