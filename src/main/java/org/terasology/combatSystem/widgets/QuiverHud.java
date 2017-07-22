@@ -24,5 +24,10 @@ public class QuiverHud extends CoreHudWidget{
             cell.setTargetInventory(item);
         }
     }
+    
+    @Override
+    public void onOpened(){
+        initialise();
+    }
 
 }

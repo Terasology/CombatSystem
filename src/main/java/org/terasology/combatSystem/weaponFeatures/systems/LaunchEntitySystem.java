@@ -93,7 +93,8 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
         }
         
         // if no owner of "entity" is present than "entity" becomes "player". e.g. world generated 
-        // launcher that shot the projectile.
+        // launchers or player implemented traps that don't have ItemComponent that shot the 
+        // projectile.
         
         if(player == EntityRef.NULL || player == null){
             player = entity;

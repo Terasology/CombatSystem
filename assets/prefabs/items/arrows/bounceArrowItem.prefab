@@ -1,0 +1,16 @@
+{
+    "parent": "engine:itemBase",
+	"DisplayName": {
+		"name": "Bounce Arrow"
+	},
+	"Item": {
+		"icon" : "CombatSystem:spear",
+		"usage": "IN_DIRECTION",
+		"stackId": "CombatSystem:bounceArrowItem",
+		"cooldownTime": 0,
+		"consumedOnUse" : true
+	},
+	"WorldAvatar": {
+        "worldAvatarPrefab":"CombatSystem:bounceArrow"
+    }
+}

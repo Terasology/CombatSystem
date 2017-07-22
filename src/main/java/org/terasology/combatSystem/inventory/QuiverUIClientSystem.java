@@ -31,7 +31,9 @@ public class QuiverUIClientSystem extends BaseComponentSystem{
         EntityRef item = heldItem.selectedItem;
         
         if(item == null || item == EntityRef.NULL || !item.exists()){
-            return;
+            Optional<? extends UIElement> data = assetManager.getAsset("quiverHud", UIElement.class);
+            
+            nuiManager.getHUD().removeHUDElement(data.get().getUrn());
         }
         
         if(item.hasComponent(InventoryComponent.class) && item.hasComponent(LaunchEntityComponent.class)){

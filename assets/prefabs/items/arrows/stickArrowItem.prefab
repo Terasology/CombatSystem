@@ -1,0 +1,16 @@
+{
+    "parent": "engine:itemBase",
+	"DisplayName": {
+		"name": "Stick Arrow"
+	},
+	"Item": {
+		"icon" : "CombatSystem:spear",
+		"usage": "IN_DIRECTION",
+		"stackId": "CombatSystem:stickArrowItem",
+		"cooldownTime": 0,
+		"consumedOnUse" : true
+	},
+	"WorldAvatar": {
+        "worldAvatarPrefab":"CombatSystem:stickArrow"
+    }
+}
