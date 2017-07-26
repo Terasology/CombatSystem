@@ -7,6 +7,9 @@ import org.terasology.entitySystem.event.Event;
 
 import com.google.common.collect.Lists;
 
+/**
+ * Used to add entities as exceptions to avoid collision with them.
+ */
 public class AddCollisionExceptionEvent implements Event{
     List<EntityRef> exceptions;
     

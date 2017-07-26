@@ -1,0 +1,25 @@
+{
+    "displayName": "combat tnt",
+	"categories" : ["trap"],
+    "hardness": 1200,
+	"tiles" : {
+		"top": "Core:TntTop",
+        "bottom": "Core:TntBottom",
+		"left": "Core:Tnt",
+		"right": "Core:Tnt",
+		"front": "Core:Tnt",
+		"back": "Core:Tnt"
+	},
+	"mass": 10,
+	"shape" : "engine:Block",
+	"attachmentAllowed": true,
+	"entity": {
+		"prefab": "CombatSystem:tnt",
+		"temporary": false,
+		"keepActive": true
+	},
+	"inventory": {
+		"stackable": true,
+		"directPickup": true
+	}
+}

@@ -1,0 +1,10 @@
+{
+	"displayName": "Brick",
+	"categories": ["rock"],
+    "hardness": 0,
+	"tiles" : {
+		"all" : "Core:Brick"
+	},
+    "mass": 100,
+    "sounds": "Core:stone"
+}

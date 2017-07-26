@@ -7,6 +7,9 @@ import org.terasology.entitySystem.event.Event;
 
 import com.google.common.collect.Lists;
 
+/**
+ * Used to remove entities that are added as exceptions to re-enable collisions with them.
+ */
 public class RemoveCollisionExceptionEvent implements Event{
     List<EntityRef> exceptions;
     

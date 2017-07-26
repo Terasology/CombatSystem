@@ -1,0 +1,14 @@
+{
+	"displayName": "Locked Door",
+	"categories": ["door"],
+    "hardness": 1200,
+	"tiles" : {
+		"all" : "Core:CobbleStone"
+	},
+    "mass": 100,
+	"entity": {
+		"temporary": false,
+		"keepActive": true
+	},
+    "sounds": "Core:stone"
+}

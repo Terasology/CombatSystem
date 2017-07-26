@@ -88,7 +88,15 @@ public class StickingHandlingSystem extends BaseComponentSystem implements Updat
     @Override
     public void update(float delta) {
         for(EntityRef arrow : stuckArrows){
+            if(arrow == null || arrow == EntityRef.NULL || !arrow.exists()){
+                destroyList.add(arrow);
+                continue;
+            }
             StickComponent stick = arrow.getComponent(StickComponent.class);
+            if(stick == null){
+                destroyList.add(arrow);
+                continue;
+            }
             float currentGameTime = time.getGameTime();
             if(currentGameTime >= stick.stickTime + stick.totalStickingTime){
                 destroyList.add(arrow);

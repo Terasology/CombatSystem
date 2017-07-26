@@ -16,6 +16,9 @@ import org.terasology.registry.In;
 import org.terasology.rendering.nui.NUIManager;
 import org.terasology.rendering.nui.asset.UIElement;
 
+/**
+ * This system runs only on client and handles the removal or addition of quiver inventory slot on screen.
+ */
 @RegisterSystem(RegisterMode.CLIENT)
 public class QuiverUIClientSystem extends BaseComponentSystem{
     
