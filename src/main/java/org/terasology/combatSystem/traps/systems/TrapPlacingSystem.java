@@ -6,7 +6,6 @@ import org.terasology.combatSystem.weaponFeatures.OwnerSpecific;
 import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.entity.lifecycleEvents.OnActivatedComponent;
-import org.terasology.entitySystem.entity.lifecycleEvents.OnAddedComponent;
 import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;

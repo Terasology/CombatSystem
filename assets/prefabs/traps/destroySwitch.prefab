@@ -5,9 +5,6 @@
 	"Network" : {
 		
 	},
-	"Parent" : {
-		
-	},
 	"Health" : {
 		"maxHealth" : 1,
 		"currentHealth" : 1,

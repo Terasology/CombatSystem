@@ -13,6 +13,9 @@
 	},
 	"Explode" : {
 		"explosionPrefab":"CombatSystem:basicExplosion"
+	},
+	"ForceBlockActive" : {
+		
 	}
 }
 

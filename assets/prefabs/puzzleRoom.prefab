@@ -115,5 +115,12 @@
             { "blockType": "engine:air", "region": { "min": [0, 1, 25], "size": [2, 2, 1]}},
             { "blockType": "engine:air", "region": { "min": [6, 1, 25], "size": [2, 2, 1]}}
         ]
-    }
+    },
+	"AddSwitchDoors" : {
+		"doorsToSpawn" : [
+			{ "switchPos" : [2, 2, 1], "doorsPos" : [[2, 1, 2], [2, 2, 2]]},
+			{ "switchPos" : [-3, 2, 26], "doorsPos" : [[-1, 1, 21], [-1, 2, 21]]},
+			{ "switchPos" : [6, 1, 17], "doorsPos" : [[6, 1, 19], [6, 2, 19]]}
+		]
+	}
 }

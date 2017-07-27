@@ -15,21 +15,33 @@ import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.health.DestroyEvent;
 import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.location.LocationComponent;
+import org.terasology.math.geom.Vector3i;
 import org.terasology.physics.events.CollideEvent;
 import org.terasology.registry.In;
+import org.terasology.world.BlockEntityRegistry;
+import org.terasology.world.block.BlockComponent;
 
 @RegisterSystem
 public class ExplodeHandlingSystem extends BaseComponentSystem{
     @In
     EntityManager entityManager;
+    @In
+    BlockEntityRegistry registry;
     
     @ReceiveEvent(components = ExplodeComponent.class)
     public void explodeOnContact(CollideEvent event, EntityRef entity){
+        EntityRef target = event.getOtherEntity();
         
         // damage the other entity
-        entity.send(new HurtEvent(event.getOtherEntity()));
+        entity.send(new HurtEvent(target));
         
-        explode(entity);
+        entity.send(new ExplodeEvent());
+        
+        if(target != null && target != EntityRef.NULL && target.exists()){
+            if(target.hasComponent(ExplodeComponent.class)){
+                target.send(new ExplodeEvent());
+            }
+        }
         
         event.consume();
     }
@@ -65,6 +77,28 @@ public class ExplodeHandlingSystem extends BaseComponentSystem{
             }
         }
         entity.removeComponent(ExplodeComponent.class);
+        
+        if(entity.hasComponent(BlockComponent.class)){
+            BlockComponent block = entity.getComponent(BlockComponent.class);
+            Vector3i blockPos = block.getPosition();
+            Vector3i offset = new Vector3i();
+            for(int x=-1; x<2; x++){
+                for(int y=-1; y<2; y++){
+                    for(int z=-1; z<2; z++){
+                        if(x == 0 && y == 0 && z == 0){
+                            continue;
+                        }
+                        offset.set(x, y, z);
+                        offset.add(blockPos);
+                        
+                        EntityRef adjacentBlock = registry.getBlockEntityAt(offset);
+                        if(adjacentBlock.hasComponent(ExplodeComponent.class)){
+                            adjacentBlock.send(new ExplodeEvent());
+                        }
+                    }
+                }
+            }
+        }
         
         entity.send(new DestroyEvent(EntityRef.NULL, EntityRef.NULL, EngineDamageTypes.EXPLOSIVE.get()));
         
