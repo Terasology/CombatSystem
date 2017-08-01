@@ -1,10 +1,10 @@
 package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
 import org.terasology.combatSystem.OwnerCollisionState;
+import org.terasology.combatSystem.physics.events.AddCollisionExceptionEvent;
+import org.terasology.combatSystem.physics.events.RemoveCollisionExceptionEvent;
 import org.terasology.combatSystem.weaponFeatures.OwnerSpecific;
 import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
-import org.terasology.combatSystem.weaponFeatures.events.AddCollisionExceptionEvent;
-import org.terasology.combatSystem.weaponFeatures.events.RemoveCollisionExceptionEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.entity.lifecycleEvents.OnActivatedComponent;
 import org.terasology.entitySystem.entity.lifecycleEvents.OnChangedComponent;

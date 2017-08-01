@@ -1,16 +1,13 @@
 package org.terasology.combatSystem.weaponFeatures.systems;
 
-import java.util.Random;
-
+import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.weaponFeatures.components.MeleeComponent;
-import org.terasology.combatSystem.weaponFeatures.events.HurtEvent;
 import org.terasology.combatSystem.weaponFeatures.events.MeleeEvent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.math.geom.Vector3f;
 
 @RegisterSystem
@@ -41,9 +38,7 @@ public class MeleeAttackSystem extends BaseComponentSystem{
         
         if(distanceSq <= (melee.range*melee.range)){
             // damage the other entity
-            Random rand = new Random();
-            int amount = rand.nextInt(melee.maxDamage - melee.minDamage + 1) + melee.minDamage;
-            entity.send(new HurtEvent(target, amount, EngineDamageTypes.DIRECT.get()));
+            entity.send(new HurtEvent(target));
         }
     }
 

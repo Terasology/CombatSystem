@@ -2,26 +2,25 @@ package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
 import java.util.List;
 
+import org.terasology.combatSystem.hurting.HurtEvent;
+import org.terasology.combatSystem.hurting.HurtingComponent;
 import org.terasology.combatSystem.weaponFeatures.components.ExplosionComponent;
 import org.terasology.combatSystem.weaponFeatures.events.ExplosionEvent;
-import org.terasology.combatSystem.weaponFeatures.events.HurtEvent;
 import org.terasology.engine.Time;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.logic.health.DestroyEvent;
-import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.health.HealthComponent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.AABB;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.Physics;
 import org.terasology.registry.In;
-
-import com.google.common.collect.Lists;
 
 @RegisterSystem
 public class ExplosionHandlingSystem extends BaseComponentSystem implements UpdateSubscriberSystem{
@@ -52,7 +51,7 @@ public class ExplosionHandlingSystem extends BaseComponentSystem implements Upda
         doExplosion(entity);
     }
     
-    @ReceiveEvent(components = ExplosionComponent.class)
+    @ReceiveEvent(components = ExplosionComponent.class, priority = EventPriority.PRIORITY_HIGH)
     public void explosionOnDestroy(DestroyEvent event, EntityRef entity){
         ExplosionComponent explosion = entity.getComponent(ExplosionComponent.class);
         if(explosion.explosionStarted){
@@ -72,7 +71,6 @@ public class ExplosionHandlingSystem extends BaseComponentSystem implements Upda
     public void update(float delta) {
         // TODO Auto-generated method stub
         Iterable<EntityRef> entityList = entityManager.getEntitiesWith(ExplosionComponent.class);
-        List<EntityRef> entityToDestroy = Lists.<EntityRef>newArrayList();
         for(EntityRef entity : entityList){
             ExplosionComponent explosion = entity.getComponent(ExplosionComponent.class);
             if(explosion.explosionStartTime < 0.0f){
@@ -127,8 +125,13 @@ public class ExplosionHandlingSystem extends BaseComponentSystem implements Upda
             }
             
             if(distanceSq <= radiusSquared){
-                int amount = (int)(explosion.amount * explosionFactor);
-                entity.send(new HurtEvent(otherEntity, amount, EngineDamageTypes.EXPLOSIVE.get()));
+                HurtingComponent hurting = entity.getComponent(HurtingComponent.class);
+                if(hurting == null){
+                    return;
+                }
+                hurting.amount = (int) (hurting.amount*explosionFactor);
+                entity.saveComponent(hurting);
+                entity.send(new HurtEvent(otherEntity));
             }
         }
     }

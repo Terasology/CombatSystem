@@ -9,7 +9,15 @@
 		{
             "id" : "Core",
             "minVersion" : "1.0.0"
-        }
+        },
+        {
+            "id" : "StructureTemplates",
+            "minVersion" : "0.2.0"
+        },
+		{
+			"id" : "Sensors",
+			"minVersion" : "0.1.0"
+		}
 	],
     "serverSideOnly" : false,
     "isGameplay" : "true",

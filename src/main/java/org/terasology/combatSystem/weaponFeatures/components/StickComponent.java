@@ -9,7 +9,13 @@ public class StickComponent implements Component{
     EntityRef target = EntityRef.NULL;
     
     @Replicate
-    public int amount = 3;
+    public float stickTime = -1;
+    
+    @Replicate
+    public float totalStickingTime = -1;
+    
+    @Replicate
+    public float pierceAmount = 1.0f;
     
     public void setTarget(EntityRef entity){
         target = entity;

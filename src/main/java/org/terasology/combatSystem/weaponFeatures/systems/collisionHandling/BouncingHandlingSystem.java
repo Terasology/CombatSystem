@@ -1,16 +1,17 @@
 package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
+import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.physics.components.MassComponent;
+import org.terasology.combatSystem.physics.events.ReplaceCollisionExceptionEvent;
 import org.terasology.combatSystem.weaponFeatures.components.BounceComponent;
 import org.terasology.combatSystem.weaponFeatures.components.StickComponent;
 import org.terasology.combatSystem.weaponFeatures.events.BounceEvent;
-import org.terasology.combatSystem.weaponFeatures.events.HurtEvent;
-import org.terasology.combatSystem.weaponFeatures.events.ReplaceCollisionExceptionEvent;
 import org.terasology.combatSystem.weaponFeatures.events.StickEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.logic.health.DestroyEvent;
 import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.geom.Vector3f;
@@ -53,14 +54,16 @@ public class BouncingHandlingSystem extends BaseComponentSystem{
         // check if the velocity is not enough for another bounce. Destroy if true else 
         // bounce the arrow.
         if(mass.velocity.lengthSquared() <= (bounce.minBounceVelocity*bounce.minBounceVelocity)){
-            entity.destroy();
+            entity.send(new DestroyEvent(EntityRef.NULL, EntityRef.NULL, EngineDamageTypes.DIRECT.get()));
         }
         else{
             Vector3f bounceDir = new Vector3f(normal);
             bounceDir.normalize();
+            bounceDir.negate();
             bounceDir.scale(2*bounceDir.dot(mass.velocity));
             bounceDir.sub(mass.velocity);
             bounceDir.scale(bounce.bounceFactor);
+            bounceDir.negate();
             
             mass.velocity.set(bounceDir);
             entity.saveComponent(mass);
@@ -71,7 +74,7 @@ public class BouncingHandlingSystem extends BaseComponentSystem{
         //-------------------------repetitive code for every HurtingComponent-----------
         
         // damage the other entity
-        entity.send(new HurtEvent(target, bounce.amount, EngineDamageTypes.DIRECT.get()));
+        entity.send(new HurtEvent(target));
     }
     
     private boolean checkPiercing(Vector3f normal, Vector3f velocity, int maxAngle, float minVelocity){

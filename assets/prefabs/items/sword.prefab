@@ -1,0 +1,25 @@
+{
+    "parent": "CombatSystem:weapon",
+	"DisplayName": {
+		"name": "Sword"
+	},
+	"Item": {
+		"icon": "CombatSystem:sword",
+		"usage": "ON_ENTITY",
+		"cooldownTime": 300
+	},
+	"CritDamage" : {
+		"critChance" : 10,
+		"critFactor" : 2
+	},
+	"Melee": {
+		"primaryAttack" : true,
+		"range" : 2
+	},
+	"RandomDamage": {
+		"minDamage" : 2,
+		"maxDamage" : 4
+	},
+	"RenderItemIconMesh": {}
+}
+

@@ -15,8 +15,5 @@ public class BounceComponent implements Component{
     
     @Replicate
     public float minBounceVelocity = 3.0f;
-    
-    @Replicate
-    public int amount = 3;
 
 }

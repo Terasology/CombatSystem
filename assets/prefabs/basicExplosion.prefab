@@ -1,11 +1,11 @@
 {
     "parent" : "core:smokeExplosion",
 	"Hurting" : {
-		"amount":2,
+		"amount":10,
 		"damageTypes":"engine:explosiveDamage"
 	},
 	"Explosion" : {
-		"amount" : 10
+		
 	},
 	"Health" : {
 		"maxHealth" : 1,

@@ -1,0 +1,25 @@
+{
+    "parent": "CombatSystem:weapon",
+	"DisplayName": {
+		"name": "War Axe"
+	},
+	"Item": {
+		"icon": "CombatSystem:waraxe",
+		"usage": "ON_ENTITY",
+		"cooldownTime": 800
+	},
+	"CritDamage" : {
+		"critChance" : 5,
+		"critFactor" : 2
+	},
+	"Melee": {
+		"primaryAttack" : true,
+		"range" : 2
+	},
+	"RandomDamage": {
+		"minDamage" : 4,
+		"maxDamage" : 6
+	},
+	"RenderItemIconMesh": {}
+}
+

@@ -1,6 +1,7 @@
 package org.terasology.combatSystem.physics.components;
 
 import org.terasology.entitySystem.Component;
+import org.terasology.network.Replicate;
 
 /**
  * Adds <b>friction</b>.
@@ -10,5 +11,10 @@ import org.terasology.entitySystem.Component;
  * TODO implement this component and its code.
  */
 public class FrictionComponent implements Component{
+    @Replicate
+    float friction = 20.0f;
+    
+    @Replicate
+    float velocity = 20.0f;
 
 }

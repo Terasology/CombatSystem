@@ -1,0 +1,15 @@
+{
+    "parent": "engine:itemBase",
+	"DisplayName": {
+		"name": "Bounce Arrow"
+	},
+	"Item": {
+		"icon" : "CombatSystem:arrowIcon",
+		"usage": "IN_DIRECTION",
+		"stackId": "CombatSystem:bounceArrowItem",
+		"cooldownTime": 0
+	},
+	"WorldAvatar": {
+        "worldAvatarPrefab":"CombatSystem:bounceArrow"
+    }
+}
