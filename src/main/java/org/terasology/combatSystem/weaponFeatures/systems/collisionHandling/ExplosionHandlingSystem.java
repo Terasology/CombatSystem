@@ -15,15 +15,12 @@ import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.logic.health.DestroyEvent;
-import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.health.HealthComponent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.AABB;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.Physics;
 import org.terasology.registry.In;
-
-import com.google.common.collect.Lists;
 
 @RegisterSystem
 public class ExplosionHandlingSystem extends BaseComponentSystem implements UpdateSubscriberSystem{
@@ -74,7 +71,6 @@ public class ExplosionHandlingSystem extends BaseComponentSystem implements Upda
     public void update(float delta) {
         // TODO Auto-generated method stub
         Iterable<EntityRef> entityList = entityManager.getEntitiesWith(ExplosionComponent.class);
-        List<EntityRef> entityToDestroy = Lists.<EntityRef>newArrayList();
         for(EntityRef entity : entityList){
             ExplosionComponent explosion = entity.getComponent(ExplosionComponent.class);
             if(explosion.explosionStartTime < 0.0f){

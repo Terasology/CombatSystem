@@ -8,6 +8,7 @@ import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
 import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
 import org.terasology.combatSystem.weaponFeatures.events.LaunchEntityEvent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
+import org.terasology.combatSystem.weaponFeatures.events.ReduceAmmoEvent;
 import org.terasology.engine.Time;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -15,6 +16,7 @@ import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
+import org.terasology.logic.characters.GazeMountPointComponent;
 import org.terasology.logic.inventory.ItemComponent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.Direction;
@@ -93,7 +95,8 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
         }
         
         // if no owner of "entity" is present than "entity" becomes "player". e.g. world generated 
-        // launcher that shot the projectile.
+        // launchers or player implemented traps that don't have ItemComponent that shot the 
+        // projectile.
         
         if(player == EntityRef.NULL || player == null){
             player = entity;
@@ -135,8 +138,9 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 location.setWorldScale(0.5f);
                 
                 // sets the location of entity to current player's location with an offset
-                if(entity.hasComponent(ItemComponent.class)){
-                    location.setWorldPosition(shooterLoc.getWorldPosition().addY(0.5f).add(finalDir.scale(0.5f)));
+                GazeMountPointComponent gaze = player.getComponent(GazeMountPointComponent.class);
+                if(gaze != null){
+                    location.setWorldPosition(shooterLoc.getWorldPosition().add(gaze.translate).add(finalDir.scale(0.3f)));
                 }
                 else{
                     location.setWorldPosition(shooterLoc.getWorldPosition());
@@ -157,6 +161,7 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 impulse.mul(launchEntity.impulse);
                 
                 entityToLaunch.send(new CombatImpulseEvent(impulse));
+                entity.send(new ReduceAmmoEvent());
             }
             else{
                 // dispatch no ammo event

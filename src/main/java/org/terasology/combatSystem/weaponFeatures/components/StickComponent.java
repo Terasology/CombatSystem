@@ -8,6 +8,15 @@ public class StickComponent implements Component{
     @Replicate
     EntityRef target = EntityRef.NULL;
     
+    @Replicate
+    public float stickTime = -1;
+    
+    @Replicate
+    public float totalStickingTime = -1;
+    
+    @Replicate
+    public float pierceAmount = 1.0f;
+    
     public void setTarget(EntityRef entity){
         target = entity;
     }

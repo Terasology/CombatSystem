@@ -8,7 +8,7 @@
         "material" : "CombatSystem:arrow"
     },
 	"Stick" : {
-		
+		"totalStickingTime" : 10
 	},
 	"Health" : {
 		"maxHealth" : 1,
