@@ -105,7 +105,9 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
     }
     
     /**
-     * changes velocity and location of an entity based on delta.
+     * changes velocity and location of an entity based on delta as well as checks for world 
+     * collisions. This method is also responsible for raycasting to prevent tunneling for 
+     * small fast objects.
      */
     @Override
     public void update(float delta){
@@ -208,7 +210,11 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
     
     //-----------------------------private methods----------------------
     
-    
+    /**
+     * converts {@link List} data structure of type {@link CollisionGroup} into array
+     * @param entity
+     * @return group Array with all elements of CollisionGroup List.
+     */
     private CollisionGroup[] collisionGroupListToArray(EntityRef entity){
         TriggerComponent trigger = entity.getComponent(TriggerComponent.class);
         if(trigger == null){
@@ -228,6 +234,12 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
         return combineGroups(Arrays.asList(collisionGroups));
     }
     
+    /**
+     * combines the {@code CollisionGroup} in filter mask through & bit operation and returns 
+     * the value
+     * @param collisionGroup
+     * @return flag
+     */
     private short combineGroups(List<CollisionGroup> collisionGroup){
         short flag = 0;
         if(collisionGroup == null){
@@ -239,7 +251,15 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
         return flag;
     }
     
-    //right now it only works for entities whose +ve z-axis always faces the direction of movement
+    /**
+     * calculates the tip of collision shape in its direction of motion.
+     * Right now it only works for entities whose +ve z-axis always faces the direction of 
+     * movement.
+     * @param origin the location of entity
+     * @param direction the direction of motion of entity
+     * @param entity the entity whose tip point is to be calculated
+     * @return
+     */
     private Vector3f calculateStartingPoint(Vector3f origin, Vector3f direction, EntityRef entity){
         direction.normalize();
         BoxShapeComponent box = entity.getComponent(BoxShapeComponent.class);

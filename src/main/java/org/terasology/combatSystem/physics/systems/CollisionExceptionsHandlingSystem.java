@@ -17,9 +17,17 @@ import org.terasology.sensors.EntitySensedEvent;
 
 import com.google.common.collect.Lists;
 
+/**
+ * handles the addition or removal of collision exceptions as well as takes care of collisions
+ * with exceptions.
+ */
 @RegisterSystem
 public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
-    
+    /**
+     * this handles the consuming of {@code CollideEvent} in case the entity collided with an exception.
+     * @param event
+     * @param entity
+     */
     @ReceiveEvent(components = CollisionExceptionsComponent.class, priority = EventPriority.PRIORITY_CRITICAL)
     public void avoidCollisionWithExceptions(CollideEvent event, EntityRef entity){
         EntityRef otherEntity = event.getOtherEntity();
@@ -32,6 +40,11 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
         }
     }
     
+    /**
+     * this handles consuming of {@code EntitySensedEvent} if the entity sensed is an exception.
+     * @param event
+     * @param entity
+     */
     @ReceiveEvent(components = CollisionExceptionsComponent.class, priority = EventPriority.PRIORITY_CRITICAL)
     public void avoidSensingExceptions(EntitySensedEvent event, EntityRef entity){
         EntityRef otherEntity = event.getEntity();
@@ -44,6 +57,11 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
         }
     }
     
+    /**
+     * handles the addition of an entity as collision exception for given entity.
+     * @param event
+     * @param entity
+     */
     @ReceiveEvent
     public void addException(AddCollisionExceptionEvent event, EntityRef entity){
         CollisionExceptionsComponent exceptions = entity.getComponent(CollisionExceptionsComponent.class);
@@ -66,6 +84,11 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
         entity.addOrSaveComponent(exceptions);
     }
     
+    /**
+     * handles removal of an entity as collision exception of given entity.
+     * @param event
+     * @param entity
+     */
     @ReceiveEvent
     public void removeException(RemoveCollisionExceptionEvent event, EntityRef entity){
         CollisionExceptionsComponent exceptions = entity.getComponent(CollisionExceptionsComponent.class);
@@ -88,6 +111,11 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
         entity.addOrSaveComponent(exceptions);
     }
     
+    /**
+     * handles replacing of current collision exceptions with the new ones for a given entity.
+     * @param event
+     * @param entity
+     */
     @ReceiveEvent
     public void replaceException(ReplaceCollisionExceptionEvent event, EntityRef entity){
         CollisionExceptionsComponent exceptions = entity.getComponent(CollisionExceptionsComponent.class);
@@ -109,6 +137,12 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
     
     //-----------------------private methods-----------------------------
     
+    /**
+     * checks if the entity that was collided with is an exception or not.
+     * @param otherEntityId
+     * @param entity
+     * @return
+     */
     private boolean checkCollisionWithAllExceptions(long otherEntityId, EntityRef entity){
         CollisionExceptionsComponent exceptions = entity.getComponent(CollisionExceptionsComponent.class);
         if(exceptions == null){

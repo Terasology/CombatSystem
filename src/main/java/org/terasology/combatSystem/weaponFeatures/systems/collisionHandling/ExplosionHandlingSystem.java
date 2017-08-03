@@ -15,6 +15,7 @@ import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.logic.health.DestroyEvent;
+import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.health.HealthComponent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.AABB;
@@ -130,6 +131,7 @@ public class ExplosionHandlingSystem extends BaseComponentSystem implements Upda
                     return;
                 }
                 hurting.amount = (int) (hurting.amount*explosionFactor);
+                hurting.damageType = EngineDamageTypes.EXPLOSIVE.get();
                 entity.saveComponent(hurting);
                 entity.send(new HurtEvent(otherEntity));
             }

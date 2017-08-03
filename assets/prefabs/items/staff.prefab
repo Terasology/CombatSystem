@@ -9,7 +9,8 @@
 		"cooldownTime": 200
 	},
 	"LaunchEntity": {
-        "launchEntityPrefab":"CombatSystem:fireBall"
+        "launchEntityPrefab":"CombatSystem:fireBall",
+		"impulse" : 200
     },
 	"RenderItemIconMesh": {}
 }
