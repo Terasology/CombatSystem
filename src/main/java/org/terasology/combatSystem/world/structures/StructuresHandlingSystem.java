@@ -1,12 +1,11 @@
-package org.terasology.combatSystem.world;
+package org.terasology.combatSystem.world.structures;
 
 import java.util.Map;
 
-import org.terasology.combatSystem.traps.components.AddSwitchDoorsComponent;
-import org.terasology.combatSystem.traps.components.AddSwitchDoorsComponent.DoorsToSpawn;
+import org.terasology.combatSystem.traps.components.ActivateOnPlaceComponent;
 import org.terasology.combatSystem.traps.components.SwitchComponent;
-import org.terasology.combatSystem.weaponFeatures.components.ExplodeComponent;
-import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
+import org.terasology.combatSystem.world.structures.components.AddSwitchDoorsComponent;
+import org.terasology.combatSystem.world.structures.components.AddSwitchDoorsComponent.DoorsToSpawn;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
@@ -14,7 +13,7 @@ import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.math.Region3i;
 import org.terasology.math.geom.Vector3i;
 import org.terasology.registry.In;
-import org.terasology.sensors.volumeSensing.VolumeSensorComponent;
+import org.terasology.sensors.PhysicalSensorComponent;
 import org.terasology.structureTemplates.components.SpawnBlockRegionsComponent;
 import org.terasology.structureTemplates.components.SpawnBlockRegionsComponent.RegionToFill;
 import org.terasology.structureTemplates.events.StructureBlocksSpawnedEvent;
@@ -80,17 +79,11 @@ public class StructuresHandlingSystem extends BaseComponentSystem{
     
     private void awakenAndModifyTrap(Block block, Vector3i blockPos){
         EntityRef trapEntity = registry.getBlockEntityAt(blockPos);
-        VolumeSensorComponent component = trapEntity.getComponent(VolumeSensorComponent.class);
+        PhysicalSensorComponent component = trapEntity.getComponent(PhysicalSensorComponent.class);
         if(component == null){
             return;
         }
-        if(trapEntity.hasComponent(ExplodeComponent.class)){
-            component.range = 1.0f;
-            trapEntity.saveComponent(component);
-        }
-        if(trapEntity.hasComponent(LaunchEntityComponent.class)){
-            
-        }
+        trapEntity.addComponent(new ActivateOnPlaceComponent());
     }
 
 }

@@ -1,7 +1,7 @@
 {
     "displayName": "combat tnt",
 	"categories" : ["trap"],
-    "hardness": 1200,
+    "hardness": 0,
 	"tiles" : {
 		"top": "Core:TntTop",
         "bottom": "Core:TntBottom",

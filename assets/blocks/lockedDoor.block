@@ -1,7 +1,7 @@
 {
 	"displayName": "Locked Door",
 	"categories": ["door"],
-    "hardness": 1200,
+    "hardness": 0,
 	"tiles" : {
 		"all" : "Core:CobbleStone"
 	},

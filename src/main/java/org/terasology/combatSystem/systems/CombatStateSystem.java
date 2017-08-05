@@ -13,15 +13,23 @@ import org.terasology.entitySystem.systems.RegisterSystem;
 @RegisterSystem
 public class CombatStateSystem extends BaseComponentSystem{
     
-    // code for combat entered features comes here. Like change in music
+    /**
+     * code for combat entered features comes here. Like change in music
+     * @param event
+     * @param entity
+     */
     @ReceiveEvent()
     public void combatStateEntered(CombatEnteredEvent event, EntityRef entity){
         
     }
     
-    // code for combat left features comes here. Like change in theme or music
+    /**
+     * code for combat left features comes here. Like change in theme or music
+     * @param event
+     * @param entity
+     */
     @ReceiveEvent()
-    public void combatLefteEntered(CombatLeftEvent event, EntityRef entity){
+    public void combatStateLeft(CombatLeftEvent event, EntityRef entity){
         
     }
 

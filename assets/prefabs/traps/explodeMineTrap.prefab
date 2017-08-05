@@ -2,6 +2,12 @@
     "parent" : "CombatSystem:mineTrap",
 	"Explode" : {
 		"explosionPrefab":"CombatSystem:basicExplosion"
+	},
+	"VolumeSensor" : {
+		"range" : 2
+	},
+	"Hurting" : {
+		"amount" : 10
 	}
 }
 
