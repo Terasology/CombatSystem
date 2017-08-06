@@ -1,5 +1,5 @@
 {
-    "parent" : "CombatSystem:mineTrap",
+    "parent" : "CombatSystem:volumeTrap",
 	"LaunchEntity": {
         "launchEntityPrefab":"CombatSystem:fireBall",
 		"impulse" : 200,

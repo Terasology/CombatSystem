@@ -1,0 +1,23 @@
+{
+	"Health" : {
+		"maxHealth" : 20,
+		"currentHealth" : 20,
+		"regenRate" : 4,
+		"waitBeforeRegen" : 1,
+		"destroyEntityOnNoHealth" : true
+	},
+	"Location" : {
+		
+	},
+	"BoxShape" : {
+		"extents" : [3, 8, 3]
+	},
+	"Trigger" : {
+		"detectGroups" : ["engine:default", "engine:character"]
+	},
+    "Mesh" : {
+		"mesh" : "CombatSystem:tower",
+		"material" : "CombatSystem:tower"
+	}
+}
+

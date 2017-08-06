@@ -1,6 +1,8 @@
 package org.terasology.combatSystem.weaponFeatures.systems;
 
+import org.terasology.combatSystem.physics.components.CollisionExceptionsComponent;
 import org.terasology.combatSystem.physics.components.MassComponent;
+import org.terasology.combatSystem.physics.events.AddCollisionExceptionEvent;
 import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
 import org.terasology.combatSystem.weaponFeatures.OwnerSpecific;
 import org.terasology.combatSystem.weaponFeatures.components.ArrowComponent;
@@ -126,6 +128,14 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                     BoxShapeComponent box = new BoxShapeComponent();
                     box.extents = mesh.mesh.getAABB().getExtents().scale(2.0f);
                     entityToLaunch.addOrSaveComponent(box);
+                }
+                
+                //adds all the exceptions of entity to the launching entity as well
+                CollisionExceptionsComponent exceptions = entity.getComponent(CollisionExceptionsComponent.class);
+                if(exceptions != null){
+                    if(exceptions.exceptions.size() > 0){
+                        entityToLaunch.send(new AddCollisionExceptionEvent(exceptions.exceptions));
+                    }
                 }
                 
                 // rotates the entity to face in the direction of pointer

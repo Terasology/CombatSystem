@@ -1,0 +1,17 @@
+{
+	"Location" : {
+		
+	},
+	"Health" : {
+		
+	},
+	"Parent" : {
+		
+	},
+	"EntitiesConnector" : {
+		"childEntities" : [
+			{ "prefab" : "CombatSystem:arrowTower", "offset" : [0, 3.5, 0], "addParentAsChild" : true},
+			{ "prefab" : "CombatSystem:arrowTowerShooter", "offset" : [0, 5.5, 0]}
+		]
+	}
+}

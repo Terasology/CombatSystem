@@ -1,0 +1,18 @@
+{
+  "displayName": "Arrow Tower Root",
+  "hardness": 12,
+  "mass": 10,
+  "shape" : "engine:eighthBlock",
+  "attachmentAllowed": false,
+  "rotation": "horizontal",
+  "tiles": {
+    "all": "placement"
+  },
+  "entity": {
+    "prefab": "CombatSystem:arrowTowerRoot"
+  },
+  "inventory": {
+    "stackable": true,
+    "directPickup": true
+  }
+}

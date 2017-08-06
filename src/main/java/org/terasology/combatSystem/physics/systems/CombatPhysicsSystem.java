@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.terasology.combatSystem.physics.components.MassComponent;
+import org.terasology.combatSystem.physics.events.CombatAddAngularVelocityEvent;
 import org.terasology.combatSystem.physics.events.CombatForceEvent;
 import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
 import org.terasology.entitySystem.entity.EntityManager;
@@ -18,6 +19,7 @@ import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.logic.location.LocationComponent;
+import org.terasology.math.geom.Quat4f;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.CollisionGroup;
 import org.terasology.physics.HitResult;
@@ -103,6 +105,20 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
         
         entity.saveComponent(body);
     }
+    
+//    @ReceiveEvent(components = {MassComponent.class})
+//    public void onAddAngularVelocity(CombatAddAngularVelocityEvent event, EntityRef entity) {
+//        MassComponent body = entity.getComponent(MassComponent.class);
+//        
+//        Quat4f angularVel = event.getAngularVelocity();
+//        if(angularVel == null){
+//            return;
+//        }
+//        
+//        body.angularVelocity.mul(angularVel);
+//        
+//        entity.saveComponent(body);
+//    }
     
     /**
      * changes velocity and location of an entity based on delta as well as checks for world 
@@ -202,7 +218,18 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
                 entity.saveComponent(body);
                 entity.saveComponent(location);
                 
-                
+//                // change rotation based on angular velocity
+//                Quat4f rotVel = body.angularVelocity;
+//                float angle = rotVel.getAngle();
+//                angle = angle*delta;
+//                Quat4f newRot = new Quat4f(rotVel.getAxis(), angle);
+//                
+//                Quat4f initialRot = location.getWorldRotation();
+//                initialRot.mul(newRot);
+//                
+//                location.setWorldRotation(initialRot);
+//                
+//                entity.saveComponent(location);
             }
           
         }

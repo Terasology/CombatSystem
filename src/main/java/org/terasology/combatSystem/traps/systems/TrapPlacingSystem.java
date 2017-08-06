@@ -61,8 +61,8 @@ public class TrapPlacingSystem extends BaseComponentSystem{
         }
     }
     
-    @ReceiveEvent(components = {ActivateOnPlaceComponent.class, BlockComponent.class})
-    public void activateOnBlockConversion(OnActivatedComponent event, EntityRef entity){
+    @ReceiveEvent(components = {ActivateOnPlaceComponent.class})
+    public void activateOnPlace(OnActivatedComponent event, EntityRef entity){
         entity.send(new ActivateSensorEvent());
     }
     

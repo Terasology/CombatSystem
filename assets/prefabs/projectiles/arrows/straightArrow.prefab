@@ -1,0 +1,24 @@
+{
+	"parent" : "CombatSystem:basicShoot",
+	"Hurting" : {
+		"amount" : 3
+	},
+	"Stick" : {
+		"totalStickingTime" : 15
+	},
+	"Health" : {
+		"maxHealth" : 1,
+		"currentHealth" : 1,
+		"regenRate" : 0
+	},
+	"Arrow" : {
+		
+	},
+	"BoxShape" : {
+		"extents" : [0.5, 0.5, 1]
+	},
+	"Mesh" : {
+        "mesh" : "CombatSystem:arrow",
+        "material" : "CombatSystem:arrow"
+    }
+}
