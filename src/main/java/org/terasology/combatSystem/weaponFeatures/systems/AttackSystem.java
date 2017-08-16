@@ -2,15 +2,24 @@ package org.terasology.combatSystem.weaponFeatures.systems;
 
 import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
 import org.terasology.combatSystem.weaponFeatures.components.PrimaryAttackComponent;
+import org.terasology.combatSystem.weaponFeatures.components.SecondaryAttackComponent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
+import org.terasology.combatSystem.weaponFeatures.events.SecondaryAttackEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.entity.lifecycleEvents.OnChangedComponent;
 import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
+import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.characters.CharacterHeldItemComponent;
+import org.terasology.logic.characters.GazeAuthoritySystem;
+import org.terasology.logic.characters.events.AttackEvent;
+import org.terasology.logic.characters.events.AttackRequest;
+import org.terasology.logic.characters.events.OnItemUseEvent;
 import org.terasology.logic.common.ActivateEvent;
+import org.terasology.logic.location.LocationComponent;
+import org.terasology.math.geom.Vector3f;
 import org.terasology.world.block.items.BlockItemComponent;
 import org.terasology.world.block.items.OnBlockItemPlaced;
 
@@ -20,6 +29,34 @@ public class AttackSystem extends BaseComponentSystem{
     @ReceiveEvent( components = {PrimaryAttackComponent.class})
     public void primaryAttack(ActivateEvent event, EntityRef entity){
         entity.send(new PrimaryAttackEvent(event));
+    }
+    
+    // TODO: intercept Attack Request Event and trigger a secondary attack event
+    //       and avoid AttackEvent triggering
+    @ReceiveEvent(components = LocationComponent.class, netFilter = RegisterMode.AUTHORITY, 
+            priority = EventPriority.PRIORITY_HIGH)
+    public void secondaryAttack(AttackRequest event, EntityRef character){
+        EntityRef item = event.getItem();
+        
+        if (item.exists()) {
+            if (!character.equals(item.getOwner())) {
+                return;
+            }
+        }
+        
+        if(!item.hasComponent(SecondaryAttackComponent.class)){
+            return;
+        }
+        
+        OnItemUseEvent onItemUseEvent = new OnItemUseEvent();
+        character.send(onItemUseEvent);
+        if (!onItemUseEvent.isConsumed()) {
+            EntityRef gazeEntity = GazeAuthoritySystem.getGazeEntityForCharacter(character);
+            LocationComponent gazeLocation = gazeEntity.getComponent(LocationComponent.class);
+            Vector3f direction = gazeLocation.getWorldDirection();
+            
+            item.send(new SecondaryAttackEvent(character, null, null, direction, null, null, -1));
+        }
     }
     
     @ReceiveEvent( components = {CharacterHeldItemComponent.class}, priority = EventPriority.PRIORITY_HIGH)
@@ -61,20 +98,8 @@ public class AttackSystem extends BaseComponentSystem{
 }
         
         
-//            AttackEvent primary;
-//            ActivateEvent secondary;
-            /*
-             * ActivateEvent
-               to elaborate, ActivateEvent is called on the item when the player right
-               clicks while holding the item
-               it's not the actual right click event
-               is that what you are looking for?
-               AttackEvent is also called on the entity that the player left clicks on
-               LeftMouseDownButtonEvent and RightMouseDownButtonEvent seem to be the 
+             /*  LeftMouseDownButtonEvent and RightMouseDownButtonEvent seem to be the 
                events that correspond to the actual input, although I have not worked 
                with those events before
              */
 //            LeftMouseDownButtonEvent
-    
-//    @RecieveEvent( components = {SecondaryAttackComponent.class})
-//    public void secondaryAttackEvent(Attack)

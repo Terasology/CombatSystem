@@ -6,7 +6,7 @@ import org.terasology.logic.common.ActivateEvent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.geom.Vector3f;
 
-public class PrimaryAttackEvent implements Event{
+public class SecondaryAttackEvent implements Event{
     private EntityRef instigator;
     private EntityRef target;
     private Vector3f origin;
@@ -15,7 +15,7 @@ public class PrimaryAttackEvent implements Event{
     private Vector3f hitNormal;
     private int activationId;
     
-    public PrimaryAttackEvent(EntityRef instigator, EntityRef target, Vector3f origin, 
+    public SecondaryAttackEvent(EntityRef instigator, EntityRef target, Vector3f origin, 
             Vector3f direction, Vector3f hitPosition, Vector3f hitNormal, int activationId){
         this.instigator = instigator;
         this.target = target;
@@ -26,7 +26,7 @@ public class PrimaryAttackEvent implements Event{
         this.activationId = activationId;
     }
     
-    public PrimaryAttackEvent(ActivateEvent info){
+    public SecondaryAttackEvent(ActivateEvent info){
         instigator = info.getInstigator();
         target = info.getTarget();
         origin = info.getOrigin();
@@ -79,5 +79,4 @@ public class PrimaryAttackEvent implements Event{
         }
         return new Vector3f();
     }
-
 }

@@ -1,0 +1,15 @@
+{
+    "parent": "engine:itemBase",
+	"DisplayName": {
+		"name": "Straight Arrow"
+	},
+	"Item": {
+		"icon" : "CombatSystem:arrowIcon",
+		"usage": "IN_DIRECTION",
+		"stackId": "CombatSystem:straightArrowItem",
+		"cooldownTime": 0
+	},
+	"WorldAvatar": {
+        "worldAvatarPrefab":"CombatSystem:straightArrow"
+    }
+}

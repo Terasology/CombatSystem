@@ -68,6 +68,11 @@ public class DemoSystem extends BaseComponentSystem{
             blockItem.send(new GiveItemEvent(player));
         }
         
+        // sniper
+        EntityRef sniper = entityManager.create("CombatSystem:sniper");
+        
+        sniper.send(new GiveItemEvent(player));
+        
         for(int i=0; i<16; i++){
                // Stick Arrow to bow
                EntityRef stickArrow = entityManager.create("CombatSystem:stickArrowItem");

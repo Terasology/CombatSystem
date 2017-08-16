@@ -1,0 +1,28 @@
+{
+    "parent": "CombatSystem:weapon",
+	"DisplayName": {
+		"name": "Sniper"
+	},
+	"Item": {
+		"icon": "CombatSystem:bow",
+		"usage": "IN_DIRECTION",
+		"cooldownTime": 200
+	},
+	"SniperScope": {
+		
+    },
+	"LaunchEntity": {
+		"launchEntityPrefab":"CombatSystem:basicBullet",
+		"impulse" : 1000,
+		"cooldownTime" : 500,
+		"primaryAttack": false
+	},
+	"SecondaryAttack": {
+		
+	},
+	"Recoil":{
+		
+	},
+	"RenderItemIconMesh": {}
+}
+

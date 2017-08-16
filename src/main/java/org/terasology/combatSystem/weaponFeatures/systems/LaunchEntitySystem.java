@@ -11,6 +11,7 @@ import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityCompone
 import org.terasology.combatSystem.weaponFeatures.events.LaunchEntityEvent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
 import org.terasology.combatSystem.weaponFeatures.events.ReduceAmmoEvent;
+import org.terasology.combatSystem.weaponFeatures.events.SecondaryAttackEvent;
 import org.terasology.engine.Time;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -42,8 +43,17 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
     private Time time;
     
     @ReceiveEvent(components = {LaunchEntityComponent.class})
-    public void onFire(PrimaryAttackEvent event, EntityRef entity){
-        entity.send(new LaunchEntityEvent(event.getDirection()));
+    public void onPrimaryFire(PrimaryAttackEvent event, EntityRef entity, LaunchEntityComponent launchEntity){
+        if(launchEntity.primaryAttack){
+            entity.send(new LaunchEntityEvent(event.getDirection()));
+        }
+    }
+    
+    @ReceiveEvent(components = {LaunchEntityComponent.class})
+    public void onSecondaryFire(SecondaryAttackEvent event, EntityRef entity, LaunchEntityComponent launchEntity){
+        if(!launchEntity.primaryAttack){
+            entity.send(new LaunchEntityEvent(event.getDirection()));
+        }
     }
     
     @ReceiveEvent(components = {LaunchEntityComponent.class})
@@ -104,78 +114,76 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
             player = entity;
         }
         
-        if(launchEntity.primaryAttack){
-            EntityRef entityToLaunch = EntityRef.NULL;
-            // creates an entity with specified prefab for eg. an arrow prefab
-            if(launchEntity.launchEntityPrefab != null){
-                entityToLaunch = entityManager.create(launchEntity.launchEntityPrefab);
+        EntityRef entityToLaunch = EntityRef.NULL;
+        // creates an entity with specified prefab for eg. an arrow prefab
+        if(launchEntity.launchEntityPrefab != null){
+            entityToLaunch = entityManager.create(launchEntity.launchEntityPrefab);
+        }
+        
+        if(entityToLaunch != EntityRef.NULL){
+            LocationComponent location = entityToLaunch.getComponent(LocationComponent.class);
+            
+            // adds the entity as the shooter for the arrow. It will be the launcher itself.
+            entityToLaunch.addOrSaveComponent(new AttackerComponent(entity));
+            
+            LocationComponent shooterLoc = player.getComponent(LocationComponent.class);
+            
+            if(shooterLoc == null){
+                return;
             }
             
-            if(entityToLaunch != EntityRef.NULL){
-                LocationComponent location = entityToLaunch.getComponent(LocationComponent.class);
-                
-                // adds the entity as the shooter for the arrow. It will be the launcher itself.
-                entityToLaunch.addOrSaveComponent(new AttackerComponent(entity));
-                
-                LocationComponent shooterLoc = player.getComponent(LocationComponent.class);
-                
-                if(shooterLoc == null){
-                    return;
+            if(entityToLaunch.hasComponent(MeshComponent.class)){
+                MeshComponent mesh = entityToLaunch.getComponent(MeshComponent.class);
+                BoxShapeComponent box = new BoxShapeComponent();
+                box.extents = mesh.mesh.getAABB().getExtents().scale(2.0f);
+                entityToLaunch.addOrSaveComponent(box);
+            }
+            
+            //adds all the exceptions of entity to the launching entity as well
+            CollisionExceptionsComponent exceptions = entity.getComponent(CollisionExceptionsComponent.class);
+            if(exceptions != null){
+                if(exceptions.exceptions.size() > 0){
+                    entityToLaunch.send(new AddCollisionExceptionEvent(exceptions.exceptions));
                 }
-                
-                if(entityToLaunch.hasComponent(MeshComponent.class)){
-                    MeshComponent mesh = entityToLaunch.getComponent(MeshComponent.class);
-                    BoxShapeComponent box = new BoxShapeComponent();
-                    box.extents = mesh.mesh.getAABB().getExtents().scale(2.0f);
-                    entityToLaunch.addOrSaveComponent(box);
-                }
-                
-                //adds all the exceptions of entity to the launching entity as well
-                CollisionExceptionsComponent exceptions = entity.getComponent(CollisionExceptionsComponent.class);
-                if(exceptions != null){
-                    if(exceptions.exceptions.size() > 0){
-                        entityToLaunch.send(new AddCollisionExceptionEvent(exceptions.exceptions));
-                    }
-                }
-                
-                // rotates the entity to face in the direction of pointer
-                Vector3f initialDir = location.getWorldDirection();
-                Vector3f finalDir = new Vector3f(direction);
-                finalDir.normalize();
-                location.setWorldRotation(Quat4f.shortestArcQuat(initialDir, finalDir));
-                
-                // sets the scale of the entity
-                location.setWorldScale(0.5f);
-                
-                // sets the location of entity to current player's location with an offset
-                GazeMountPointComponent gaze = player.getComponent(GazeMountPointComponent.class);
-                if(gaze != null){
-                    location.setWorldPosition(shooterLoc.getWorldPosition().add(gaze.translate).add(finalDir.scale(0.3f)));
-                }
-                else{
-                    location.setWorldPosition(shooterLoc.getWorldPosition());
-                }
-                
-                entityToLaunch.saveComponent(location);
-                
-                if(!entityToLaunch.hasComponent(TriggerComponent.class)){
-                    TriggerComponent trigger = new TriggerComponent();
-                    trigger.collisionGroup = StandardCollisionGroup.ALL;
-                    trigger.detectGroups = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.DEFAULT, StandardCollisionGroup.WORLD, StandardCollisionGroup.CHARACTER, StandardCollisionGroup.SENSOR);
-                    entityToLaunch.addOrSaveComponent(trigger);
-                }
-                
-                // applies impulse to the entity
-                Vector3f impulse = finalDir;
-                impulse.normalize();
-                impulse.mul(launchEntity.impulse);
-                
-                entityToLaunch.send(new CombatImpulseEvent(impulse));
-                entity.send(new ReduceAmmoEvent());
+            }
+            
+            // rotates the entity to face in the direction of pointer
+            Vector3f initialDir = location.getWorldDirection();
+            Vector3f finalDir = new Vector3f(direction);
+            finalDir.normalize();
+            location.setWorldRotation(Quat4f.shortestArcQuat(initialDir, finalDir));
+            
+            // sets the scale of the entity
+            location.setWorldScale(0.5f);
+            
+            // sets the location of entity to current player's location with an offset
+            GazeMountPointComponent gaze = player.getComponent(GazeMountPointComponent.class);
+            if(gaze != null){
+                location.setWorldPosition(shooterLoc.getWorldPosition().add(gaze.translate).add(finalDir.scale(0.3f)));
             }
             else{
-                // dispatch no ammo event
+                location.setWorldPosition(shooterLoc.getWorldPosition());
             }
+            
+            entityToLaunch.saveComponent(location);
+            
+            if(!entityToLaunch.hasComponent(TriggerComponent.class)){
+                TriggerComponent trigger = new TriggerComponent();
+                trigger.collisionGroup = StandardCollisionGroup.ALL;
+                trigger.detectGroups = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.DEFAULT, StandardCollisionGroup.WORLD, StandardCollisionGroup.CHARACTER, StandardCollisionGroup.SENSOR);
+                entityToLaunch.addOrSaveComponent(trigger);
+            }
+            
+            // applies impulse to the entity
+            Vector3f impulse = finalDir;
+            impulse.normalize();
+            impulse.mul(launchEntity.impulse);
+            
+            entityToLaunch.send(new CombatImpulseEvent(impulse));
+            entity.send(new ReduceAmmoEvent());
+        }
+        else{
+            // dispatch no ammo event
         }
     }
 }
