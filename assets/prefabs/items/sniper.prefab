@@ -4,7 +4,7 @@
 		"name": "Sniper"
 	},
 	"Item": {
-		"icon": "CombatSystem:bow",
+		"icon": "CombatSystem:sniperItem",
 		"usage": "IN_DIRECTION",
 		"cooldownTime": 200
 	},
@@ -23,6 +23,14 @@
 	"Recoil":{
 		
 	},
-	"RenderItemIconMesh": {}
+	"FirstPersonHeldItemTransform": {
+        "rotateDegrees": [0, 90, 0],
+        "translate": [0, -0.5, -0.6],
+		"scale" : 1.5
+    },
+	"Mesh" : {
+        "mesh" : "CombatSystem:sniper",
+        "material" : "CombatSystem:sniper"
+    }
 }
 
