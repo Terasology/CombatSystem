@@ -12,6 +12,6 @@
 		"extents" : [0.2, 0.2, 0.2]
 	},
 	"Explode": {
-		
+		"explosionPrefab" : "core:dustEffect"
 	}
 }
