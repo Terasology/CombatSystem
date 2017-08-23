@@ -1,8 +1,10 @@
 package org.terasology.combatSystem.weaponFeatures.components;
 
 import org.terasology.entitySystem.Component;
+import org.terasology.network.Replicate;
 
 public class RecoilComponent implements Component{
-    public float amount = 0.17f;             //in radians;
+    @Replicate
+    public float amount = -1;             
 
 }

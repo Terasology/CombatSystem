@@ -5,7 +5,7 @@
 		"damageTypes":"engine:explosiveDamage"
 	},
 	"Explosion" : {
-		
+		"impulse" : 500
 	},
 	"Health" : {
 		"maxHealth" : 1,

@@ -6,8 +6,7 @@
 	"Item": {
 		"icon" : "CombatSystem:arrowIcon",
 		"usage": "IN_DIRECTION",
-		"stackId": "CombatSystem:straightArrowItem",
-		"cooldownTime": 0
+		"stackId": "CombatSystem:straightArrowItem"
 	},
 	"WorldAvatar": {
         "worldAvatarPrefab":"CombatSystem:straightArrow"

@@ -7,7 +7,7 @@
                 "type": "flowLayout",
                 "contents": [
                     {
-                        "type": "UIImage",
+                        "type": "UIScalableImage",
 						"id": "scope"
                     }
 				],
