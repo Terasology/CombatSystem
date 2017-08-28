@@ -1,5 +1,5 @@
 {
-    "parent" : "CombatSystem:mineTrap",
+    "parent" : "CombatSystem:volumeTrap",
 	"Explode" : {
 		"explosionPrefab":"CombatSystem:basicExplosion"
 	},

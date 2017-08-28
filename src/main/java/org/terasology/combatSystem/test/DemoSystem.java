@@ -26,49 +26,22 @@ public class DemoSystem extends BaseComponentSystem{
     
     @ReceiveEvent( components = {InventoryComponent.class})
     public void givingWeaponsToPlayers(OnPlayerSpawnedEvent event, EntityRef player){
-        // 0. bow
+        // bow
         EntityRef bow = entityManager.create("CombatSystem:bow");
         
         bow.send(new GiveItemEvent(player));
         
-        for(int i=0; i<16; i++){
-         // 1. Stick Arrow
-            EntityRef stickArrow = entityManager.create("CombatSystem:stickArrowItem");
-            
-            stickArrow.send(new GiveItemEvent(player));
-            
-            // 2. Bounce Arrow
-            EntityRef bounceArrow = entityManager.create("CombatSystem:bounceArrowItem");
-            
-            bounceArrow.send(new GiveItemEvent(player));
-            
-            // 3. Explode Arrow
-            EntityRef explodeArrow = entityManager.create("CombatSystem:explodeArrowItem");
-            
-            explodeArrow.send(new GiveItemEvent(player));
-        }
-        
-        // 4. Sword
-        EntityRef sword = entityManager.create("CombatSystem:sword");
-        
-        sword.send(new GiveItemEvent(player));
-        
-        // 5. war axe
-        EntityRef warAxe = entityManager.create("CombatSystem:waraxe");
-        
-        warAxe.send(new GiveItemEvent(player));
-        
-        // 6. Staff
+        // Staff
         EntityRef staff = entityManager.create("CombatSystem:staff");
         
         staff.send(new GiveItemEvent(player));
         
-        // 7. Spear
+        // Spear
         EntityRef spear = entityManager.create("CombatSystem:spearItem");
         
         spear.send(new GiveItemEvent(player));
         
-        // 8. Fire ball Launcher
+        // Fire ball Launcher
         BlockFamily fireBallLauncherItem = blockManager.getBlockFamily("fireBallMine");
         if (fireBallLauncherItem != null) {
             BlockItemFactory blockItemFactory = new BlockItemFactory(entityManager);
@@ -77,7 +50,7 @@ public class DemoSystem extends BaseComponentSystem{
             blockItem.send(new GiveItemEvent(player));
         }
         
-        // 9. Exploding mine
+        // Exploding mine
         BlockFamily explodingMineItem = blockManager.getBlockFamily("explodeMine");
         if (explodingMineItem != null) {
             BlockItemFactory blockItemFactory = new BlockItemFactory(entityManager);
@@ -85,5 +58,46 @@ public class DemoSystem extends BaseComponentSystem{
             
             blockItem.send(new GiveItemEvent(player));
         }
+        
+        // arrow tower
+        BlockFamily arrowTower = blockManager.getBlockFamily("arrowTower");
+        if (arrowTower != null) {
+            BlockItemFactory blockItemFactory = new BlockItemFactory(entityManager);
+            EntityRef blockItem = blockItemFactory.newInstance(arrowTower);
+            
+            blockItem.send(new GiveItemEvent(player));
+        }
+        
+        // sniper
+        EntityRef sniper = entityManager.create("CombatSystem:sniper");
+        
+        sniper.send(new GiveItemEvent(player));
+        
+        for(int i=0; i<16; i++){
+               // Stick Arrow to bow
+               EntityRef stickArrow = entityManager.create("CombatSystem:stickArrowItem");
+               
+               stickArrow.send(new GiveItemEvent(bow));
+               
+               // Bounce Arrow
+               EntityRef bounceArrow = entityManager.create("CombatSystem:bounceArrowItem");
+               
+               bounceArrow.send(new GiveItemEvent(player));
+               
+               // Explode Arrow
+               EntityRef explodeArrow = entityManager.create("CombatSystem:explodeArrowItem");
+               
+               explodeArrow.send(new GiveItemEvent(player));
+        }
+        
+        // Sword
+        EntityRef sword = entityManager.create("CombatSystem:sword");
+        
+        sword.send(new GiveItemEvent(player));
+        
+        // war axe
+        EntityRef warAxe = entityManager.create("CombatSystem:waraxe");
+        
+        warAxe.send(new GiveItemEvent(player));
     }
 }

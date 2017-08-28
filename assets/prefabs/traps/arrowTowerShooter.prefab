@@ -1,0 +1,20 @@
+{
+	"parent" : "CombatSystem:volumeTrap",
+	"LaunchEntity": {
+        "launchEntityPrefab":"CombatSystem:straightArrow",
+		"impulse" : 200,
+		"cooldownTime" : 500
+    },
+	"Health": {
+		"maxHealth" : 1,
+		"currentHealth" : 1
+	},
+	"VolumeSensor" : {
+		"range" : 30,
+		"sensorLocOffset" : [0, -30, 0]
+	},
+	"ActivateOnPlace" : {
+		
+	}
+}
+

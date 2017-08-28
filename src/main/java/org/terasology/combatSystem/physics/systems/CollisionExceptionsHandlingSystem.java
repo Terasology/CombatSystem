@@ -73,7 +73,7 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
         
         if(exceptionsList != null){
             for(EntityRef exceptionEntity : exceptionsList){
-                if(exceptionEntity != null){
+                if(exceptionEntity != null && !exceptionEntity.equals(entity)){
                     if(!exceptions.exceptions.contains(exceptionEntity)){
                         exceptions.exceptions.add(exceptionEntity);
                     }

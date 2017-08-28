@@ -24,7 +24,6 @@ public class QuiverUIClientSystem extends BaseComponentSystem{
     
     @In
     private NUIManager nuiManager;
-    
     @In
     private AssetManager assetManager;
     

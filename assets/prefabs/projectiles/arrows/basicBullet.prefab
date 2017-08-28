@@ -1,0 +1,17 @@
+{
+	"parent" : "CombatSystem:basicShoot",
+	"Hurting" : {
+		"amount" : 7
+	},
+	"Health" : {
+		"maxHealth" : 1,
+		"currentHealth" : 1,
+		"regenRate" : 0
+	},
+	"BoxShape" : {
+		"extents" : [0.2, 0.2, 0.2]
+	},
+	"Explode": {
+		"explosionPrefab" : "core:dustEffect"
+	}
+}

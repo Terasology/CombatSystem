@@ -78,10 +78,34 @@ public class StickingHandlingSystem extends BaseComponentSystem implements Updat
             return;
         }
         
+        List<EntityRef> temp = Lists.newArrayList();
+        
         Iterator<EntityRef> childrenList = parent.children.iterator();
         while(childrenList.hasNext()){
-            EntityRef children = childrenList.next();
-            children.send(new DestroyEvent(entity, event.getInstigator(), EngineDamageTypes.DIRECT.get()));
+            EntityRef child = childrenList.next();
+            
+            ParentComponent childP = child.getComponent(ParentComponent.class);
+            if(childP != null){
+                if(childP.children.size() > 0){
+                    for(EntityRef childPEntity : childP.children){
+                        if(childPEntity == null || childPEntity == EntityRef.NULL || !childPEntity.exists()){
+                            temp.add(childPEntity);
+                        }
+                        else if(childPEntity.equals(entity)){
+                            temp.add(childPEntity);
+                        }
+                    }
+                    
+                    if(temp.size() > 0){
+                        for(EntityRef tempE : temp){
+                            childP.children.remove(tempE);
+                        }
+                        child.saveComponent(childP);
+                    }
+                }
+            }
+            
+            child.send(new DestroyEvent(entity, event.getInstigator(), EngineDamageTypes.DIRECT.get()));
         }
     }
     

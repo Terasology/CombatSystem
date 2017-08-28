@@ -1,0 +1,27 @@
+{
+    "type": "ScopeHud",
+    "contents": {
+        "type": "relativeLayout",
+        "contents": [
+            {
+                "type": "flowLayout",
+                "contents": [
+                    {
+                        "type": "UIScalableImage",
+						"id": "scope"
+                    }
+				],
+                "layoutInfo": {
+                    "use-content-width": true,
+                    "use-content-height": true,
+                    "position-horizontal-center":{
+						"target": "CENTER"
+					},
+                    "position-vertical-center": {
+                        "target": "CENTER"
+                    }
+                }
+            }
+        ]
+    }
+}

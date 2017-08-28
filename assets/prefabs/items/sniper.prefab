@@ -1,0 +1,36 @@
+{
+    "parent": "CombatSystem:weapon",
+	"DisplayName": {
+		"name": "Sniper"
+	},
+	"Item": {
+		"icon": "CombatSystem:sniperItem",
+		"usage": "IN_DIRECTION",
+		"cooldownTime": 200
+	},
+	"SniperScope": {
+		
+    },
+	"LaunchEntity": {
+		"launchEntityPrefab":"CombatSystem:basicBullet",
+		"impulse" : 1000,
+		"cooldownTime" : 500,
+		"primaryAttack": false
+	},
+	"SecondaryAttack": {
+		
+	},
+	"Recoil":{
+		
+	},
+	"FirstPersonHeldItemTransform": {
+        "rotateDegrees": [0, 90, 0],
+        "translate": [0, -0.5, -0.6],
+		"scale" : 1.5
+    },
+	"Mesh" : {
+        "mesh" : "CombatSystem:sniper",
+        "material" : "CombatSystem:sniper"
+    }
+}
+

@@ -1,14 +1,14 @@
 {
     "parent": "engine:itemBase",
 	"DisplayName": {
-		"name": "Stick Arrow"
+		"name": "Straight Arrow"
 	},
 	"Item": {
 		"icon" : "CombatSystem:arrowIcon",
 		"usage": "IN_DIRECTION",
-		"stackId": "CombatSystem:stickArrowItem"
+		"stackId": "CombatSystem:straightArrowItem"
 	},
 	"WorldAvatar": {
-        "worldAvatarPrefab":"CombatSystem:stickArrow"
+        "worldAvatarPrefab":"CombatSystem:straightArrow"
     }
 }

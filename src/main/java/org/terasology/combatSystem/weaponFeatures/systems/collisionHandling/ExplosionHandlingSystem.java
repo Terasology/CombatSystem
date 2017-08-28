@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.hurting.HurtingComponent;
+import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
 import org.terasology.combatSystem.weaponFeatures.components.ExplosionComponent;
 import org.terasology.combatSystem.weaponFeatures.events.ExplosionEvent;
 import org.terasology.engine.Time;
@@ -21,6 +22,7 @@ import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.AABB;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.Physics;
+import org.terasology.physics.events.ImpulseEvent;
 import org.terasology.registry.In;
 
 @RegisterSystem
@@ -118,7 +120,14 @@ public class ExplosionHandlingSystem extends BaseComponentSystem implements Upda
                 continue;
             }
             
-            float distanceSq = location.getWorldPosition().distanceSquared(otherEntityLocation.getWorldPosition());
+            Vector3f entityPos = location.getWorldPosition();
+            Vector3f otherEntityPos = otherEntityLocation.getWorldPosition();
+            
+            Vector3f direction = new Vector3f(otherEntityPos);
+            direction.sub(entityPos);
+            direction.normalize();
+            
+            float distanceSq = entityPos.distanceSquared(otherEntityPos);
             float radiusSquared = explosion.radius*explosion.radius;
             float explosionFactor = 1 - (distanceSq/radiusSquared);
             if(explosionFactor < 0){
@@ -134,6 +143,10 @@ public class ExplosionHandlingSystem extends BaseComponentSystem implements Upda
                 hurting.damageType = EngineDamageTypes.EXPLOSIVE.get();
                 entity.saveComponent(hurting);
                 entity.send(new HurtEvent(otherEntity));
+                
+                Vector3f impulse = direction.scale((explosion.impulse*explosionFactor));
+                otherEntity.send(new CombatImpulseEvent(impulse));
+                otherEntity.send(new ImpulseEvent(impulse));
             }
         }
     }
