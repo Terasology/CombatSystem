@@ -24,11 +24,11 @@ import org.terasology.physics.HitResult;
 import org.terasology.physics.Physics;
 import org.terasology.physics.StandardCollisionGroup;
 import org.terasology.physics.components.TriggerComponent;
+import org.terasology.physics.components.shapes.BoxShapeComponent;
+import org.terasology.physics.components.shapes.CapsuleShapeComponent;
+import org.terasology.physics.components.shapes.CylinderShapeComponent;
+import org.terasology.physics.components.shapes.SphereShapeComponent;
 import org.terasology.physics.events.CollideEvent;
-import org.terasology.physics.shapes.BoxShapeComponent;
-import org.terasology.physics.shapes.CapsuleShapeComponent;
-import org.terasology.physics.shapes.CylinderShapeComponent;
-import org.terasology.physics.shapes.SphereShapeComponent;
 import org.terasology.registry.In;
 import com.google.common.collect.Maps;
 
