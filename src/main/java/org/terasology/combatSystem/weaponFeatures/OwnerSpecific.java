@@ -1,16 +1,24 @@
 package org.terasology.combatSystem.weaponFeatures;
 
-import java.util.List;
-
+import com.google.common.collect.Lists;
 import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
 import org.terasology.entitySystem.entity.EntityRef;
 
-import com.google.common.collect.Lists;
+import java.util.List;
 
 public class OwnerSpecific {
-    // get the ultimate owner of the entity. The owner of the entity may have an owner of its
-    // own, that ultimate owner is returned from this method through recursion
+
+    /**
+     * 
+     * get the ultimate owner of the entity. 
+     * 
+     * @param entity  the entity of the ultimate owner
+     * @return  the ultimate owner
+     */
     public static EntityRef getUltimateOwner(EntityRef entity){
+        /**
+         * create a new instance of attacker
+         */
         AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
         
         if(attacker == null){
@@ -38,6 +46,11 @@ public class OwnerSpecific {
         }
     }
     
+    /**
+     * Get first owner
+     * @param entity  the entity of the first owner
+     * @return  the first owner
+     */
     public static EntityRef getFirstOwner(EntityRef entity){
         AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
         
@@ -52,6 +65,11 @@ public class OwnerSpecific {
         }
     }
     
+    /**
+     * get all owners
+     * @param entity  the entity of all owners
+     * @return  all owners
+     */
     public static List<EntityRef> getAllOwners(EntityRef entity){
         List<EntityRef> entityList = Lists.<EntityRef>newArrayList();
         
