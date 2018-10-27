@@ -1,7 +1,5 @@
 package org.terasology.combatSystem.physics.systems;
 
-import java.util.Iterator;
-
 import org.terasology.combatSystem.physics.components.GravityComponent;
 import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.entitySystem.entity.EntityManager;
@@ -10,6 +8,8 @@ import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.registry.In;
+
+import java.util.Iterator;
 
 /**
  * handles the gravity applied to an entity with {@code MassComponent}
@@ -33,6 +33,9 @@ public class GravitySystem extends BaseComponentSystem implements UpdateSubscrib
             GravityComponent gravity = entity.getComponent(GravityComponent.class);
             MassComponent body = entity.getComponent(MassComponent.class);
             
+            /**
+             * adds gravity into acceleration
+             */
             if(gravity != null){
                 body.acceleration.add(gravity.gravityAccel);
             }

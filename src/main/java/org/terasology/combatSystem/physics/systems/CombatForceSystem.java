@@ -33,6 +33,9 @@ public class CombatForceSystem extends BaseComponentSystem implements UpdateSubs
             Vector3f force = new Vector3f(body.force);
             force.div(body.mass);
             
+            /**
+             * Adds force to acceleration
+             */
             body.acceleration.add(force);
             
             entity.saveComponent(body);
