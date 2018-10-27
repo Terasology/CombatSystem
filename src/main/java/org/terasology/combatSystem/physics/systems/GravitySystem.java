@@ -33,9 +33,8 @@ public class GravitySystem extends BaseComponentSystem implements UpdateSubscrib
             GravityComponent gravity = entity.getComponent(GravityComponent.class);
             MassComponent body = entity.getComponent(MassComponent.class);
             
-            /**
-             * adds gravity into acceleration
-             */
+            // Adds gravity into acceleration
+
             if(gravity != null){
                 body.acceleration.add(gravity.gravityAccel);
             }
