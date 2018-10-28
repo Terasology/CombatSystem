@@ -10,6 +10,9 @@ import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.math.geom.Vector3f;
 
+/**
+ * Launch a melee attack from the intended entity with specified range
+ */
 @RegisterSystem
 public class MeleeAttackSystem extends BaseComponentSystem{
     

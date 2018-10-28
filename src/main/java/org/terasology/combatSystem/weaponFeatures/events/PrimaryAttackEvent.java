@@ -33,14 +33,26 @@ public class PrimaryAttackEvent implements Event{
         return instigator;
     }
 
+    /**
+     * 
+     * @return the target of the primary attack
+     */
     public EntityRef getTarget() {
         return target;
     }
 
+    /**
+     * 
+     * @return  the origin where the attack is from
+     */
     public Vector3f getOrigin() {
         return origin;
     }
 
+    /**
+     * 
+     * @return  the direction of the attack
+     */
     public Vector3f getDirection() {
         return direction;
     }

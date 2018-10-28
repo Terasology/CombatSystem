@@ -10,15 +10,15 @@ public class OwnerSpecific {
 
     /**
      * 
-     * get the ultimate owner of the entity. 
+     * Get the ultimate owner of the entity. 
      * 
      * @param entity  the entity of the ultimate owner
      * @return  the ultimate owner
      */
     public static EntityRef getUltimateOwner(EntityRef entity){
-        /**
-         * create a new instance of attacker
-         */
+
+        //create a new instance of attacker
+
         AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
         
         if(attacker == null){
@@ -66,7 +66,7 @@ public class OwnerSpecific {
     }
     
     /**
-     * get all owners
+     * Get all owners
      * @param entity  the entity of all owners
      * @return  all owners
      */

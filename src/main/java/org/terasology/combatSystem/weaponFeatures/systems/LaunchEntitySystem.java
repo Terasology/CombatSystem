@@ -1,5 +1,6 @@
 package org.terasology.combatSystem.weaponFeatures.systems;
 
+import com.google.common.collect.Lists;
 import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
 import org.terasology.combatSystem.weaponFeatures.OwnerSpecific;
@@ -29,8 +30,9 @@ import org.terasology.physics.components.shapes.BoxShapeComponent;
 import org.terasology.registry.In;
 import org.terasology.rendering.logic.MeshComponent;
 
-import com.google.common.collect.Lists;
-
+/**
+ * Launch an entity at a given impulse from the intended entity
+ */
 @RegisterSystem
 public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSubscriberSystem{
     @In
