@@ -16,6 +16,11 @@ import org.terasology.math.geom.Vector3f;
 @RegisterSystem
 public class MeleeAttackSystem extends BaseComponentSystem{
     
+    /**
+     * Launch a melee primary attack
+     * @param event 
+     * @param entity
+     */
     @ReceiveEvent(components = MeleeComponent.class)
     public void meleePrimaryAttack(PrimaryAttackEvent event, EntityRef entity){
         melee(entity, event.getTarget(), event.getOrigin(), event.getHitPosition());

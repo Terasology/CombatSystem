@@ -4,6 +4,9 @@ import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.Event;
 import org.terasology.math.geom.Vector3f;
 
+/**
+ * Triggered in case of a melee attack
+ */
 public class MeleeEvent implements Event{
     EntityRef target = EntityRef.NULL;
     Vector3f weaponLoc;

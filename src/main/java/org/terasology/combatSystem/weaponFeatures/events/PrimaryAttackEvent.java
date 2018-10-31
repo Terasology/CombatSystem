@@ -6,6 +6,9 @@ import org.terasology.logic.common.ActivateEvent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.geom.Vector3f;
 
+/**
+ * Triggered in case of a primary attack
+ */
 public class PrimaryAttackEvent implements Event{
     private EntityRef instigator;
     private EntityRef target;
