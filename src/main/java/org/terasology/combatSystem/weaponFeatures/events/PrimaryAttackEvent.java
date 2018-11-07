@@ -18,10 +18,17 @@ public class PrimaryAttackEvent implements Event{
     private Vector3f hitNormal;
     private int activationId;
     
+    /**
+     * Default constructor required for persistence
+     */
     public PrimaryAttackEvent(){
         
     }
     
+    /**
+     * Creates an event based on an ActivateEvent.
+     * @param info The ActivateEvent to base this event off of.
+     */
     public PrimaryAttackEvent(ActivateEvent info){
         instigator = info.getInstigator();
         target = info.getTarget();
@@ -32,46 +39,66 @@ public class PrimaryAttackEvent implements Event{
         activationId = info.getActivationId();
     }
     
+    /**
+     * Gets the instigator of this event.
+     * @return the instigator of this event.
+     */
     public EntityRef getInstigator() {
         return instigator;
     }
 
     /**
-     * 
-     * @return the target of the primary attack
+     * Gets the target of the attack.
+     * @return the target of the attack.
      */
     public EntityRef getTarget() {
         return target;
     }
 
     /**
-     * 
-     * @return  the origin where the attack is from
+     * Gets the origin position of the attack.
+     * @return the origin position of the attack.
      */
     public Vector3f getOrigin() {
         return origin;
     }
 
     /**
-     * 
-     * @return  the direction of the attack
+     * Gets the direction position of the attack
+     * @return the direction position of the attack.
      */
     public Vector3f getDirection() {
         return direction;
     }
 
+    /**
+     * Gets location of target
+     * @return location of target
+     */
     public Vector3f getHitPosition() {
         return hitPosition;
     }
 
+    /**
+     * Gets location of target
+     * @return location of target
+     */
     public Vector3f getHitNormal() {
         return hitNormal;
     }
 
+    /**
+     * Gets activation ID
+     * @return activation ID
+     */
     public int getActivationId() {
         return activationId;
     }
 
+    /**
+     * Check if target location is null and gets target position
+     * @return target location
+     */
     public Vector3f getTargetLocation() {
         LocationComponent loc = target.getComponent(LocationComponent.class);
         if (loc != null) {
@@ -80,6 +107,10 @@ public class PrimaryAttackEvent implements Event{
         return null;
     }
 
+    /**
+     * Check if instigator location is null and gets instigator position
+     * @return instigator position
+     */
     public Vector3f getInstigatorLocation() {
         LocationComponent loc = instigator.getComponent(LocationComponent.class);
         if (loc != null) {

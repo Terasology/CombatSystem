@@ -32,6 +32,11 @@ public class OwnerSpecific {
         }
     }
     
+    /**
+     * Recursively gets the owner (attacker) at the top of the chain, who started the attack.
+     * @param entity The entity to find the owner of.
+     * @return The owner at the top of the chain.
+     */
     private static EntityRef recursiveOwner(EntityRef entity){
         AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
         
@@ -47,9 +52,9 @@ public class OwnerSpecific {
     }
     
     /**
-     * Get first owner
-     * @param entity  the entity of the first owner
-     * @return  the first owner
+     * Gets the first owner (attacker) of an entity
+     * @param entity the entity to find the owner of
+     * @return the first owner of that entity
      */
     public static EntityRef getFirstOwner(EntityRef entity){
         AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
@@ -66,9 +71,9 @@ public class OwnerSpecific {
     }
     
     /**
-     * Get all owners
-     * @param entity  the entity of all owners
-     * @return  all owners
+     * Get all owners of a certain entity
+     * @param entity the entity to check
+     * @return all owners of that entity
      */
     public static List<EntityRef> getAllOwners(EntityRef entity){
         List<EntityRef> entityList = Lists.<EntityRef>newArrayList();

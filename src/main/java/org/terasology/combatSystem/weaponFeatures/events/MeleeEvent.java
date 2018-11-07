@@ -12,20 +12,38 @@ public class MeleeEvent implements Event{
     Vector3f weaponLoc;
     Vector3f targetHitLoc;
     
+    /**
+     * Creates a new instance of the event
+     * @param target the attack target
+     * @param weaponLoc location of weapon
+     * @param targetHitLoc location of target
+     */
     public MeleeEvent(EntityRef target, Vector3f weaponLoc, Vector3f targetHitLoc){
         this.target = target;
         this.weaponLoc = weaponLoc;
         this.targetHitLoc = targetHitLoc;
     }
     
+    /**
+     * Get the target entity
+     * @return target
+     */
     public EntityRef getTarget(){
         return target;
     }
     
+    /**
+     * Get location of weapon in the world
+     * @return location of weapon
+     */
     public Vector3f getWeaponLoc(){
         return weaponLoc;
     }
     
+    /**
+     * Get target location in the world
+     * @return location of target
+     */
     public Vector3f getTargetHitLoc(){
         return targetHitLoc;
     }

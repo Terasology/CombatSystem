@@ -12,7 +12,7 @@ import org.terasology.registry.In;
 import java.util.Iterator;
 
 /**
- * handles the gravity applied to an entity with {@code MassComponent}
+ * Handles the gravity applied to an entity with {@link MassComponent}
  */
 @RegisterSystem
 public class GravitySystem extends BaseComponentSystem implements UpdateSubscriberSystem{
@@ -21,7 +21,8 @@ public class GravitySystem extends BaseComponentSystem implements UpdateSubscrib
     EntityManager entityManager;
     
     /**
-     * adds the acceleration due to gravity into total acceleration of entity.
+     * Adds the acceleration due to gravity into total acceleration of entity.
+     * @param delta Not used.
      */
     @Override
     public void update(float delta) {
