@@ -72,16 +72,16 @@ public class PrimaryAttackEvent implements Event{
     }
 
     /**
-     * Gets location of target
-     * @return location of target
+     * Gets position where target is hit
+     * @return position where target is hit
      */
     public Vector3f getHitPosition() {
         return hitPosition;
     }
 
     /**
-     * Gets location of target
-     * @return location of target
+     * Gets position of normal force perpendicular to hit position
+     * @return position of normal force perpendicular to hit position
      */
     public Vector3f getHitNormal() {
         return hitNormal;

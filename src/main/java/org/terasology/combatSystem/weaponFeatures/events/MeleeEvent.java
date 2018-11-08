@@ -41,8 +41,8 @@ public class MeleeEvent implements Event{
     }
     
     /**
-     * Get target location in the world
-     * @return location of target
+     * Get target hit location in the world
+     * @return location of target hit
      */
     public Vector3f getTargetHitLoc(){
         return targetHitLoc;

@@ -12,8 +12,8 @@ public class OwnerSpecific {
      * 
      * Get the ultimate owner of the entity. 
      * 
-     * @param entity  the entity of the ultimate owner
-     * @return  the ultimate owner
+     * @param entity  the entity to find the ultimate owner
+     * @return  the entity of ultimate owner
      */
     public static EntityRef getUltimateOwner(EntityRef entity){
 

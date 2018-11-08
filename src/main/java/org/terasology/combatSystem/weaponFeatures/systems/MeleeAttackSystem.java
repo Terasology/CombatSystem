@@ -17,7 +17,7 @@ import org.terasology.math.geom.Vector3f;
 public class MeleeAttackSystem extends BaseComponentSystem{
     
     /**
-     * Launch a melee primary attack
+     * Triggers when a primaryAttack is made with a melee weapon, and converts it to a melee attack
      * @param event primary attack event
      * @param entity entity attacking
      */
