@@ -18,8 +18,6 @@ import org.terasology.world.block.BlockManager;
 import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
-import org.terasology.world.liquid.LiquidData;
-import org.terasology.world.liquid.LiquidType;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
@@ -50,7 +48,6 @@ public class PhysicsRoomRasterizer implements WorldRasterizer{
 
     @Override
     public void generateChunk(CoreChunk chunk, Region chunkRegion) {
-        LiquidData waterLiquid = new LiquidData(LiquidType.WATER, LiquidData.MAX_LIQUID_DEPTH);
         if (ROOM_CHUNK_SIZE >= chunk.getPosition().getX() && chunk.getPosition().getX() >= -ROOM_CHUNK_SIZE) {
             if (ROOM_CHUNK_SIZE >= chunk.getPosition().getZ() && chunk.getPosition().getZ() >= -ROOM_CHUNK_SIZE) {
                 if (chunk.getPosition().getY() == 0) {
@@ -95,7 +92,6 @@ public class PhysicsRoomRasterizer implements WorldRasterizer{
                                         for(int width = 0; width < 10; width++){
                                             for(int height =1; height < 11; height++){
                                                 chunk.setBlock(x + width, FLOOR_HEIGHT + height, z + length, water);
-                                                chunk.setLiquid(x + width, FLOOR_HEIGHT + height, z + length, waterLiquid);
                                             }
                                         }
                                     }
