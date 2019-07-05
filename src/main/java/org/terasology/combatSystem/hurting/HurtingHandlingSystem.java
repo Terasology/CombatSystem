@@ -8,7 +8,7 @@ import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.logic.health.DoDamageEvent;
+import org.terasology.logic.health.event.DoDamageEvent;
 import org.terasology.logic.health.HealthComponent;
 import org.terasology.logic.notifications.NotificationMessageEvent;
 
