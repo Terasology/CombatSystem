@@ -45,6 +45,8 @@ public class CombatStartingInventory extends BaseComponentSystem {
     @In
     BlockManager blockManager;
 
+    private final int numArrows = 16;
+    
     private Set<EntityRef> items = new HashSet<>();
 
     public void setItems(Set<EntityRef> set) {
@@ -52,7 +54,6 @@ public class CombatStartingInventory extends BaseComponentSystem {
     }
 
     private void populateDefaultInventory() {
-        int numArrows = 16;
 
         items.add(entityManager.create("CombatSystem:bow"));
 
