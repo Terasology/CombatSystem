@@ -5,6 +5,7 @@ import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
 import org.terasology.combatSystem.weaponFeatures.OwnerSpecific;
 import org.terasology.combatSystem.weaponFeatures.components.ArrowComponent;
 import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
+import org.terasology.combatSystem.weaponFeatures.components.ExplodeComponent;
 import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
 import org.terasology.combatSystem.weaponFeatures.events.LaunchEntityEvent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
@@ -158,8 +159,14 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 // applies impulse to the entity
                 Vector3f impulse = finalDir;
                 impulse.normalize();
+
+                if (entityToLaunch.hasComponent(ExplodeComponent.class)) {
+                  ExplodeComponent explodeComponent = entityToLaunch.getComponent(ExplodeComponent.class);
+                  explodeComponent.impulseDirection = impulse;
+                  entityToLaunch.saveComponent(explodeComponent);
+                }
+
                 impulse.mul(launchEntity.impulse);
-                
                 entityToLaunch.send(new CombatImpulseEvent(impulse));
                 entity.send(new ReduceAmmoEvent());
             }

@@ -17,6 +17,7 @@ package org.terasology.combatSystem.weaponFeatures.components;
 
 import org.terasology.entitySystem.Component;
 import org.terasology.entitySystem.prefab.Prefab;
+import org.terasology.math.geom.Vector3f;
 import org.terasology.network.Replicate;
 
 /**
@@ -28,4 +29,8 @@ import org.terasology.network.Replicate;
 public class ExplodeComponent implements Component {
     @Replicate
     public Prefab explosionPrefab;
+    @Replicate
+    public Vector3f impulseDirection;
+    @Replicate
+    public String damageType;
 }
