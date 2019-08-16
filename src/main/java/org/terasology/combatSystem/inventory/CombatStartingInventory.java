@@ -30,11 +30,13 @@ import org.terasology.world.block.BlockManager;
 import org.terasology.world.block.family.BlockFamily;
 import org.terasology.world.block.items.BlockItemFactory;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * implements a basic inventory at start of game for testing weapons.
+ * Implements a basic inventory at start of game for testing weapons.
  */
 @Share(CombatStartingInventory.class)
 @RegisterSystem
@@ -45,50 +47,66 @@ public class CombatStartingInventory extends BaseComponentSystem {
     @In
     BlockManager blockManager;
 
-    private final int numArrows = 16;
-    
-    private Set<EntityRef> items = new HashSet<>();
+    private final int NUM_ARROWS = 16;
 
-    public void setItems(Set<EntityRef> set) {
-        items = set;
-    }
+    private Map<String, Integer> blocks = new HashMap<>();
+    private Map<String, Integer> items = new HashMap<>();
 
-    private void populateDefaultInventory() {
-
-        items.add(entityManager.create("CombatSystem:bow"));
-
-        for (int i = 0; i < numArrows; i++) {
-            items.add(entityManager.create("CombatSystem:stickArrowItem"));
-            items.add(entityManager.create("CombatSystem:bounceArrowItem"));
-            items.add(entityManager.create("CombatSystem:explodeArrowItem"));
-        }
-
-        items.add(entityManager.create("CombatSystem:sword"));
-        items.add(entityManager.create("CombatSystem:waraxe"));
-        items.add(entityManager.create("CombatSystem:staff"));
-        items.add(entityManager.create("CombatSystem:spearItem"));
-
-        BlockFamily fireBallLauncherItem = blockManager.getBlockFamily("fireBallMine");
-        if (fireBallLauncherItem != null) {
-            BlockItemFactory blockItemFactory = new BlockItemFactory(entityManager);
-            items.add(blockItemFactory.newInstance(fireBallLauncherItem));
-        }
-
-        BlockFamily explodingMineItem = blockManager.getBlockFamily("explodeMine");
-        if (explodingMineItem != null) {
-            BlockItemFactory blockItemFactory = new BlockItemFactory(entityManager);
-            items.add(blockItemFactory.newInstance(explodingMineItem));
-        }
+    @Override
+    public void initialise() {
+        populateDefaultInventory();
     }
 
     @ReceiveEvent(components = {InventoryComponent.class})
-    public void givingWeaponsToPlayers(OnPlayerSpawnedEvent event, EntityRef player) {
-        if (items.isEmpty()) {
-            populateDefaultInventory();
-        }
-
-        for (EntityRef item : items) {
+    public void onPlayerSpawn(OnPlayerSpawnedEvent event, EntityRef player) {
+        List<EntityRef> entities = createItemEntities();
+        for (EntityRef item : entities) {
             item.send(new GiveItemEvent(player));
         }
+    }
+
+    /**
+     * Sets the items and blocks to be created and given to players at spawn
+     *
+     * @param items  : Map with the name and quantities of the items to be created
+     * @param blocks : Map with the name and quantities of the blocks to be created
+     */
+    public void setItems(Map<String, Integer> items, Map<String, Integer> blocks) {
+        this.blocks = blocks;
+        this.items = items;
+    }
+
+    private void populateDefaultInventory() {
+        items.put("CombatSystem:bow", 1);
+        items.put("CombatSystem:stickArrowItem", NUM_ARROWS);
+        items.put("CombatSystem:bounceArrowItem", NUM_ARROWS);
+        items.put("CombatSystem:explodeArrowItem", NUM_ARROWS);
+        items.put("CombatSystem:sword", 1);
+        items.put("CombatSystem:waraxe", 1);
+        items.put("CombatSystem:staff", 1);
+        items.put("CombatSystem:spearItem", 1);
+
+        blocks.put("fireBallMine", 1);
+        blocks.put("explodeMine", 1);
+    }
+
+    private List<EntityRef> createItemEntities() {
+        List<EntityRef> entities = new ArrayList<>();
+
+        for (Map.Entry<String, Integer> entry : items.entrySet()) {
+            for (int i = 0; i < entry.getValue(); i++) {
+                entities.add(entityManager.create(entry.getKey()));
+            }
+        }
+
+        BlockItemFactory factory = new BlockItemFactory(entityManager);
+        for (Map.Entry<String, Integer> entry : blocks.entrySet()) {
+            BlockFamily family = blockManager.getBlockFamily(entry.getKey());
+            if (family != null) {
+                entities.add(factory.newInstance(family, entry.getValue()));
+            }
+        }
+
+        return entities;
     }
 }
