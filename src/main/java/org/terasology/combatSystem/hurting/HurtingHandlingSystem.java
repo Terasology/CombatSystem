@@ -53,12 +53,12 @@ public class HurtingHandlingSystem extends BaseComponentSystem {
         switch (hurtingComponent.hurtingType) {
             case "attract":
                 if (otherEntity.hasComponent(CharacterComponent.class)) {
-                    otherEntity.send(new CharacterImpulseEvent(event.getImpulseDirection().negate()));
+                    otherEntity.send(new CharacterImpulseEvent(event.getImpulseDirection().negate().mul(hurtingComponent.amount)));
                 }
                 break;
             case "repulse":
                 if (otherEntity.hasComponent(CharacterComponent.class)) {
-                    otherEntity.send(new CharacterImpulseEvent(event.getImpulseDirection()));
+                    otherEntity.send(new CharacterImpulseEvent(event.getImpulseDirection().mul(hurtingComponent.amount)));
                 }
                 break;
             default:
