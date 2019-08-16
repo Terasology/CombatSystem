@@ -26,7 +26,6 @@ import org.terasology.logic.inventory.events.GiveItemEvent;
 import org.terasology.logic.players.event.OnPlayerSpawnedEvent;
 import org.terasology.registry.In;
 import org.terasology.registry.Share;
-import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;
 import org.terasology.world.block.family.BlockFamily;
 import org.terasology.world.block.items.BlockItemFactory;
@@ -37,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * implements a basic inventory at start of game for testing weapons.
+ * Implements a basic inventory at start of game for testing weapons.
  */
 @Share(CombatStartingInventory.class)
 @RegisterSystem
@@ -49,6 +48,7 @@ public class CombatStartingInventory extends BaseComponentSystem {
     BlockManager blockManager;
 
     private final int NUM_ARROWS = 16;
+
     private Map<String, Integer> blocks = new HashMap<>();
     private Map<String, Integer> items = new HashMap<>();
 
@@ -65,6 +65,12 @@ public class CombatStartingInventory extends BaseComponentSystem {
         }
     }
 
+    /**
+     * Sets the items and blocks to be created and given to players at spawn
+     *
+     * @param items  : Map with the name and quantities of the items to be created
+     * @param blocks : Map with the name and quantities of the blocks to be created
+     */
     public void setItems(Map<String, Integer> items, Map<String, Integer> blocks) {
         this.blocks = blocks;
         this.items = items;
