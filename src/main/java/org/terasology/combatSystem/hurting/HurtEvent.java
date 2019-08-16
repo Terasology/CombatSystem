@@ -17,6 +17,7 @@ package org.terasology.combatSystem.hurting;
 
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.AbstractConsumableEvent;
+import org.terasology.math.geom.Vector3f;
 
 /**
  * Used to hurt the <b>target</b> entity by the amount specified in {@code HurtingComponent}
@@ -28,16 +29,27 @@ public class HurtEvent extends AbstractConsumableEvent {
      */
     private EntityRef target = EntityRef.NULL;
 
+    private Vector3f impulseDirection = new Vector3f();
+
     public HurtEvent() {
         
     }
-    
+
     public HurtEvent(EntityRef entity) {
         this.target = entity;
+    }
+
+    public HurtEvent(EntityRef entity, Vector3f impulseDirection) {
+        this.target = entity;
+        this.impulseDirection = impulseDirection;
     }
     
     public EntityRef getTarget() {
         return target;
+    }
+
+    public Vector3f getImpulseDirection() {
+        return impulseDirection;
     }
 
 }

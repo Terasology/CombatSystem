@@ -38,4 +38,6 @@ public class HurtingComponent implements Component {
     @Replicate
     public Prefab damageType = EngineDamageTypes.DIRECT.get();
 
+    @Replicate
+    public String hurtingType = "damage";
 }

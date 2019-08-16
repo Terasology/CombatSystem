@@ -23,6 +23,8 @@ import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.logic.characters.CharacterComponent;
+import org.terasology.logic.characters.CharacterImpulseEvent;
 import org.terasology.logic.health.event.DoDamageEvent;
 import org.terasology.logic.health.HealthComponent;
 import org.terasology.logic.notifications.NotificationMessageEvent;
@@ -40,20 +42,32 @@ public class HurtingHandlingSystem extends BaseComponentSystem {
      * @param event
      * @param entity
      */
-    @ReceiveEvent(components = HurtingComponent.class, priority = EventPriority.PRIORITY_TRIVIAL)
-    public void hurting(HurtEvent event, EntityRef entity) {
-        HurtingComponent hurting = entity.getComponent(HurtingComponent.class);
+    @ReceiveEvent(priority = EventPriority.PRIORITY_TRIVIAL)
+    public void hurting(HurtEvent event, EntityRef entity, HurtingComponent hurtingComponent) {
 
         EntityRef otherEntity = event.getTarget();
         if (otherEntity == null || otherEntity == EntityRef.NULL) {
             return;
         }
 
-        if (otherEntity.hasComponent(HealthComponent.class)) {
-            EntityRef instigator = OwnerSpecific.getUltimateOwner(entity);
+        switch (hurtingComponent.hurtingType) {
+            case "attract":
+                if (otherEntity.hasComponent(CharacterComponent.class)) {
+                    otherEntity.send(new CharacterImpulseEvent(event.getImpulseDirection().negate()));
+                }
+                break;
+            case "repulse":
+                if (otherEntity.hasComponent(CharacterComponent.class)) {
+                    otherEntity.send(new CharacterImpulseEvent(event.getImpulseDirection()));
+                }
+                break;
+            default:
+                if (otherEntity.hasComponent(HealthComponent.class)) {
+                    EntityRef instigator = OwnerSpecific.getUltimateOwner(entity);
 
-            otherEntity.send(new DoDamageEvent(hurting.amount, hurting.damageType, instigator, entity));
-            otherEntity.send(new NotificationMessageEvent(new String(hurting.amount + " damage dealt.."), entity));
+                    otherEntity.send(new DoDamageEvent(hurtingComponent.amount, hurtingComponent.damageType, instigator, entity));
+                    otherEntity.send(new NotificationMessageEvent(new String(hurtingComponent.amount + " damage dealt.."), entity));
+                }
         }
     }
 

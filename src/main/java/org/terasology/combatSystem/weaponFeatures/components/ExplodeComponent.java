@@ -31,6 +31,4 @@ public class ExplodeComponent implements Component {
     public Prefab explosionPrefab;
     @Replicate
     public Vector3f impulseDirection;
-    @Replicate
-    public String damageType;
 }
