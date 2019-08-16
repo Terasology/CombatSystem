@@ -17,7 +17,10 @@ package org.terasology.combatSystem.hurting;
 
 import java.util.Random;
 
+import org.terasology.alterationEffects.damageOverTime.DamageOverTimeAlterationEffect;
+import org.terasology.alterationEffects.speed.StunAlterationEffect;
 import org.terasology.combatSystem.weaponFeatures.OwnerSpecific;
+import org.terasology.context.Context;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
@@ -28,12 +31,16 @@ import org.terasology.logic.characters.CharacterImpulseEvent;
 import org.terasology.logic.health.event.DoDamageEvent;
 import org.terasology.logic.health.HealthComponent;
 import org.terasology.logic.notifications.NotificationMessageEvent;
+import org.terasology.registry.In;
 
 /**
  * This system handles all the tasks related to hurting an entity in <b>CombatSystem</b> module.
  */
 @RegisterSystem
 public class HurtingHandlingSystem extends BaseComponentSystem {
+
+    @In
+    private Context context;
 
     /**
      * This event handler handles the hurting of target entity by the amount and damage types
@@ -50,6 +57,8 @@ public class HurtingHandlingSystem extends BaseComponentSystem {
             return;
         }
 
+        EntityRef instigator = OwnerSpecific.getUltimateOwner(entity);
+
         switch (hurtingComponent.hurtingType) {
             case "attract":
                 if (otherEntity.hasComponent(CharacterComponent.class)) {
@@ -61,10 +70,20 @@ public class HurtingHandlingSystem extends BaseComponentSystem {
                     otherEntity.send(new CharacterImpulseEvent(event.getImpulseDirection().mul(hurtingComponent.amount)));
                 }
                 break;
+            case "stun":
+                if (otherEntity.hasComponent(CharacterComponent.class)) {
+                    StunAlterationEffect stunAlterationEffect = new StunAlterationEffect(context);
+                    stunAlterationEffect.applyEffect(instigator, otherEntity, hurtingComponent.amount, hurtingComponent.duration);
+                }
+                break;
+            case "dot":
+                if (otherEntity.hasComponent(CharacterComponent.class)) {
+                    DamageOverTimeAlterationEffect dotAlterationEffect = new DamageOverTimeAlterationEffect(context);
+                    dotAlterationEffect.applyEffect(instigator, otherEntity, hurtingComponent.amount, hurtingComponent.duration);
+                }
+                break;
             default:
                 if (otherEntity.hasComponent(HealthComponent.class)) {
-                    EntityRef instigator = OwnerSpecific.getUltimateOwner(entity);
-
                     otherEntity.send(new DoDamageEvent(hurtingComponent.amount, hurtingComponent.damageType, instigator, entity));
                     otherEntity.send(new NotificationMessageEvent(new String(hurtingComponent.amount + " damage dealt.."), entity));
                 }

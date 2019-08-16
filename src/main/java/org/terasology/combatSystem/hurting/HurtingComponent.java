@@ -31,7 +31,10 @@ public class HurtingComponent implements Component {
      */
     @Replicate
     public int amount = 3;
-    
+
+    @Replicate
+    public long duration = 2000;
+
     /**
      * The type of damage.
      */
