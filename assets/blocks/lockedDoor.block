@@ -3,7 +3,7 @@
 	"categories": ["door"],
     "hardness": 0,
 	"tiles" : {
-		"all" : "Core:CobbleStone"
+		"all" : "CoreAssets:CobbleStone"
 	},
     "mass": 100,
 	"entity": {
@@ -11,5 +11,5 @@
 		"temporary": false,
 		"keepActive": true
 	},
-    "sounds": "Core:stone"
+    "sounds": "CoreAssets:stone"
 }

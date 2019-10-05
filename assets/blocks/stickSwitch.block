@@ -3,7 +3,7 @@
 	"categories" : ["switch"],
     "hardness": 0,
 	"tiles" : {
-		"all" : "Core:Companion"
+		"all" : "CoreAssets:Companion"
 	},
 	"mass": 10,
 	"shape" : "engine:Block",

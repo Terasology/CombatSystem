@@ -1,14 +1,11 @@
 {
-    "displayName": "combat tnt",
+    "displayName": "Combat TNT",
 	"categories" : ["trap"],
     "hardness": 0,
 	"tiles" : {
-		"top": "Core:TntTop",
-        "bottom": "Core:TntBottom",
-		"left": "Core:Tnt",
-		"right": "Core:Tnt",
-		"front": "Core:Tnt",
-		"back": "Core:Tnt"
+		"top": "CoreAssets:TntTop",
+        "bottom": "CoreAssets:TntBottom",
+		"sides": "CoreAssets:Tnt"
 	},
 	"mass": 10,
 	"shape" : "engine:Block",

@@ -3,8 +3,8 @@
 	"categories": ["rock"],
     "hardness": 0,
 	"tiles" : {
-		"all" : "Core:Brick"
+		"all" : "CoreAssets:Brick"
 	},
     "mass": 100,
-    "sounds": "Core:stone"
+    "sounds": "CoreAssets:stone"
 }
