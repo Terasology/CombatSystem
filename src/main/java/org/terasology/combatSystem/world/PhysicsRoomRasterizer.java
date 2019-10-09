@@ -1,10 +1,7 @@
 package org.terasology.combatSystem.world;
 
-import static org.terasology.world.chunks.ChunkConstants.CHUNK_REGION;
-
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
 import org.terasology.core.world.generator.rasterizers.FloraType;
 import org.terasology.core.world.generator.trees.TreeGenerator;
 import org.terasology.core.world.generator.trees.Trees;
@@ -19,8 +16,10 @@ import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
+import java.util.List;
+import java.util.Map;
+
+import static org.terasology.world.chunks.ChunkConstants.CHUNK_REGION;
 
 public class PhysicsRoomRasterizer implements WorldRasterizer{
     
@@ -37,13 +36,13 @@ public class PhysicsRoomRasterizer implements WorldRasterizer{
     @Override
     public void initialize() {
         manager = CoreRegistry.get(BlockManager.class);
-        grass = manager.getBlock("Core:Grass");
-        water = manager.getBlock("Core:water");
+        grass = manager.getBlock("CoreBlocks:Grass");
+        water = manager.getBlock("CoreBlocks:Water");
         
         flora.put(FloraType.GRASS, ImmutableList.<Block>of(
-                manager.getBlock("core:TallGrass1"),
-                manager.getBlock("core:TallGrass2"),
-                manager.getBlock("core:TallGrass3")));
+                manager.getBlock("CoreBlocks:TallGrass1"),
+                manager.getBlock("CoreBlocks:TallGrass2"),
+                manager.getBlock("CoreBlocks:TallGrass3")));
     }
 
     @Override
