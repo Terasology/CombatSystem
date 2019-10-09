@@ -1,20 +1,20 @@
 {
-    "displayName": "Destroy Switch",
-	"categories" : ["switch"],
-    "hardness": 1,
-	"tiles" : {
-		"all" : "CoreAssets:Companion"
-	},
-	"mass": 10,
-	"shape" : "engine:Block",
-	"attachmentAllowed": false,
-	"entity": {
-		"prefab": "CombatSystem:destroySwitch",
-		"temporary": false,
-		"keepActive": true
-	},
-	"inventory": {
-		"stackable": true,
-		"directPickup": true
-	}
+  "displayName": "Destroy Switch",
+  "categories": ["switch"],
+  "hardness": 1,
+  "tiles": {
+    "all": "CoreAssets:Companion"
+  },
+  "mass": 10,
+  "shape": "engine:Block",
+  "attachmentAllowed": false,
+  "entity": {
+    "prefab": "CombatSystem:destroySwitch",
+    "temporary": false,
+    "keepActive": true
+  },
+  "inventory": {
+    "stackable": true,
+    "directPickup": true
+  }
 }

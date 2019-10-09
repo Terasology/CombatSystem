@@ -1,21 +1,20 @@
 {
-    "Hurting" : {
-		
-	},
-	"Location" : {
-		
-	},
-	"Attacker" : {
-		
-	},
-	"Network" : {
-		
-	},
-	"Explode" : {
-		"explosionPrefab":"CombatSystem:basicExplosion"
-	},
-	"ForceBlockActive" : {
-		
-	}
-}
+  "Hurting": {
 
+  },
+  "Location": {
+
+  },
+  "Attacker": {
+
+  },
+  "Network": {
+
+  },
+  "Explode": {
+    "explosionPrefab": "CombatSystem:basicExplosion"
+  },
+  "ForceBlockActive": {
+
+  }
+}

@@ -1,22 +1,22 @@
 {
-    "displayName": "Combat TNT",
-	"categories" : ["trap"],
-    "hardness": 0,
-	"tiles" : {
-		"top": "CoreAssets:TntTop",
-        "bottom": "CoreAssets:TntBottom",
-		"sides": "CoreAssets:Tnt"
-	},
-	"mass": 10,
-	"shape" : "engine:Block",
-	"attachmentAllowed": true,
-	"entity": {
-		"prefab": "CombatSystem:tnt",
-		"temporary": false,
-		"keepActive": true
-	},
-	"inventory": {
-		"stackable": true,
-		"directPickup": true
-	}
+  "displayName": "Combat TNT",
+  "categories": ["trap"],
+  "hardness": 0,
+  "tiles": {
+    "top": "CoreAssets:TntTop",
+    "bottom": "CoreAssets:TntBottom",
+    "sides": "CoreAssets:Tnt"
+  },
+  "mass": 10,
+  "shape": "engine:Block",
+  "attachmentAllowed": true,
+  "entity": {
+    "prefab": "CombatSystem:tnt",
+    "temporary": false,
+    "keepActive": true
+  },
+  "inventory": {
+    "stackable": true,
+    "directPickup": true
+  }
 }

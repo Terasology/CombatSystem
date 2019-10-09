@@ -1,15 +1,15 @@
 {
-	"displayName": "Locked Door",
-	"categories": ["door"],
-    "hardness": 0,
-	"tiles" : {
-		"all" : "CoreAssets:CobbleStone"
-	},
-    "mass": 100,
-	"entity": {
-		"prefab" : "CombatSystem:lockedDoor",
-		"temporary": false,
-		"keepActive": true
-	},
-    "sounds": "CoreAssets:stone"
+  "displayName": "Locked Door",
+  "categories": ["door"],
+  "hardness": 0,
+  "tiles": {
+    "all": "CoreAssets:CobbleStone"
+  },
+  "mass": 100,
+  "entity": {
+    "prefab": "CombatSystem:lockedDoor",
+    "temporary": false,
+    "keepActive": true
+  },
+  "sounds": "CoreAssets:stone"
 }

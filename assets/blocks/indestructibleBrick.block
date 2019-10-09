@@ -1,10 +1,10 @@
 {
-	"displayName": "Brick",
-	"categories": ["rock"],
-    "hardness": 0,
-	"tiles" : {
-		"all" : "CoreAssets:Brick"
-	},
-    "mass": 100,
-    "sounds": "CoreAssets:stone"
+  "displayName": "Brick",
+  "categories": ["rock"],
+  "hardness": 0,
+  "tiles": {
+    "all": "CoreAssets:Brick"
+  },
+  "mass": 100,
+  "sounds": "CoreAssets:stone"
 }

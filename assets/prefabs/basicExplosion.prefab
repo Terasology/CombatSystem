@@ -1,16 +1,15 @@
 {
-    "parent" : "CoreAssets:smokeExplosion",
-	"Hurting" : {
-		"amount":10,
-		"damageTypes":"engine:explosiveDamage"
-	},
-	"Explosion" : {
-		
-	},
-	"Health" : {
-		"maxHealth" : 1,
-		"currentHealth" : 1,
-		"regenRate" : 0
-	}
-}
+  "parent": "CoreAssets:smokeExplosion",
+  "Hurting": {
+    "amount": 10,
+    "damageTypes": "engine:explosiveDamage"
+  },
+  "Explosion": {
 
+  },
+  "Health": {
+    "maxHealth": 1,
+    "currentHealth": 1,
+    "regenRate": 0
+  }
+}

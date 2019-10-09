@@ -1,7 +1,6 @@
 {
-    "parent" : "CombatSystem:arrow",
-	"Explode" : {
-		"explosionPrefab":"CombatSystem:basicExplosion"
-	}
+  "parent": "CombatSystem:arrow",
+  "Explode": {
+    "explosionPrefab": "CombatSystem:basicExplosion"
+  }
 }
-
