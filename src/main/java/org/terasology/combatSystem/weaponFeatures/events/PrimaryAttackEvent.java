@@ -20,7 +20,7 @@ public class PrimaryAttackEvent implements Event{
         
     }
     
-    public PrimaryAttackEvent(ActivateEvent info){
+    public PrimaryAttackEvent(ActivateEvent info) {
         instigator = info.getInstigator();
         target = info.getTarget();
         origin = info.getOrigin();
@@ -28,16 +28,15 @@ public class PrimaryAttackEvent implements Event{
         hitPosition = info.getHitPosition();
         hitNormal = info.getHitNormal();
         activationId = info.getActivationId();
-        EntityRef entity1 = getInstigator();
-        EntityRef entity2 = getTarget();
-        LocationComponent locI = entity1.getComponent(LocationComponent.class);
-        LocationComponent locT = entity2.getComponent(LocationComponent.class);
-        Vector3f impulse = new Vector3f(locT.getWorldPosition()).sub(locI.getWorldPosition());
-        impulse.normalize();
-        impulse.scale(5);
-        entity2.send(new CharacterImpulseEvent(impulse));
+        if (instigator.exists() && target.exists()) {
+            LocationComponent locI = instigator.getComponent(LocationComponent.class);
+            LocationComponent locT = target.getComponent(LocationComponent.class);
+            Vector3f impulse = new Vector3f(locT.getWorldPosition()).sub(locI.getWorldPosition());
+            impulse.normalize();
+            impulse.scale(5);
+            target.send(new CharacterImpulseEvent(impulse));
+        }
     }
-    
     public EntityRef getInstigator() {
         return instigator;
     }
