@@ -36,7 +36,6 @@ public class HurtingHandlingSystem extends BaseComponentSystem {
 
         if (otherEntity.hasComponent(HealthComponent.class)) {
             EntityRef instigator = OwnerSpecific.getUltimateOwner(entity);
-
             otherEntity.send(new DoDamageEvent(hurting.amount, hurting.damageType, instigator, entity));
             otherEntity.send(new NotificationMessageEvent(new String(hurting.amount + " damage dealt.."), entity));
         }
