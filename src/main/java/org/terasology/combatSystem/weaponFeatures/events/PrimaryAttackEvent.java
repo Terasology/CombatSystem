@@ -19,7 +19,7 @@ public class PrimaryAttackEvent implements Event{
         
     }
     
-    public PrimaryAttackEvent(ActivateEvent info){
+    public PrimaryAttackEvent(ActivateEvent info) {
         instigator = info.getInstigator();
         target = info.getTarget();
         origin = info.getOrigin();
@@ -28,7 +28,6 @@ public class PrimaryAttackEvent implements Event{
         hitNormal = info.getHitNormal();
         activationId = info.getActivationId();
     }
-    
     public EntityRef getInstigator() {
         return instigator;
     }

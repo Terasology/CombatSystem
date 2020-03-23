@@ -10,18 +10,35 @@ import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.characters.CharacterHeldItemComponent;
+import org.terasology.logic.characters.CharacterImpulseEvent;
 import org.terasology.logic.common.ActivateEvent;
+import org.terasology.logic.location.LocationComponent;
+import org.terasology.math.geom.Vector3f;
 import org.terasology.world.block.items.BlockItemComponent;
 import org.terasology.world.block.items.OnBlockItemPlaced;
 
 @RegisterSystem
-public class AttackSystem extends BaseComponentSystem{
-    
-    @ReceiveEvent( components = {PrimaryAttackComponent.class})
-    public void primaryAttack(ActivateEvent event, EntityRef entity){
+public class AttackSystem extends BaseComponentSystem {
+
+    @ReceiveEvent(components = {PrimaryAttackComponent.class})
+    public void primaryAttack(ActivateEvent event, EntityRef entity) {
         entity.send(new PrimaryAttackEvent(event));
     }
-    
+
+    @ReceiveEvent
+    public void giveImpulse(PrimaryAttackEvent event, EntityRef entity){
+        EntityRef instigator = event.getInstigator();
+        EntityRef target = event.getTarget();
+        if (instigator.exists() && target.exists()) {
+            LocationComponent locI = instigator.getComponent(LocationComponent.class);
+            LocationComponent locT = target.getComponent(LocationComponent.class);
+            Vector3f impulse = new Vector3f(locT.getWorldPosition()).sub(locI.getWorldPosition());
+            impulse.normalize();
+            impulse.scale(5);
+            target.send(new CharacterImpulseEvent(impulse));
+        }
+    }
+
     @ReceiveEvent( components = {CharacterHeldItemComponent.class}, priority = EventPriority.PRIORITY_HIGH)
     public void addAttacker(OnChangedComponent event, EntityRef character){
         CharacterHeldItemComponent heldItem = character.getComponent(CharacterHeldItemComponent.class);

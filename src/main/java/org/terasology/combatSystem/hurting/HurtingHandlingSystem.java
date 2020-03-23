@@ -28,7 +28,6 @@ public class HurtingHandlingSystem extends BaseComponentSystem {
     @ReceiveEvent(components = HurtingComponent.class, priority = EventPriority.PRIORITY_TRIVIAL)
     public void hurting(HurtEvent event, EntityRef entity) {
         HurtingComponent hurting = entity.getComponent(HurtingComponent.class);
-
         EntityRef otherEntity = event.getTarget();
         if (otherEntity == null || otherEntity == EntityRef.NULL) {
             return;
@@ -36,7 +35,6 @@ public class HurtingHandlingSystem extends BaseComponentSystem {
 
         if (otherEntity.hasComponent(HealthComponent.class)) {
             EntityRef instigator = OwnerSpecific.getUltimateOwner(entity);
-
             otherEntity.send(new DoDamageEvent(hurting.amount, hurting.damageType, instigator, entity));
             otherEntity.send(new NotificationMessageEvent(new String(hurting.amount + " damage dealt.."), entity));
         }
