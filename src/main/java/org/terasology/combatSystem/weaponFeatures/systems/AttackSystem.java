@@ -18,11 +18,15 @@ import org.terasology.world.block.items.BlockItemComponent;
 import org.terasology.world.block.items.OnBlockItemPlaced;
 
 @RegisterSystem
-public class AttackSystem extends BaseComponentSystem{
-    
-    @ReceiveEvent( components = {PrimaryAttackComponent.class})
-    public void primaryAttack(ActivateEvent event, EntityRef entity){
+public class AttackSystem extends BaseComponentSystem {
+
+    @ReceiveEvent(components = {PrimaryAttackComponent.class})
+    public void primaryAttack(ActivateEvent event, EntityRef entity) {
         entity.send(new PrimaryAttackEvent(event));
+    }
+
+    @ReceiveEvent( components = {PrimaryAttackComponent.class})
+    public void giveImpulse(PrimaryAttackEvent event, EntityRef entity){
         EntityRef instigator = event.getInstigator();
         EntityRef target = event.getTarget();
         if (instigator.exists() && target.exists()) {
@@ -33,10 +37,8 @@ public class AttackSystem extends BaseComponentSystem{
             impulse.scale(5);
             target.send(new CharacterImpulseEvent(impulse));
         }
-
-
     }
-    
+
     @ReceiveEvent( components = {CharacterHeldItemComponent.class}, priority = EventPriority.PRIORITY_HIGH)
     public void addAttacker(OnChangedComponent event, EntityRef character){
         CharacterHeldItemComponent heldItem = character.getComponent(CharacterHeldItemComponent.class);
