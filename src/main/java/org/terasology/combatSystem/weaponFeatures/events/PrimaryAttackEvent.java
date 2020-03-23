@@ -2,7 +2,6 @@ package org.terasology.combatSystem.weaponFeatures.events;
 
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.Event;
-import org.terasology.logic.characters.CharacterImpulseEvent;
 import org.terasology.logic.common.ActivateEvent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.geom.Vector3f;
@@ -28,14 +27,6 @@ public class PrimaryAttackEvent implements Event{
         hitPosition = info.getHitPosition();
         hitNormal = info.getHitNormal();
         activationId = info.getActivationId();
-        if (instigator.exists() && target.exists()) {
-            LocationComponent locI = instigator.getComponent(LocationComponent.class);
-            LocationComponent locT = target.getComponent(LocationComponent.class);
-            Vector3f impulse = new Vector3f(locT.getWorldPosition()).sub(locI.getWorldPosition());
-            impulse.normalize();
-            impulse.scale(5);
-            target.send(new CharacterImpulseEvent(impulse));
-        }
     }
     public EntityRef getInstigator() {
         return instigator;
