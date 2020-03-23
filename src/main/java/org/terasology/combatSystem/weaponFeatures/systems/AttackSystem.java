@@ -25,7 +25,7 @@ public class AttackSystem extends BaseComponentSystem {
         entity.send(new PrimaryAttackEvent(event));
     }
 
-    @ReceiveEvent( components = {PrimaryAttackComponent.class})
+    @ReceiveEvent
     public void giveImpulse(PrimaryAttackEvent event, EntityRef entity){
         EntityRef instigator = event.getInstigator();
         EntityRef target = event.getTarget();
