@@ -10,9 +10,6 @@ import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 
-/**
- * 
- */
 @RegisterSystem
 public class FactionSystem extends BaseComponentSystem{
     
