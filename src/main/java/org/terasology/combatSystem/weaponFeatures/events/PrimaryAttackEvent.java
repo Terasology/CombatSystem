@@ -25,6 +25,7 @@ public class PrimaryAttackEvent implements Event{
         
     }
     
+
     /**
      * Creates an event based on an ActivateEvent.
      * @param info The ActivateEvent to base this event off of.
@@ -38,6 +39,7 @@ public class PrimaryAttackEvent implements Event{
         hitNormal = info.getHitNormal();
         activationId = info.getActivationId();
     }
+
     
     /**
      * Gets the instigator of this event.

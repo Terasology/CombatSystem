@@ -1,15 +1,15 @@
 {
-    "parent": "engine:itemBase",
-	"DisplayName": {
-		"name": "Explode Arrow"
-	},
-	"Item": {
-		"icon" : "CombatSystem:arrowIcon",
-		"usage": "IN_DIRECTION",
-		"stackId": "CombatSystem:explodeArrowItem",
-		"cooldownTime": 0
-	},
-	"WorldAvatar": {
-        "worldAvatarPrefab":"CombatSystem:explodeArrow"
-    }
+  "parent": "engine:itemBase",
+  "DisplayName": {
+    "name": "Explode Arrow"
+  },
+  "Item": {
+    "icon": "CombatSystem:arrowIcon",
+    "usage": "IN_DIRECTION",
+    "stackId": "CombatSystem:explodeArrowItem",
+    "cooldownTime": 0
+  },
+  "WorldAvatar": {
+    "worldAvatarPrefab": "CombatSystem:explodeArrow"
+  }
 }

@@ -1,15 +1,15 @@
 {
-    "parent": "engine:itemBase",
-	"DisplayName": {
-		"name": "Stick Arrow"
-	},
-	"Item": {
-		"icon" : "CombatSystem:arrowIcon",
-		"usage": "IN_DIRECTION",
-		"stackId": "CombatSystem:stickArrowItem",
-		"cooldownTime": 0
-	},
-	"WorldAvatar": {
-        "worldAvatarPrefab":"CombatSystem:stickArrow"
-    }
+  "parent": "engine:itemBase",
+  "DisplayName": {
+    "name": "Stick Arrow"
+  },
+  "Item": {
+    "icon": "CombatSystem:arrowIcon",
+    "usage": "IN_DIRECTION",
+    "stackId": "CombatSystem:stickArrowItem",
+    "cooldownTime": 0
+  },
+  "WorldAvatar": {
+    "worldAvatarPrefab": "CombatSystem:stickArrow"
+  }
 }

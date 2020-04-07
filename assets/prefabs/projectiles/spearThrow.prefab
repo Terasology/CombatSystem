@@ -1,18 +1,18 @@
 {
-    "parent" : "CombatSystem:arrow",
-	"Hurting" : {
-		"amount" : 3
-	},
-	"Mesh" : {
-        "mesh" : "CombatSystem:spear",
-        "material" : "CombatSystem:arrow"
-    },
-	"Stick" : {
-		"totalStickingTime" : 10
-	},
-	"Health" : {
-		"maxHealth" : 1,
-		"currentHealth" : 1,
-		"regenRate" : 0
-	}
+  "parent": "CombatSystem:arrow",
+  "Hurting": {
+    "amount": 3
+  },
+  "Mesh": {
+    "mesh": "CombatSystem:spear",
+    "material": "CombatSystem:arrow"
+  },
+  "Stick": {
+    "totalStickingTime": 10
+  },
+  "Health": {
+    "maxHealth": 1,
+    "currentHealth": 1,
+    "regenRate": 0
+  }
 }

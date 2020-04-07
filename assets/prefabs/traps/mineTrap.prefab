@@ -1,24 +1,23 @@
 {
-    "Hurting" : {
-		
-	},
-	"Location" : {
-		
-	},
-	"VolumeSensor" : {
-		
-	},
-	"TargetVisible" : {
-		
-	},
-	"Attacker" : {
-		
-	},
-	"PhysicalSensor": {
-		
-	},
-	"Network" : {
-		
-	}
-}
+  "Hurting": {
 
+  },
+  "Location": {
+
+  },
+  "VolumeSensor": {
+
+  },
+  "TargetVisible": {
+
+  },
+  "Attacker": {
+
+  },
+  "PhysicalSensor": {
+
+  },
+  "Network": {
+
+  }
+}
