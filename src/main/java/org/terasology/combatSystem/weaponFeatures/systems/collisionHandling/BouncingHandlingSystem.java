@@ -14,26 +14,27 @@ import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.health.DestroyEvent;
 import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.location.LocationComponent;
+import org.terasology.math.JomlUtil;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.events.CollideEvent;
 
 @RegisterSystem
 public class BouncingHandlingSystem extends BaseComponentSystem{
-    
+
     @ReceiveEvent(components = {BounceComponent.class})
     public void bouncingCollision(CollideEvent event, EntityRef entity){
-        bounce(entity, event.getOtherEntity(), event.getNormal());
-        
+        bounce(entity, event.getOtherEntity(), JomlUtil.from(event.getNormal()));
+
         event.consume();
     }
-    
+
     @ReceiveEvent( components = BounceComponent.class)
     public void bouncing(BounceEvent event, EntityRef entity){
         bounce(entity, event.getTarget(), event.getNormal());
     }
-    
+
     //----------------------------private methods----------------------------------
-    
+
     // bounce entity
     private void bounce(EntityRef entity, EntityRef target, Vector3f normal){
         MassComponent mass = entity.getComponent(MassComponent.class);
@@ -42,7 +43,7 @@ public class BouncingHandlingSystem extends BaseComponentSystem{
         if(mass == null || location == null || bounce == null){
             return;
         }
-        
+
         // check peircing
         if(checkPiercing(normal, mass.velocity, bounce.maxPierceAngle, bounce.minPierceVelocity)){
             entity.addOrSaveComponent(new StickComponent());
@@ -50,8 +51,8 @@ public class BouncingHandlingSystem extends BaseComponentSystem{
             entity.send(new StickEvent(target));
             return;
         }
-        
-        // check if the velocity is not enough for another bounce. Destroy if true else 
+
+        // check if the velocity is not enough for another bounce. Destroy if true else
         // bounce the arrow.
         if(mass.velocity.lengthSquared() <= (bounce.minBounceVelocity*bounce.minBounceVelocity)){
             entity.send(new DestroyEvent(EntityRef.NULL, EntityRef.NULL, EngineDamageTypes.DIRECT.get()));
@@ -64,31 +65,31 @@ public class BouncingHandlingSystem extends BaseComponentSystem{
             bounceDir.sub(mass.velocity);
             bounceDir.scale(bounce.bounceFactor);
             bounceDir.negate();
-            
+
             mass.velocity.set(bounceDir);
             entity.saveComponent(mass);
-            
+
             entity.send(new ReplaceCollisionExceptionEvent(target));
         }
-        
+
         //-------------------------repetitive code for every HurtingComponent-----------
-        
+
         // damage the other entity
         entity.send(new HurtEvent(target));
     }
-    
+
     private boolean checkPiercing(Vector3f normal, Vector3f velocity, int maxAngle, float minVelocity){
         Vector3f vel = new Vector3f(velocity);
-        
+
         int angle = (int) Math.toDegrees(vel.angle(normal));
         if(angle > 90){
             angle = 180 - angle;
         }
-        
+
         if(angle <= maxAngle && velocity.lengthSquared() >= (minVelocity*minVelocity)){
             return true;
         }
-        
+
         return false;
     }
 
