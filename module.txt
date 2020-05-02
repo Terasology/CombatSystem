@@ -1,16 +1,15 @@
 {
     "id" : "CombatSystem",
-    "version" : "0.1.2-SNAPSHOT",
+    "version" : "0.2.0",
     "author" : "0shine0",
     "displayName" : "CombatSystem",
     "description" : "This module introduces combat system",
     "dependencies" : [
-        {"id" : "Core", "minVersion" : "3.0.0"},
         {"id" : "CoreBlocks", "minVersion" : "1.0.0"},
         {"id" : "StructureTemplates", "minVersion" : "0.3.0"},
         {"id" : "Sensors", "minVersion" : "0.1.0"}
     ],
     "serverSideOnly" : false,
-    "isGameplay" : "true",
+    "isGameplay" : true,
     "defaultWorldGenerator" : "CombatSystem:PhysicsRoomWorldGenerator"
 }
