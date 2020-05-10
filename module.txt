@@ -10,7 +10,7 @@
         {"id" : "Sensors", "minVersion" : "0.1.0"},
         {"id" : "Health", "minVersion" : "0.1.0"},
         {"id" : "CoreWorlds", "minVersion" : "1.0.0"},
-        {"id": "CoreItems", "minVersion": "1.0.0"
+        {"id": "CoreItems", "minVersion": "1.0.0"}
     ],
     "serverSideOnly" : false,
     "isGameplay" : true,
