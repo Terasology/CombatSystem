@@ -36,13 +36,13 @@ public class PhysicsRoomRasterizer implements WorldRasterizer{
     @Override
     public void initialize() {
         manager = CoreRegistry.get(BlockManager.class);
-        grass = manager.getBlock("CoreBlocks:Grass");
-        water = manager.getBlock("CoreBlocks:Water");
+        grass = manager.getBlock("CoreAssets:Grass");
+        water = manager.getBlock("CoreAssets:Water");
         
         flora.put(FloraType.GRASS, ImmutableList.<Block>of(
-                manager.getBlock("CoreBlocks:TallGrass1"),
-                manager.getBlock("CoreBlocks:TallGrass2"),
-                manager.getBlock("CoreBlocks:TallGrass3")));
+                manager.getBlock("CoreAssets:TallGrass1"),
+                manager.getBlock("CoreAssets:TallGrass2"),
+                manager.getBlock("CoreAssets:TallGrass3")));
     }
 
     @Override
