@@ -8,6 +8,7 @@
         { "id": "CoreAssets", "minVersion": "2.0.1" },
         { "id": "CoreWorlds", "minVersion": "1.1.0" },
         { "id": "Health", "minVersion": "1.0.0" },
+        { "id": "Inventory", "minVersion": "1.1.0" },
         { "id": "Sensors", "minVersion": "1.0.0" },
         { "id": "StructureTemplates", "minVersion": "1.0.0" }
     ],
