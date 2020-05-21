@@ -13,8 +13,8 @@ import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.characters.CharacterHeldItemComponent;
+import org.terasology.logic.characters.CharacterImpulseEvent;
 import org.terasology.logic.characters.GazeAuthoritySystem;
-import org.terasology.logic.characters.events.AttackEvent;
 import org.terasology.logic.characters.events.AttackRequest;
 import org.terasology.logic.characters.events.OnItemUseEvent;
 import org.terasology.logic.common.ActivateEvent;
@@ -24,82 +24,88 @@ import org.terasology.world.block.items.BlockItemComponent;
 import org.terasology.world.block.items.OnBlockItemPlaced;
 
 @RegisterSystem
-public class AttackSystem extends BaseComponentSystem{
-    
-    @ReceiveEvent( components = {PrimaryAttackComponent.class})
-    public void primaryAttack(ActivateEvent event, EntityRef entity){
+public class AttackSystem extends BaseComponentSystem {
+
+    @ReceiveEvent(components = {PrimaryAttackComponent.class})
+    public void primaryAttack(ActivateEvent event, EntityRef entity) {
         entity.send(new PrimaryAttackEvent(event));
     }
-    
+
+    @ReceiveEvent
+    public void giveImpulse(PrimaryAttackEvent event, EntityRef entity) {
+        EntityRef instigator = event.getInstigator();
+        EntityRef target = event.getTarget();
+        if (instigator.exists() && target.exists()) {
+            LocationComponent locI = instigator.getComponent(LocationComponent.class);
+            LocationComponent locT = target.getComponent(LocationComponent.class);
+            Vector3f impulse = new Vector3f(locT.getWorldPosition()).sub(locI.getWorldPosition());
+            impulse.normalize();
+            impulse.scale(5);
+            target.send(new CharacterImpulseEvent(impulse));
+        }
+    }
+
     // TODO: intercept Attack Request Event and trigger a secondary attack event
     //       and avoid AttackEvent triggering
-    @ReceiveEvent(components = LocationComponent.class, netFilter = RegisterMode.AUTHORITY, 
+    @ReceiveEvent(components = LocationComponent.class, netFilter = RegisterMode.AUTHORITY,
             priority = EventPriority.PRIORITY_HIGH)
-    public void secondaryAttack(AttackRequest event, EntityRef character){
+    public void secondaryAttack(AttackRequest event, EntityRef character) {
         EntityRef item = event.getItem();
-        
+
         if (item.exists()) {
             if (!character.equals(item.getOwner())) {
                 return;
             }
         }
-        
-        if(!item.hasComponent(SecondaryAttackComponent.class)){
+
+        if (!item.hasComponent(SecondaryAttackComponent.class)) {
             return;
         }
-        
+
         OnItemUseEvent onItemUseEvent = new OnItemUseEvent();
         character.send(onItemUseEvent);
         if (!onItemUseEvent.isConsumed()) {
             EntityRef gazeEntity = GazeAuthoritySystem.getGazeEntityForCharacter(character);
             LocationComponent gazeLocation = gazeEntity.getComponent(LocationComponent.class);
             Vector3f direction = gazeLocation.getWorldDirection();
-            
+
             item.send(new SecondaryAttackEvent(character, null, null, direction, null, null, -1));
         }
     }
-    
-    @ReceiveEvent( components = {CharacterHeldItemComponent.class}, priority = EventPriority.PRIORITY_HIGH)
-    public void addAttacker(OnChangedComponent event, EntityRef character){
+
+    @ReceiveEvent(components = {CharacterHeldItemComponent.class}, priority = EventPriority.PRIORITY_HIGH)
+    public void addAttacker(OnChangedComponent event, EntityRef character) {
         CharacterHeldItemComponent heldItem = character.getComponent(CharacterHeldItemComponent.class);
         EntityRef item = heldItem.selectedItem;
-        
+
         AttackerComponent attacker = item.getComponent(AttackerComponent.class);
-        if(attacker == null){
-            if(item.hasComponent(BlockItemComponent.class)){
+        if (attacker == null) {
+            if (item.hasComponent(BlockItemComponent.class)) {
                 attacker = new AttackerComponent();
-            }
-            else{
+            } else {
                 return;
             }
         }
-        
+
         attacker.attacker = character;
         item.addOrSaveComponent(attacker);
     }
-    
+
     @ReceiveEvent(priority = EventPriority.PRIORITY_HIGH)
-    public void addAttacker(OnBlockItemPlaced event, EntityRef item){
+    public void addAttacker(OnBlockItemPlaced event, EntityRef item) {
         EntityRef block = event.getPlacedBlock();
-        
+
         AttackerComponent attacker = block.getComponent(AttackerComponent.class);
-        if(attacker == null){
+        if (attacker == null) {
             return;
         }
-        
+
         AttackerComponent itemAttacker = item.getComponent(AttackerComponent.class);
-        if(itemAttacker == null){
+        if (itemAttacker == null) {
             return;
         }
-        
+
         attacker.attacker = itemAttacker.attacker;
         block.saveComponent(attacker);
     }
 }
-        
-        
-             /*  LeftMouseDownButtonEvent and RightMouseDownButtonEvent seem to be the 
-               events that correspond to the actual input, although I have not worked 
-               with those events before
-             */
-//            LeftMouseDownButtonEvent

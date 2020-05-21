@@ -9,7 +9,7 @@ import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.CollisionGroup;
 import org.terasology.physics.StandardCollisionGroup;
 import org.terasology.physics.components.RigidBodyComponent;
-import org.terasology.physics.shapes.BoxShapeComponent;
+import org.terasology.physics.components.shapes.BoxShapeComponent;
 import org.terasology.registry.In;
 import org.terasology.rendering.logic.SkeletalMeshComponent;
 import org.terasology.utilities.Assets;

@@ -1,10 +1,6 @@
 package org.terasology.combatSystem.physics.systems;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.Maps;
 import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.combatSystem.physics.events.CombatAddAngularVelocityEvent;
 import org.terasology.combatSystem.physics.events.CombatForceEvent;
@@ -26,13 +22,18 @@ import org.terasology.physics.HitResult;
 import org.terasology.physics.Physics;
 import org.terasology.physics.StandardCollisionGroup;
 import org.terasology.physics.components.TriggerComponent;
+import org.terasology.physics.components.shapes.BoxShapeComponent;
+import org.terasology.physics.components.shapes.CapsuleShapeComponent;
+import org.terasology.physics.components.shapes.CylinderShapeComponent;
+import org.terasology.physics.components.shapes.SphereShapeComponent;
 import org.terasology.physics.events.CollideEvent;
-import org.terasology.physics.shapes.BoxShapeComponent;
-import org.terasology.physics.shapes.CapsuleShapeComponent;
-import org.terasology.physics.shapes.CylinderShapeComponent;
-import org.terasology.physics.shapes.SphereShapeComponent;
 import org.terasology.registry.In;
-import com.google.common.collect.Maps;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * handles various physical operations applied to an entity with {@code MassComponent}
@@ -66,7 +67,7 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
     }
     
     /**
-     * applies impulse to specified entity.
+     * Applies impulse to specified entity.
      * 
      * @param event  stores the value of impulse to be applied.
      * @param entity  the entity on which the impulse is applied.
@@ -89,7 +90,7 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
     }
     
     /**
-     * applies force to specified entity.
+     * Applies force to specified entity.
      * <p>
      * the force is added to total force on entity. 
      * Therefore, force is resolved in this system.

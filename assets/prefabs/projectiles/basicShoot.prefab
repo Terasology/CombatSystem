@@ -1,10 +1,18 @@
 {
-	"Location" : {},
-	"Mass" : {},
-	"BoxShape" : {
-		"extents" : [0.5, 0.5, 1]
-	},
-	"Network" : {
-		"replicateMode" : "RELEVANT"
-	}
+  "Location": {},
+  "Mass": {},
+  "BoxShape": {
+    "extents": [
+      0.5,
+      0.5,
+      1
+    ]
+  },
+  "Mesh": {
+    "mesh": "CombatSystem:arrow",
+    "material": "CombatSystem:arrow"
+  },
+  "Network": {
+    "replicateMode": "RELEVANT"
+  }
 }

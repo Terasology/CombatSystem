@@ -21,8 +21,8 @@ public class CombatForceSystem extends BaseComponentSystem implements UpdateSubs
     EntityManager entityManager;
     
     /**
-     * converts the total force applied to an entity into acceleration.
-     * adds the acceleration into total acceleration.
+     * Converts the total force applied to an entity into acceleration.
+     * Adds the acceleration into total acceleration.
      */
     @Override
     public void update(float delta) {
