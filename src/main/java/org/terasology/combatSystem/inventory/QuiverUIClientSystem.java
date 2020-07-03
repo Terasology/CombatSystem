@@ -3,13 +3,17 @@ package org.terasology.combatSystem.inventory;
 import org.terasology.assets.management.AssetManager;
 import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
 import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.entitySystem.entity.lifecycleEvents.OnAddedComponent;
 import org.terasology.entitySystem.entity.lifecycleEvents.OnChangedComponent;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.logic.characters.CharacterComponent;
 import org.terasology.logic.characters.CharacterHeldItemComponent;
+import org.terasology.logic.characters.events.ChangeHeldItemRequest;
 import org.terasology.logic.inventory.InventoryComponent;
+import org.terasology.logic.inventory.ItemComponent;
 import org.terasology.logic.players.LocalPlayer;
 import org.terasology.registry.In;
 import org.terasology.rendering.nui.NUIManager;
@@ -32,7 +36,7 @@ public class QuiverUIClientSystem extends BaseComponentSystem {
     @In
     private LocalPlayer player;
 
-    @ReceiveEvent(components = {CharacterHeldItemComponent.class})
+    @ReceiveEvent(components = {CharacterComponent.class, CharacterHeldItemComponent.class})
     public void onLauncherSelected(OnChangedComponent event, EntityRef character) {
         if (character != null && character.equals(player.getCharacterEntity())) {
             CharacterHeldItemComponent heldItem = character.getComponent(CharacterHeldItemComponent.class);
