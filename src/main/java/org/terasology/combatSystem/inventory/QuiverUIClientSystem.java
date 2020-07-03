@@ -37,7 +37,7 @@ public class QuiverUIClientSystem extends BaseComponentSystem {
     private LocalPlayer player;
 
     @ReceiveEvent(components = {CharacterComponent.class, CharacterHeldItemComponent.class})
-    public void onLauncherSelected(OnChangedComponent event, EntityRef character) {
+    public void onAmmoBearingItemSelected(OnChangedComponent event, EntityRef character) {
         if (character != null && character.equals(player.getCharacterEntity())) {
             CharacterHeldItemComponent heldItem = character.getComponent(CharacterHeldItemComponent.class);
             EntityRef item = heldItem.selectedItem;
