@@ -44,8 +44,7 @@ public class QuiverUIClientSystem extends BaseComponentSystem {
     public void reactTo(OnChangedComponent event, EntityRef character, CharacterHeldItemComponent heldItem) {
         onAmmoBearingItemSelected(heldItem);
     }
-
-    //@ReceiveEvent(components = {CharacterComponent.class, CharacterHeldItemComponent.class})
+    
     public void onAmmoBearingItemSelected(CharacterHeldItemComponent heldItem) {
         EntityRef item = heldItem.selectedItem;
 
