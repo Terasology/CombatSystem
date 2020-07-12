@@ -3,6 +3,7 @@ package org.terasology.combatSystem.inventory;
 import org.terasology.assets.management.AssetManager;
 import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
 import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.entitySystem.entity.lifecycleEvents.OnAddedComponent;
 import org.terasology.entitySystem.entity.lifecycleEvents.OnChangedComponent;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
@@ -32,23 +33,31 @@ public class QuiverUIClientSystem extends BaseComponentSystem {
     @In
     private LocalPlayer player;
 
-    @ReceiveEvent(components = {CharacterHeldItemComponent.class})
-    public void onLauncherSelected(OnChangedComponent event, EntityRef character) {
-        if (character != null && character.equals(player.getCharacterEntity())) {
-            CharacterHeldItemComponent heldItem = character.getComponent(CharacterHeldItemComponent.class);
-            EntityRef item = heldItem.selectedItem;
+    // case: start up -> CharacterHeldItemComponent being added
+    @ReceiveEvent
+    public void reactTo(OnAddedComponent event, EntityRef character, CharacterHeldItemComponent heldItem) {
+        onAmmoBearingItemSelected(heldItem);
+    }
 
-            if (item == null || item == EntityRef.NULL || !item.exists()) {
-                Optional<? extends UIElement> data = assetManager.getAsset("quiverHud", UIElement.class);
-                nuiManager.getHUD().removeHUDElement(data.get().getUrn());
-            }
+    // case: in game after start up -> CharacterHeldItemComponent being changed
+    @ReceiveEvent
+    public void reactTo(OnChangedComponent event, EntityRef character, CharacterHeldItemComponent heldItem) {
+        onAmmoBearingItemSelected(heldItem);
+    }
+    
+    public void onAmmoBearingItemSelected(CharacterHeldItemComponent heldItem) {
+        EntityRef item = heldItem.selectedItem;
 
-            if (item.hasComponent(InventoryComponent.class) && item.hasComponent(LaunchEntityComponent.class)) {
-                nuiManager.getHUD().addHUDElement("quiverHud");
-            } else {
-                Optional<? extends UIElement> data = assetManager.getAsset("quiverHud", UIElement.class);
-                nuiManager.getHUD().removeHUDElement(data.get().getUrn());
-            }
+        if (item == null || item == EntityRef.NULL || !item.exists()) {
+            Optional<? extends UIElement> data = assetManager.getAsset("quiverHud", UIElement.class);
+            nuiManager.getHUD().removeHUDElement(data.get().getUrn());
+        }
+
+        if (item.hasComponent(InventoryComponent.class) && item.hasComponent(LaunchEntityComponent.class)) {
+            nuiManager.getHUD().addHUDElement("quiverHud");
+        } else {
+            Optional<? extends UIElement> data = assetManager.getAsset("quiverHud", UIElement.class);
+            nuiManager.getHUD().removeHUDElement(data.get().getUrn());
         }
     }
 }
