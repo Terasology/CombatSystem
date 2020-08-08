@@ -21,6 +21,7 @@ import org.terasology.logic.characters.GazeMountPointComponent;
 import org.terasology.logic.inventory.ItemComponent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.Direction;
+import org.terasology.math.JomlUtil;
 import org.terasology.math.geom.Quat4f;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.CollisionGroup;
@@ -100,18 +101,18 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
         // launchers or player implemented traps that don't have ItemComponent that shot the 
         // projectile.
         
-        if(player == EntityRef.NULL || player == null){
+        if (player == EntityRef.NULL || player == null) {
             player = entity;
         }
         
-        if(launchEntity.primaryAttack){
+        if (launchEntity.primaryAttack) {
             EntityRef entityToLaunch = EntityRef.NULL;
             // creates an entity with specified prefab for eg. an arrow prefab
-            if(launchEntity.launchEntityPrefab != null){
+            if (launchEntity.launchEntityPrefab != null) {
                 entityToLaunch = entityManager.create(launchEntity.launchEntityPrefab);
             }
             
-            if(entityToLaunch != EntityRef.NULL){
+            if (entityToLaunch != EntityRef.NULL) {
                 LocationComponent location = entityToLaunch.getComponent(LocationComponent.class);
                 
                 // adds the entity as the shooter for the arrow. It will be the launcher itself.
@@ -119,11 +120,11 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 
                 LocationComponent shooterLoc = player.getComponent(LocationComponent.class);
                 
-                if(shooterLoc == null){
+                if (shooterLoc == null) {
                     return;
                 }
                 
-                if(entityToLaunch.hasComponent(MeshComponent.class)){
+                if (entityToLaunch.hasComponent(MeshComponent.class)) {
                     MeshComponent mesh = entityToLaunch.getComponent(MeshComponent.class);
                     BoxShapeComponent box = new BoxShapeComponent();
                     box.extents = mesh.mesh.getAABB().getExtents().scale(2.0f);
@@ -141,16 +142,15 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 
                 // sets the location of entity to current player's location with an offset
                 GazeMountPointComponent gaze = player.getComponent(GazeMountPointComponent.class);
-                if(gaze != null){
-                    location.setWorldPosition(shooterLoc.getWorldPosition().add(gaze.translate).add(finalDir.scale(0.3f)));
-                }
-                else{
+                if (gaze != null) {
+                    location.setWorldPosition(shooterLoc.getWorldPosition().add(JomlUtil.from(gaze.translate)).add(finalDir.scale(0.3f)));
+                } else {
                     location.setWorldPosition(shooterLoc.getWorldPosition());
                 }
                 
                 entityToLaunch.saveComponent(location);
                 
-                if(!entityToLaunch.hasComponent(TriggerComponent.class)){
+                if (!entityToLaunch.hasComponent(TriggerComponent.class)) {
                     TriggerComponent trigger = new TriggerComponent();
                     trigger.collisionGroup = StandardCollisionGroup.ALL;
                     trigger.detectGroups = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.DEFAULT, StandardCollisionGroup.WORLD, StandardCollisionGroup.CHARACTER, StandardCollisionGroup.SENSOR);
@@ -164,9 +164,8 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 
                 entityToLaunch.send(new CombatImpulseEvent(impulse));
                 entity.send(new ReduceAmmoEvent());
-            }
-            else{
-                // dispatch no ammo event
+            } else {
+                // TODO: dispatch no ammo event
             }
         }
     }
