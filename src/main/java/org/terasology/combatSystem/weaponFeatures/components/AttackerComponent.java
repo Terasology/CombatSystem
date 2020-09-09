@@ -1,34 +1,37 @@
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.weaponFeatures.components;
 
 import org.terasology.combatSystem.OwnerCollisionState;
-import org.terasology.entitySystem.Component;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.network.Replicate;
+import org.terasology.engine.entitySystem.Component;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.network.Replicate;
 
-public class AttackerComponent implements Component{
+public class AttackerComponent implements Component {
     @Replicate
     public EntityRef attacker = EntityRef.NULL;
-    
+
     @Replicate
     public OwnerCollisionState state = OwnerCollisionState.DISABLED;
-    
-    public AttackerComponent(){
-        
+
+    public AttackerComponent() {
+
     }
-    
-    public AttackerComponent(EntityRef shooter){
+
+    public AttackerComponent(EntityRef shooter) {
         this(shooter, null);
     }
-    
-    public AttackerComponent(OwnerCollisionState state){
+
+    public AttackerComponent(OwnerCollisionState state) {
         this(null, state);
     }
-    
-    public AttackerComponent(EntityRef shooter, OwnerCollisionState state){
-        if(shooter != null){
+
+    public AttackerComponent(EntityRef shooter, OwnerCollisionState state) {
+        if (shooter != null) {
             this.attacker = shooter;
         }
-        if(state != null){
+        if (state != null) {
             this.state = state;
         }
     }

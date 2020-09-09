@@ -1,16 +1,19 @@
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.hurting;
 
-import java.util.Random;
-
 import org.terasology.combatSystem.weaponFeatures.OwnerSpecific;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.event.EventPriority;
-import org.terasology.entitySystem.event.ReceiveEvent;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.logic.health.event.DoDamageEvent;
-import org.terasology.logic.health.HealthComponent;
-import org.terasology.logic.notifications.NotificationMessageEvent;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.event.EventPriority;
+import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
+import org.terasology.engine.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.logic.notifications.NotificationMessageEvent;
+import org.terasology.health.logic.HealthComponent;
+import org.terasology.health.logic.event.DoDamageEvent;
+
+import java.util.Random;
 
 /**
  * This system handles all the tasks related to hurting an entity in <b>CombatSystem</b> module.
@@ -19,8 +22,8 @@ import org.terasology.logic.notifications.NotificationMessageEvent;
 public class HurtingHandlingSystem extends BaseComponentSystem {
 
     /**
-     * This event handler handles the hurting of target entity by the amount and damage types
-     * given in {@link HurtingComponent}.
+     * This event handler handles the hurting of target entity by the amount and damage types given in {@link
+     * HurtingComponent}.
      *
      * @param event
      * @param entity
@@ -36,18 +39,19 @@ public class HurtingHandlingSystem extends BaseComponentSystem {
         if (otherEntity.hasComponent(HealthComponent.class)) {
             EntityRef instigator = OwnerSpecific.getUltimateOwner(entity);
             otherEntity.send(new DoDamageEvent(hurting.amount, hurting.damageType, instigator, entity));
-            otherEntity.send(new NotificationMessageEvent(new String(hurting.amount + " damage dealt.."), entity));
+            otherEntity.send(new NotificationMessageEvent(hurting.amount + " damage dealt..", entity));
         }
     }
 
     /**
-     * This event handler is responsible for doing a critical damage if the attacking entity has
-     * a {@link CritDamageComponent} and than saving the new amount in {@code HurtingComponent}.
+     * This event handler is responsible for doing a critical damage if the attacking entity has a {@link
+     * CritDamageComponent} and than saving the new amount in {@code HurtingComponent}.
      *
      * @param event
      * @param entity
      */
-    @ReceiveEvent(components = {HurtingComponent.class, CritDamageComponent.class}, priority = EventPriority.PRIORITY_LOW)
+    @ReceiveEvent(components = {HurtingComponent.class, CritDamageComponent.class}, priority =
+            EventPriority.PRIORITY_LOW)
     public void critHurting(HurtEvent event, EntityRef entity) {
         HurtingComponent hurting = entity.getComponent(HurtingComponent.class);
         CritDamageComponent critDamage = entity.getComponent(CritDamageComponent.class);
@@ -67,18 +71,17 @@ public class HurtingHandlingSystem extends BaseComponentSystem {
             if (value < critDamage.critChance) {
                 int totalAmount = (int) (hurting.amount * critDamage.critFactor);
                 otherEntity.send(new DoDamageEvent(totalAmount, hurting.damageType, instigator, entity));
-                otherEntity.send(new NotificationMessageEvent(new String(totalAmount + "crit! damage dealt.."), entity));
+                otherEntity.send(new NotificationMessageEvent(totalAmount + "crit! damage dealt..", entity));
             } else {
                 otherEntity.send(new DoDamageEvent(hurting.amount, hurting.damageType, instigator, entity));
-                otherEntity.send(new NotificationMessageEvent(new String(hurting.amount + " damage dealt.."), entity));
+                otherEntity.send(new NotificationMessageEvent(hurting.amount + " damage dealt..", entity));
             }
         }
     }
 
     /**
-     * This event handler is responsible for dealing random damage between the specified range
-     * if {@link RandomDamageComponent} is present in attacking entity and saving the amount in
-     * {@code HurtingComponent}.
+     * This event handler is responsible for dealing random damage between the specified range if {@link
+     * RandomDamageComponent} is present in attacking entity and saving the amount in {@code HurtingComponent}.
      *
      * @param event
      * @param entity

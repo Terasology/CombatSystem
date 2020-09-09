@@ -4,20 +4,20 @@
 package org.terasology.combatSystem.inventory;
 
 import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.entity.lifecycleEvents.OnAddedComponent;
-import org.terasology.entitySystem.entity.lifecycleEvents.OnChangedComponent;
-import org.terasology.entitySystem.event.ReceiveEvent;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
-import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.entity.lifecycleEvents.OnAddedComponent;
+import org.terasology.engine.entitySystem.entity.lifecycleEvents.OnChangedComponent;
+import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
+import org.terasology.engine.entitySystem.systems.RegisterMode;
+import org.terasology.engine.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.logic.characters.CharacterHeldItemComponent;
+import org.terasology.engine.logic.players.LocalPlayer;
+import org.terasology.engine.registry.In;
+import org.terasology.engine.rendering.nui.NUIManager;
 import org.terasology.gestalt.assets.management.AssetManager;
-import org.terasology.logic.characters.CharacterHeldItemComponent;
-import org.terasology.logic.inventory.InventoryComponent;
-import org.terasology.logic.players.LocalPlayer;
+import org.terasology.inventory.logic.InventoryComponent;
 import org.terasology.nui.asset.UIElement;
-import org.terasology.registry.In;
-import org.terasology.rendering.nui.NUIManager;
 
 import java.util.Optional;
 
@@ -47,7 +47,7 @@ public class QuiverUIClientSystem extends BaseComponentSystem {
     public void reactTo(OnChangedComponent event, EntityRef character, CharacterHeldItemComponent heldItem) {
         onAmmoBearingItemSelected(heldItem);
     }
-    
+
     public void onAmmoBearingItemSelected(CharacterHeldItemComponent heldItem) {
         EntityRef item = heldItem.selectedItem;
 

@@ -1,22 +1,25 @@
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.hurting;
 
-import org.terasology.entitySystem.Component;
-import org.terasology.entitySystem.prefab.Prefab;
-import org.terasology.logic.health.EngineDamageTypes;
-import org.terasology.network.Replicate;
+import org.terasology.engine.entitySystem.Component;
+import org.terasology.engine.entitySystem.prefab.Prefab;
+import org.terasology.engine.logic.destruction.EngineDamageTypes;
+import org.terasology.engine.network.Replicate;
 
 /**
  * Specifies the amount and damage type that an entity will inflict on other entities.
  * <p>
  * {@link HurtEvent} is used to hurt other entity/entities.
  */
-public class HurtingComponent implements Component{
+public class HurtingComponent implements Component {
     /**
      * The amount of damage the entity will inflict.
      */
     @Replicate
     public int amount = 3;
-    
+
     /**
      * The type of damage.
      */

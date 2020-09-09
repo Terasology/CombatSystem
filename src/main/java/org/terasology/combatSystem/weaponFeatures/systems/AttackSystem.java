@@ -1,21 +1,24 @@
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.weaponFeatures.systems;
 
 import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
 import org.terasology.combatSystem.weaponFeatures.components.PrimaryAttackComponent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.entity.lifecycleEvents.OnChangedComponent;
-import org.terasology.entitySystem.event.EventPriority;
-import org.terasology.entitySystem.event.ReceiveEvent;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.logic.characters.CharacterHeldItemComponent;
-import org.terasology.logic.characters.CharacterImpulseEvent;
-import org.terasology.logic.common.ActivateEvent;
-import org.terasology.logic.location.LocationComponent;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.entity.lifecycleEvents.OnChangedComponent;
+import org.terasology.engine.entitySystem.event.EventPriority;
+import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
+import org.terasology.engine.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.logic.characters.CharacterHeldItemComponent;
+import org.terasology.engine.logic.characters.CharacterImpulseEvent;
+import org.terasology.engine.logic.common.ActivateEvent;
+import org.terasology.engine.logic.location.LocationComponent;
+import org.terasology.engine.world.block.items.BlockItemComponent;
+import org.terasology.engine.world.block.items.OnBlockItemPlaced;
 import org.terasology.math.geom.Vector3f;
-import org.terasology.world.block.items.BlockItemComponent;
-import org.terasology.world.block.items.OnBlockItemPlaced;
 
 @RegisterSystem
 public class AttackSystem extends BaseComponentSystem {
@@ -26,7 +29,7 @@ public class AttackSystem extends BaseComponentSystem {
     }
 
     @ReceiveEvent
-    public void giveImpulse(PrimaryAttackEvent event, EntityRef entity){
+    public void giveImpulse(PrimaryAttackEvent event, EntityRef entity) {
         EntityRef instigator = event.getInstigator();
         EntityRef target = event.getTarget();
         if (instigator.exists() && target.exists()) {
@@ -39,45 +42,44 @@ public class AttackSystem extends BaseComponentSystem {
         }
     }
 
-    @ReceiveEvent( components = {CharacterHeldItemComponent.class}, priority = EventPriority.PRIORITY_HIGH)
-    public void addAttacker(OnChangedComponent event, EntityRef character){
+    @ReceiveEvent(components = {CharacterHeldItemComponent.class}, priority = EventPriority.PRIORITY_HIGH)
+    public void addAttacker(OnChangedComponent event, EntityRef character) {
         CharacterHeldItemComponent heldItem = character.getComponent(CharacterHeldItemComponent.class);
         EntityRef item = heldItem.selectedItem;
-        
+
         AttackerComponent attacker = item.getComponent(AttackerComponent.class);
-        if(attacker == null){
-            if(item.hasComponent(BlockItemComponent.class)){
+        if (attacker == null) {
+            if (item.hasComponent(BlockItemComponent.class)) {
                 attacker = new AttackerComponent();
-            }
-            else{
+            } else {
                 return;
             }
         }
-        
+
         attacker.attacker = character;
         item.addOrSaveComponent(attacker);
     }
-    
+
     @ReceiveEvent(priority = EventPriority.PRIORITY_HIGH)
-    public void addAttacker(OnBlockItemPlaced event, EntityRef item){
+    public void addAttacker(OnBlockItemPlaced event, EntityRef item) {
         EntityRef block = event.getPlacedBlock();
-        
+
         AttackerComponent attacker = block.getComponent(AttackerComponent.class);
-        if(attacker == null){
+        if (attacker == null) {
             return;
         }
-        
+
         AttackerComponent itemAttacker = item.getComponent(AttackerComponent.class);
-        if(itemAttacker == null){
+        if (itemAttacker == null) {
             return;
         }
-        
+
         attacker.attacker = itemAttacker.attacker;
         block.saveComponent(attacker);
     }
 }
-        
-        
+
+
 //            AttackEvent primary;
 //            ActivateEvent secondary;
             /*
@@ -92,6 +94,6 @@ public class AttackSystem extends BaseComponentSystem {
                with those events before
              */
 //            LeftMouseDownButtonEvent
-    
+
 //    @RecieveEvent( components = {SecondaryAttackComponent.class})
 //    public void secondaryAttackEvent(Attack)

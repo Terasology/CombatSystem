@@ -1,6 +1,9 @@
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.event;
 
-import org.terasology.entitySystem.event.Event;
+import org.terasology.engine.entitySystem.event.Event;
 
 /**
  * Gets triggered when the player enters <b>Combat State</b>
@@ -11,6 +14,6 @@ import org.terasology.entitySystem.event.Event;
  * <li>when an enemy hits a player. (first blood kind of thing)
  * </ul>
  */
-public class CombatEnteredEvent implements Event{
+public class CombatEnteredEvent implements Event {
 
 }

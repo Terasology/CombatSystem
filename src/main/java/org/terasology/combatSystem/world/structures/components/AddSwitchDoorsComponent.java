@@ -1,16 +1,19 @@
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.world.structures.components;
+
+import org.terasology.engine.entitySystem.Component;
+import org.terasology.engine.network.Replicate;
+import org.terasology.math.geom.Vector3i;
+import org.terasology.reflection.MappedContainer;
 
 import java.util.List;
 
-import org.terasology.entitySystem.Component;
-import org.terasology.math.geom.Vector3i;
-import org.terasology.network.Replicate;
-import org.terasology.reflection.MappedContainer;
-
-public class AddSwitchDoorsComponent implements Component{
+public class AddSwitchDoorsComponent implements Component {
     @Replicate
     public List<DoorsToSpawn> doorsToSpawn;
-    
+
     @MappedContainer
     public static class DoorsToSpawn {
         public Vector3i switchPos;

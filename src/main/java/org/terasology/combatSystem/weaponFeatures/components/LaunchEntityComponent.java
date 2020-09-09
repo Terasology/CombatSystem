@@ -1,8 +1,11 @@
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.weaponFeatures.components;
 
-import org.terasology.entitySystem.Component;
-import org.terasology.entitySystem.prefab.Prefab;
-import org.terasology.network.Replicate;
+import org.terasology.engine.entitySystem.Component;
+import org.terasology.engine.entitySystem.prefab.Prefab;
+import org.terasology.engine.network.Replicate;
 
 /**
  * makes the entity launch another entity.
@@ -10,19 +13,19 @@ import org.terasology.network.Replicate;
  * the other entity may be defined in <b>launchEntityPrefab</b> or <b>launchEntity</b>.
  * <b>launchEntity</b> is given precedence over <b>launchEntityPrefab</b> if both are present.
  */
-public class LaunchEntityComponent implements Component{
+public class LaunchEntityComponent implements Component {
     @Replicate
     public Prefab launchEntityPrefab;
-    
+
     @Replicate
     public int cooldownTime = 200;
-    
+
     @Replicate
     public float launchTime = -1.0f;
-    
+
     @Replicate
     public float impulse = 300.0f;
-    
+
     @Replicate(initialOnly = true)
     public boolean primaryAttack = true;
 }

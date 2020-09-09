@@ -1,15 +1,18 @@
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.weaponFeatures.events;
 
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.event.Event;
-import org.terasology.logic.common.ActivateEvent;
-import org.terasology.logic.location.LocationComponent;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.event.Event;
+import org.terasology.engine.logic.common.ActivateEvent;
+import org.terasology.engine.logic.location.LocationComponent;
 import org.terasology.math.geom.Vector3f;
 
 /**
  * Triggered in case of a primary attack
  */
-public class PrimaryAttackEvent implements Event{
+public class PrimaryAttackEvent implements Event {
     private EntityRef instigator;
     private EntityRef target;
     private Vector3f origin;
@@ -17,20 +20,21 @@ public class PrimaryAttackEvent implements Event{
     private Vector3f hitPosition;
     private Vector3f hitNormal;
     private int activationId;
-    
+
     /**
      * Default constructor required for persistence
      */
-    public PrimaryAttackEvent(){
-        
+    public PrimaryAttackEvent() {
+
     }
-    
+
 
     /**
      * Creates an event based on an ActivateEvent.
+     *
      * @param info The ActivateEvent to base this event off of.
      */
-    public PrimaryAttackEvent(ActivateEvent info){
+    public PrimaryAttackEvent(ActivateEvent info) {
         instigator = info.getInstigator();
         target = info.getTarget();
         origin = info.getOrigin();
@@ -40,9 +44,10 @@ public class PrimaryAttackEvent implements Event{
         activationId = info.getActivationId();
     }
 
-    
+
     /**
      * Gets the instigator of this event.
+     *
      * @return the instigator of this event.
      */
     public EntityRef getInstigator() {
@@ -51,6 +56,7 @@ public class PrimaryAttackEvent implements Event{
 
     /**
      * Gets the target of the attack.
+     *
      * @return the target of the attack.
      */
     public EntityRef getTarget() {
@@ -59,6 +65,7 @@ public class PrimaryAttackEvent implements Event{
 
     /**
      * Gets the origin position of the attack.
+     *
      * @return the origin position of the attack.
      */
     public Vector3f getOrigin() {
@@ -67,6 +74,7 @@ public class PrimaryAttackEvent implements Event{
 
     /**
      * Gets the direction position of the attack
+     *
      * @return the direction position of the attack.
      */
     public Vector3f getDirection() {
@@ -75,6 +83,7 @@ public class PrimaryAttackEvent implements Event{
 
     /**
      * Gets position where target is hit
+     *
      * @return position where target is hit
      */
     public Vector3f getHitPosition() {
@@ -83,6 +92,7 @@ public class PrimaryAttackEvent implements Event{
 
     /**
      * Gets position of normal force perpendicular to hit position
+     *
      * @return position of normal force perpendicular to hit position
      */
     public Vector3f getHitNormal() {
@@ -91,6 +101,7 @@ public class PrimaryAttackEvent implements Event{
 
     /**
      * Gets activation ID
+     *
      * @return activation ID
      */
     public int getActivationId() {
@@ -99,6 +110,7 @@ public class PrimaryAttackEvent implements Event{
 
     /**
      * Check if target location is null and gets target position
+     *
      * @return target location
      */
     public Vector3f getTargetLocation() {
@@ -111,6 +123,7 @@ public class PrimaryAttackEvent implements Event{
 
     /**
      * Check if instigator location is null and gets instigator position
+     *
      * @return instigator position
      */
     public Vector3f getInstigatorLocation() {

@@ -1,6 +1,9 @@
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.event;
 
-import org.terasology.entitySystem.event.Event;
+import org.terasology.engine.entitySystem.event.Event;
 
 /**
  * Gets triggered when the player leaves <b>Combat State</b>
@@ -12,6 +15,6 @@ import org.terasology.entitySystem.event.Event;
  * </ul>
  * <b>NOTE</b>: The Combat State does not exit if the enemies kill the player.
  */
-public class CombatLeftEvent implements Event{
+public class CombatLeftEvent implements Event {
 
 }
