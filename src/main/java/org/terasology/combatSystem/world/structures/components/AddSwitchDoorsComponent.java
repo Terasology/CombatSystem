@@ -6,7 +6,7 @@ package org.terasology.combatSystem.world.structures.components;
 import org.terasology.engine.entitySystem.Component;
 import org.terasology.engine.network.Replicate;
 import org.terasology.math.geom.Vector3i;
-import org.terasology.reflection.MappedContainer;
+import org.terasology.nui.reflection.MappedContainer;
 
 import java.util.List;
 
