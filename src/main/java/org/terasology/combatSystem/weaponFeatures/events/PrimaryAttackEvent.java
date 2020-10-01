@@ -4,6 +4,7 @@ import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.Event;
 import org.terasology.logic.common.ActivateEvent;
 import org.terasology.logic.location.LocationComponent;
+import org.terasology.math.JomlUtil;
 import org.terasology.math.geom.Vector3f;
 
 /**
@@ -17,14 +18,14 @@ public class PrimaryAttackEvent implements Event{
     private Vector3f hitPosition;
     private Vector3f hitNormal;
     private int activationId;
-    
+
     /**
      * Default constructor required for persistence
      */
     public PrimaryAttackEvent(){
-        
+
     }
-    
+
 
     /**
      * Creates an event based on an ActivateEvent.
@@ -33,14 +34,14 @@ public class PrimaryAttackEvent implements Event{
     public PrimaryAttackEvent(ActivateEvent info){
         instigator = info.getInstigator();
         target = info.getTarget();
-        origin = info.getOrigin();
-        direction = info.getDirection();
-        hitPosition = info.getHitPosition();
-        hitNormal = info.getHitNormal();
+        origin = JomlUtil.from(info.getOrigin());
+        direction = JomlUtil.from(info.getDirection());
+        hitPosition = JomlUtil.from(info.getHitPosition());
+        hitNormal = JomlUtil.from(info.getHitNormal());
         activationId = info.getActivationId();
     }
 
-    
+
     /**
      * Gets the instigator of this event.
      * @return the instigator of this event.
