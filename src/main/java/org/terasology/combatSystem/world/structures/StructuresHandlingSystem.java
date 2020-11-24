@@ -2,6 +2,7 @@ package org.terasology.combatSystem.world.structures;
 
 import java.util.Map;
 
+import org.joml.Vector3ic;
 import org.terasology.combatSystem.traps.components.ActivateOnPlaceComponent;
 import org.terasology.combatSystem.traps.components.SwitchComponent;
 import org.terasology.combatSystem.world.structures.components.AddSwitchDoorsComponent;
@@ -10,6 +11,7 @@ import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.math.JomlUtil;
 import org.terasology.math.Region3i;
 import org.terasology.math.geom.Vector3i;
 import org.terasology.registry.In;
@@ -20,6 +22,8 @@ import org.terasology.structureTemplates.events.StructureBlocksSpawnedEvent;
 import org.terasology.structureTemplates.util.BlockRegionTransform;
 import org.terasology.world.BlockEntityRegistry;
 import org.terasology.world.block.Block;
+import org.terasology.world.block.BlockRegion;
+import org.terasology.world.block.BlockRegionIterable;
 import org.terasology.world.block.family.BlockFamily;
 
 import com.google.common.collect.Maps;
@@ -40,12 +44,12 @@ public class StructuresHandlingSystem extends BaseComponentSystem{
             Block block = regionToFill.blockType;
             BlockFamily family = block.getBlockFamily();
             if(family.hasCategory("trap")){
-                Region3i region = regionToFill.region;
+                BlockRegion region = regionToFill.region;
                 region = transformation.transformRegion(region);
                 block = transformation.transformBlock(block);
 
-                for(Vector3i blockPos : region){
-                    awakenAndModifyTrap(block, blockPos);
+                for(Vector3ic blockPos : BlockRegionIterable.region(region).build()){
+                    awakenAndModifyTrap(block, JomlUtil.from(blockPos));
                 }
             }
         }
@@ -56,7 +60,7 @@ public class StructuresHandlingSystem extends BaseComponentSystem{
         }
 
         for(DoorsToSpawn doors : switchDoors.doorsToSpawn){
-            Vector3i switchPos = doors.switchPos;
+            org.joml.Vector3i switchPos = doors.switchPos;
             switchPos = transformation.transformVector3i(switchPos);
             EntityRef switchEntity = registry.getBlockEntityAt(switchPos);
 
@@ -65,7 +69,7 @@ public class StructuresHandlingSystem extends BaseComponentSystem{
                 continue;
             }
 
-            for(Vector3i doorPos : doors.doorsPos){
+            for(org.joml.Vector3i doorPos : doors.doorsPos){
                 doorPos = transformation.transformVector3i(doorPos);
                 EntityRef doorEntity = registry.getBlockEntityAt(doorPos);
 

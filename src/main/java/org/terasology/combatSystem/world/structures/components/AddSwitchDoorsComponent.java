@@ -3,7 +3,7 @@ package org.terasology.combatSystem.world.structures.components;
 import java.util.List;
 
 import org.terasology.entitySystem.Component;
-import org.terasology.math.geom.Vector3i;
+import org.joml.Vector3i;
 import org.terasology.network.Replicate;
 import org.terasology.reflection.MappedContainer;
 
