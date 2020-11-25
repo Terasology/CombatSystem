@@ -13,6 +13,7 @@ import org.terasology.logic.characters.CharacterHeldItemComponent;
 import org.terasology.logic.characters.CharacterImpulseEvent;
 import org.terasology.logic.common.ActivateEvent;
 import org.terasology.logic.location.LocationComponent;
+import org.terasology.math.JomlUtil;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.world.block.items.BlockItemComponent;
 import org.terasology.world.block.items.OnBlockItemPlaced;
@@ -35,7 +36,7 @@ public class AttackSystem extends BaseComponentSystem {
             Vector3f impulse = new Vector3f(locT.getWorldPosition()).sub(locI.getWorldPosition());
             impulse.normalize();
             impulse.scale(5);
-            target.send(new CharacterImpulseEvent(impulse));
+            target.send(new CharacterImpulseEvent(JomlUtil.from(impulse)));
         }
     }
 
