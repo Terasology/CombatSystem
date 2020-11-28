@@ -22,6 +22,7 @@ import org.terasology.world.BlockEntityRegistry;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockRegion;
 import org.terasology.world.block.BlockRegionIterable;
+import org.terasology.world.block.BlockRegions;
 import org.terasology.world.block.family.BlockFamily;
 
 import com.google.common.collect.Maps;
@@ -46,7 +47,7 @@ public class StructuresHandlingSystem extends BaseComponentSystem {
                 region = transformation.transformRegion(region);
                 block = transformation.transformBlock(block);
 
-                for (Vector3ic blockPos : BlockRegionIterable.region(region).build()) {
+                for (Vector3ic blockPos : BlockRegions.iterableInPlace(region)) {
                     awakenAndModifyTrap(block, blockPos);
                 }
             }
