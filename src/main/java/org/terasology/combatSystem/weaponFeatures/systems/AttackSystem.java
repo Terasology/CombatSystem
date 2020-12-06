@@ -1,5 +1,6 @@
 package org.terasology.combatSystem.weaponFeatures.systems;
 
+import org.joml.Vector3f;
 import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
 import org.terasology.combatSystem.weaponFeatures.components.PrimaryAttackComponent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
@@ -13,7 +14,6 @@ import org.terasology.logic.characters.CharacterHeldItemComponent;
 import org.terasology.logic.characters.CharacterImpulseEvent;
 import org.terasology.logic.common.ActivateEvent;
 import org.terasology.logic.location.LocationComponent;
-import org.terasology.math.geom.Vector3f;
 import org.terasology.world.block.items.BlockItemComponent;
 import org.terasology.world.block.items.OnBlockItemPlaced;
 
@@ -26,58 +26,57 @@ public class AttackSystem extends BaseComponentSystem {
     }
 
     @ReceiveEvent
-    public void giveImpulse(PrimaryAttackEvent event, EntityRef entity){
+    public void giveImpulse(PrimaryAttackEvent event, EntityRef entity) {
         EntityRef instigator = event.getInstigator();
         EntityRef target = event.getTarget();
         if (instigator.exists() && target.exists()) {
             LocationComponent locI = instigator.getComponent(LocationComponent.class);
             LocationComponent locT = target.getComponent(LocationComponent.class);
-            Vector3f impulse = new Vector3f(locT.getWorldPosition()).sub(locI.getWorldPosition());
+            Vector3f impulse = new Vector3f(locT.getWorldPosition(new Vector3f())).sub(locI.getWorldPosition(new Vector3f()));
             impulse.normalize();
-            impulse.scale(5);
+            impulse.mul(5);
             target.send(new CharacterImpulseEvent(impulse));
         }
     }
 
-    @ReceiveEvent( components = {CharacterHeldItemComponent.class}, priority = EventPriority.PRIORITY_HIGH)
-    public void addAttacker(OnChangedComponent event, EntityRef character){
+    @ReceiveEvent(components = {CharacterHeldItemComponent.class}, priority = EventPriority.PRIORITY_HIGH)
+    public void addAttacker(OnChangedComponent event, EntityRef character) {
         CharacterHeldItemComponent heldItem = character.getComponent(CharacterHeldItemComponent.class);
         EntityRef item = heldItem.selectedItem;
-        
+
         AttackerComponent attacker = item.getComponent(AttackerComponent.class);
-        if(attacker == null){
-            if(item.hasComponent(BlockItemComponent.class)){
+        if (attacker == null) {
+            if (item.hasComponent(BlockItemComponent.class)) {
                 attacker = new AttackerComponent();
-            }
-            else{
+            } else {
                 return;
             }
         }
-        
+
         attacker.attacker = character;
         item.addOrSaveComponent(attacker);
     }
-    
+
     @ReceiveEvent(priority = EventPriority.PRIORITY_HIGH)
-    public void addAttacker(OnBlockItemPlaced event, EntityRef item){
+    public void addAttacker(OnBlockItemPlaced event, EntityRef item) {
         EntityRef block = event.getPlacedBlock();
-        
+
         AttackerComponent attacker = block.getComponent(AttackerComponent.class);
-        if(attacker == null){
+        if (attacker == null) {
             return;
         }
-        
+
         AttackerComponent itemAttacker = item.getComponent(AttackerComponent.class);
-        if(itemAttacker == null){
+        if (itemAttacker == null) {
             return;
         }
-        
+
         attacker.attacker = itemAttacker.attacker;
         block.saveComponent(attacker);
     }
 }
-        
-        
+
+
 //            AttackEvent primary;
 //            ActivateEvent secondary;
             /*
@@ -87,11 +86,11 @@ public class AttackSystem extends BaseComponentSystem {
                it's not the actual right click event
                is that what you are looking for?
                AttackEvent is also called on the entity that the player left clicks on
-               LeftMouseDownButtonEvent and RightMouseDownButtonEvent seem to be the 
-               events that correspond to the actual input, although I have not worked 
+               LeftMouseDownButtonEvent and RightMouseDownButtonEvent seem to be the
+               events that correspond to the actual input, although I have not worked
                with those events before
              */
 //            LeftMouseDownButtonEvent
-    
+
 //    @RecieveEvent( components = {SecondaryAttackComponent.class})
 //    public void secondaryAttackEvent(Attack)
