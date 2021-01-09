@@ -1,8 +1,9 @@
 package org.terasology.combatSystem.world;
 
+import org.joml.Vector3f;
+import org.joml.Vector3fc;
 import org.terasology.engine.SimpleUri;
 import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.math.geom.Vector3f;
 import org.terasology.registry.In;
 import org.terasology.world.generation.BaseFacetedWorldGenerator;
 import org.terasology.world.generation.WorldBuilder;
@@ -25,7 +26,7 @@ public class PhysicsRoomWorldGenerator extends BaseFacetedWorldGenerator {
     }
     
     @Override
-    public Vector3f getSpawnPosition(EntityRef entity) {
+    public Vector3fc getSpawnPosition(EntityRef entity) {
         return new Vector3f(0, PhysicsRoomRasterizer.FLOOR_HEIGHT + 1, 0);
     }
 }
