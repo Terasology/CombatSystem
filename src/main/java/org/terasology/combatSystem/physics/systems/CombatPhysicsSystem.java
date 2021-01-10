@@ -1,6 +1,7 @@
 package org.terasology.combatSystem.physics.systems;
 
 import com.google.common.collect.Maps;
+import org.joml.Vector3f;
 import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.combatSystem.physics.events.CombatForceEvent;
 import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
@@ -14,8 +15,6 @@ import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.logic.location.LocationComponent;
-import org.terasology.math.JomlUtil;
-import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.CollisionGroup;
 import org.terasology.physics.HitResult;
 import org.terasology.physics.Physics;
@@ -29,7 +28,6 @@ import org.terasology.physics.events.CollideEvent;
 import org.terasology.registry.In;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -47,8 +45,6 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
     private EntityManager entityManager;
     @In
     private Physics physics;
-//    @In
-//    private NetworkSystem network;
 
     @ReceiveEvent(components = TriggerComponent.class)
     public void addCollisionGroupOnMap(OnActivatedComponent event, EntityRef entity) {
@@ -78,7 +74,7 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
         if (body == null) {
             return;
         }
-        Vector3f impulse = event.getImpulse();
+        Vector3f impulse = new Vector3f(event.getImpulse());
         impulse.div(body.mass);
         if (impulse.length() == 0) {
             return;
@@ -131,26 +127,26 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
                 if ((combinedGroup & StandardCollisionGroup.WORLD.getFlag()) != 0) {
                     Vector3f direction = new Vector3f(body.velocity);
                     float distance = ((float) Math.sqrt(velocityMagSq)) * delta;
-                    Vector3f from = calculateStartingPoint(location.getWorldPosition(), direction, entity);
+                    Vector3f from = calculateStartingPoint(location.getWorldPosition(new Vector3f()), direction, entity);
                     direction.normalize();
 
-                    HitResult result = physics.rayTrace(JomlUtil.from(from), JomlUtil.from(direction), distance, group);
+                    HitResult result = physics.rayTrace(from, direction, distance, group);
 
                     if (result.isHit() && result.isWorldHit()) {
                         EntityRef otherEntity = result.getEntity();
-                        Vector3f hitPoint = JomlUtil.from(result.getHitPoint());
-                        Vector3f normal = JomlUtil.from(result.getHitNormal());
+                        Vector3f hitPoint = result.getHitPoint();
+                        Vector3f normal = result.getHitNormal();
 
                         // updating position so that tip of entity is at point of contact
                         Vector3f newPos = new Vector3f(hitPoint);
-                        from.sub(location.getWorldPosition());
+                        from.sub(location.getWorldPosition(new Vector3f()));
                         newPos.sub(from);
                         location.setWorldPosition(newPos);
 
                         entity.saveComponent(location);
 
-                        entity.send(new CollideEvent(otherEntity, JomlUtil.from(hitPoint),
-                            JomlUtil.from(hitPoint), 0.0f, JomlUtil.from(normal)));
+                        entity.send(new CollideEvent(otherEntity, hitPoint,
+                            hitPoint, 0.0f, normal));
 
                         continue;
                     }
@@ -161,30 +157,30 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
                     && group != null) {
                     Vector3f direction = new Vector3f(body.velocity);
                     float distance = ((float) Math.sqrt(velocityMagSq)) * delta;
-                    Vector3f from = calculateStartingPoint(location.getWorldPosition(), direction, entity);
+                    Vector3f from = calculateStartingPoint(location.getWorldPosition(new Vector3f()), direction, entity);
                     direction.normalize();
 
-                    HitResult result = physics.rayTrace(JomlUtil.from(from), JomlUtil.from(direction), distance, group);
+                    HitResult result = physics.rayTrace(from, direction, distance, group);
 
                     if (result.isHit()) {
                         EntityRef otherEntity = result.getEntity();
-                        Vector3f hitPoint = JomlUtil.from(result.getHitPoint());
-                        Vector3f normal = JomlUtil.from(result.getHitNormal());
+                        Vector3f hitPoint = result.getHitPoint();
+                        Vector3f normal = result.getHitNormal();
 
                         // updating position so that tip of entity is at point of contact
                         Vector3f newPos = new Vector3f(hitPoint);
-                        from.sub(location.getWorldPosition());
+                        from.sub(location.getWorldPosition(new Vector3f()));
                         newPos.sub(from);
                         location.setWorldPosition(newPos);
 
                         entity.saveComponent(location);
 
-                        entity.send(new CollideEvent(otherEntity, JomlUtil.from(hitPoint),
-                            JomlUtil.from(hitPoint), 0.0f, result.getHitNormal()));
+                        entity.send(new CollideEvent(otherEntity, hitPoint,
+                            hitPoint, 0.0f, result.getHitNormal()));
 
                         if (otherEntity.hasComponent(TriggerComponent.class)) {
-                            otherEntity.send(new CollideEvent(entity, JomlUtil.from(hitPoint),
-                                JomlUtil.from(hitPoint), 0.0f, JomlUtil.from(normal)));
+                            otherEntity.send(new CollideEvent(entity, hitPoint,
+                                hitPoint, 0.0f, normal));
                         }
 
                         continue;
@@ -194,7 +190,7 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
                 // change location based on velocity
                 Vector3f velocity = new Vector3f(body.velocity);
                 velocity.mul(delta);
-                Vector3f initialLoc = location.getWorldPosition();
+                Vector3f initialLoc = location.getWorldPosition(new Vector3f());
                 initialLoc.add(velocity);
                 location.setWorldPosition(initialLoc);
 
@@ -262,22 +258,22 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
         direction.normalize();
         BoxShapeComponent box = entity.getComponent(BoxShapeComponent.class);
         if (box != null) {
-            direction.scale(box.extents.z / 2.0f);
+            direction.mul(box.extents.z / 2.0f);
             origin.add(direction);
         }
         SphereShapeComponent sphere = entity.getComponent(SphereShapeComponent.class);
         if (sphere != null) {
-            direction.scale(sphere.radius);
+            direction.mul(sphere.radius);
             origin.add(direction);
         }
         CapsuleShapeComponent capsule = entity.getComponent(CapsuleShapeComponent.class);
         if (capsule != null) {
-            direction.scale((capsule.radius + (capsule.height / 2.0f)));
+            direction.mul((capsule.radius + (capsule.height / 2.0f)));
             origin.add(direction);
         }
         CylinderShapeComponent cylinder = entity.getComponent(CylinderShapeComponent.class);
         if (cylinder != null) {
-            direction.scale(cylinder.height / 2.0f);
+            direction.mul(cylinder.height / 2.0f);
             origin.add(direction);
         }
 

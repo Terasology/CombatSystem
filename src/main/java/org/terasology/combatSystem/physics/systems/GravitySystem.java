@@ -15,13 +15,14 @@ import java.util.Iterator;
  * Handles the gravity applied to an entity with {@link MassComponent}
  */
 @RegisterSystem
-public class GravitySystem extends BaseComponentSystem implements UpdateSubscriberSystem{
+public class GravitySystem extends BaseComponentSystem implements UpdateSubscriberSystem {
 
     @In
     EntityManager entityManager;
-    
+
     /**
      * Adds the acceleration due to gravity into total acceleration of entity.
+     *
      * @param delta Not used.
      */
     @Override
@@ -29,14 +30,14 @@ public class GravitySystem extends BaseComponentSystem implements UpdateSubscrib
         // TODO Auto-generated method stub
         Iterable<EntityRef> entitiesWith = entityManager.getEntitiesWith(MassComponent.class);
         Iterator<EntityRef> entities = entitiesWith.iterator();
-        while(entities.hasNext()){
+        while (entities.hasNext()) {
             EntityRef entity = entities.next();
             GravityComponent gravity = entity.getComponent(GravityComponent.class);
             MassComponent body = entity.getComponent(MassComponent.class);
-            
+
             // Adds gravity into acceleration
 
-            if(gravity != null){
+            if (gravity != null) {
                 body.acceleration.add(gravity.gravityAccel);
             }
         }

@@ -1,7 +1,7 @@
 package org.terasology.combatSystem.physics.components;
 
+import org.joml.Vector3f;
 import org.terasology.entitySystem.Component;
-import org.terasology.math.geom.Vector3f;
 import org.terasology.network.Replicate;
 import org.terasology.physics.components.RigidBodyComponent;
 import org.terasology.physics.components.TriggerComponent;
@@ -15,7 +15,7 @@ import org.terasology.physics.components.TriggerComponent;
 public class MassComponent implements Component{
     @Replicate(initialOnly = true)
     public float mass = 10.0f;
-    
+
     @Replicate
     public Vector3f velocity = new Vector3f();
     @Replicate

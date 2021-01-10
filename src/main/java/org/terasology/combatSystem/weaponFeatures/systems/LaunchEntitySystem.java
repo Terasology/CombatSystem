@@ -1,6 +1,9 @@
 package org.terasology.combatSystem.weaponFeatures.systems;
 
 import com.google.common.collect.Lists;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+import org.joml.Vector3fc;
 import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
 import org.terasology.combatSystem.weaponFeatures.OwnerSpecific;
@@ -22,8 +25,6 @@ import org.terasology.logic.inventory.ItemComponent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.Direction;
 import org.terasology.math.JomlUtil;
-import org.terasology.math.geom.Quat4f;
-import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.CollisionGroup;
 import org.terasology.physics.StandardCollisionGroup;
 import org.terasology.physics.components.TriggerComponent;
@@ -44,7 +45,7 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
 
     @ReceiveEvent(components = {LaunchEntityComponent.class})
     public void onFire(PrimaryAttackEvent event, EntityRef entity) {
-        entity.send(new LaunchEntityEvent(event.getDirection()));
+        entity.send(new LaunchEntityEvent(JomlUtil.from(event.getDirection())));
     }
 
     @ReceiveEvent(components = {LaunchEntityComponent.class})
@@ -64,9 +65,9 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
             if (body != null && location != null) {
                 Vector3f finalDir = new Vector3f(body.velocity);
                 if (finalDir.length() != 0.0f) {
-                    Vector3f initialDir = Direction.FORWARD.getVector3f();
+                    Vector3f initialDir = new Vector3f(Direction.FORWARD.asVector3f());
                     finalDir.normalize();
-                    location.setWorldRotation(Quat4f.shortestArcQuat(initialDir, finalDir));
+                    location.setWorldRotation(new Quaternionf().rotateTo(initialDir, finalDir));
                 }
             }
 
@@ -76,7 +77,7 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
 
     //---------------------------------private methods--------------------------
 
-    private void launchEntity(Vector3f direction, EntityRef entity) {
+    private void launchEntity(Vector3fc direction, EntityRef entity) {
 
         LaunchEntityComponent launchEntity = entity.getComponent(LaunchEntityComponent.class);
 
@@ -132,10 +133,10 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 }
 
                 // rotates the entity to face in the direction of pointer
-                Vector3f initialDir = location.getWorldDirection();
+                Vector3f initialDir = location.getWorldDirection(new Vector3f());
                 Vector3f finalDir = new Vector3f(direction);
                 finalDir.normalize();
-                location.setWorldRotation(Quat4f.shortestArcQuat(initialDir, finalDir));
+                location.setWorldRotation(new Quaternionf().rotateTo(initialDir, finalDir));
 
                 // sets the scale of the entity
                 location.setWorldScale(0.5f);
@@ -143,9 +144,9 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 // sets the location of entity to current player's location with an offset
                 GazeMountPointComponent gaze = player.getComponent(GazeMountPointComponent.class);
                 if (gaze != null) {
-                    location.setWorldPosition(shooterLoc.getWorldPosition().add(JomlUtil.from(gaze.translate)).add(finalDir.scale(0.3f)));
+                    location.setWorldPosition(shooterLoc.getWorldPosition(new Vector3f()).add(gaze.translate).add(finalDir.mul(0.3f)));
                 } else {
-                    location.setWorldPosition(shooterLoc.getWorldPosition());
+                    location.setWorldPosition(shooterLoc.getWorldPosition(new Vector3f()));
                 }
 
                 entityToLaunch.saveComponent(location);
