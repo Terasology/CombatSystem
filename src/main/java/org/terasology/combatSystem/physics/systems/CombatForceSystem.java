@@ -25,7 +25,6 @@ public class CombatForceSystem extends BaseComponentSystem implements UpdateSubs
      */
     @Override
     public void update(float delta) {
-        // TODO Auto-generated method stub
         Iterable<EntityRef> entitiesWith = entityManager.getEntitiesWith(MassComponent.class);
         for (EntityRef entity : entitiesWith) {
             MassComponent body = entity.getComponent(MassComponent.class);
