@@ -1,5 +1,6 @@
 package org.terasology.combatSystem.traps.systems;
 
+import org.joml.Vector3f;
 import org.terasology.combatSystem.physics.components.GravityComponent;
 import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
@@ -9,57 +10,56 @@ import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.location.LocationComponent;
-import org.terasology.math.geom.Vector3f;
 import org.terasology.sensors.EntitySensedEvent;
 
 @RegisterSystem
-public class LaunchEntityTrapHandlingSystem extends BaseComponentSystem{
-    
+public class LaunchEntityTrapHandlingSystem extends BaseComponentSystem {
+
     @ReceiveEvent(components = LaunchEntityComponent.class)
-    public void launchEntity(EntitySensedEvent event, EntityRef entity){
+    public void launchEntity(EntitySensedEvent event, EntityRef entity) {
         EntityRef target = event.getEntity();
         LocationComponent loc = entity.getComponent(LocationComponent.class);
-        if(loc == null){
+        if (loc == null) {
             return;
         }
-        
-        Vector3f pos = loc.getWorldPosition();
+
+        Vector3f pos = loc.getWorldPosition(new Vector3f());
         Vector3f targetPos = predictMotion(target);
-        if(targetPos == null){
+        if (targetPos == null) {
             return;
         }
-        
+
         Vector3f dir = targetPos.sub(pos);
         dir.normalize();
-        
+
         entity.send(new LaunchEntityEvent(dir));
     }
-    
+
     //--------------------------------------private methods---------------------
-    
-    private Vector3f predictMotion(EntityRef target){
+
+    private Vector3f predictMotion(EntityRef target) {
         LocationComponent loc = target.getComponent(LocationComponent.class);
-        if(loc == null){
+        if (loc == null) {
             return null;
         }
-        Vector3f pos = loc.getWorldPosition();
-        
+        Vector3f pos = loc.getWorldPosition(new Vector3f());
+
         MassComponent mass = target.getComponent(MassComponent.class);
-        if(mass == null){
+        if (mass == null) {
             return pos;
         }
-        
+
         Vector3f vel = new Vector3f(mass.velocity);
         Vector3f accel = new Vector3f(mass.acceleration);
-        
+
         GravityComponent gravity = target.getComponent(GravityComponent.class);
-        if(gravity != null){
+        if (gravity != null) {
             accel.add(gravity.gravityAccel);
         }
-        
-        vel.add(accel.scale(1.0f/60.0f));
-        pos.add(vel.scale(1.0f/60.0f));
-        
+
+        vel.add(accel.mul(1.0f / 60.0f));
+        pos.add(vel.mul(1.0f / 60.0f));
+
         return pos;
     }
 }

@@ -1,5 +1,7 @@
 package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
+import org.joml.Vector3f;
+import org.joml.Vector3fc;
 import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.combatSystem.physics.events.ReplaceCollisionExceptionEvent;
@@ -14,8 +16,6 @@ import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.health.DestroyEvent;
 import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.location.LocationComponent;
-import org.terasology.math.JomlUtil;
-import org.terasology.math.geom.Vector3f;
 import org.terasology.physics.events.CollideEvent;
 
 @RegisterSystem
@@ -23,7 +23,7 @@ public class BouncingHandlingSystem extends BaseComponentSystem {
 
     @ReceiveEvent(components = BounceComponent.class)
     public void bouncingCollision(CollideEvent event, EntityRef entity) {
-        bounce(entity, event.getOtherEntity(), JomlUtil.from(event.getNormal()));
+        bounce(entity, event.getOtherEntity(), event.getNormal());
 
         event.consume();
     }
@@ -36,7 +36,7 @@ public class BouncingHandlingSystem extends BaseComponentSystem {
     //----------------------------private methods----------------------------------
 
     // bounce entity
-    private void bounce(EntityRef entity, EntityRef target, Vector3f normal) {
+    private void bounce(EntityRef entity, EntityRef target, Vector3fc normal) {
         MassComponent mass = entity.getComponent(MassComponent.class);
         BounceComponent bounce = entity.getComponent(BounceComponent.class);
         LocationComponent location = entity.getComponent(LocationComponent.class);
@@ -60,9 +60,9 @@ public class BouncingHandlingSystem extends BaseComponentSystem {
             Vector3f bounceDir = new Vector3f(normal);
             bounceDir.normalize();
             bounceDir.negate();
-            bounceDir.scale(2 * bounceDir.dot(mass.velocity));
+            bounceDir.mul(2 * bounceDir.dot(mass.velocity));
             bounceDir.sub(mass.velocity);
-            bounceDir.scale(bounce.bounceFactor);
+            bounceDir.mul(bounce.bounceFactor);
             bounceDir.negate();
 
             mass.velocity.set(bounceDir);
@@ -77,7 +77,7 @@ public class BouncingHandlingSystem extends BaseComponentSystem {
         entity.send(new HurtEvent(target));
     }
 
-    private boolean checkPiercing(Vector3f normal, Vector3f velocity, int maxAngle, float minVelocity) {
+    private boolean checkPiercing(Vector3fc normal, Vector3f velocity, int maxAngle, float minVelocity) {
         Vector3f vel = new Vector3f(velocity);
 
         int angle = (int) Math.toDegrees(vel.angle(normal));
