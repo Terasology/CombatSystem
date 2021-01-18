@@ -2,7 +2,7 @@ package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
 import java.util.List;
 
-import org.joml.AABBf;
+import org.terasology.joml.geom.AABBf;
 import org.joml.Vector3f;
 import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.hurting.HurtingComponent;
