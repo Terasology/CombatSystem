@@ -128,7 +128,8 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 if (entityToLaunch.hasComponent(MeshComponent.class)) {
                     MeshComponent mesh = entityToLaunch.getComponent(MeshComponent.class);
                     BoxShapeComponent box = new BoxShapeComponent();
-                    box.extents = JomlUtil.from(mesh.mesh.getAABB().getExtents().scale(2.0f));
+                    Vector3f extent = mesh.mesh.getAABB().extent(new Vector3f());
+                    box.extents = extent.mul(2.0f);
                     entityToLaunch.addOrSaveComponent(box);
                 }
 
