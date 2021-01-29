@@ -45,7 +45,7 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
 
     @ReceiveEvent(components = {LaunchEntityComponent.class})
     public void onFire(PrimaryAttackEvent event, EntityRef entity) {
-        entity.send(new LaunchEntityEvent(JomlUtil.from(event.getDirection())));
+        entity.send(new LaunchEntityEvent(event.getDirection()));
     }
 
     @ReceiveEvent(components = {LaunchEntityComponent.class})
