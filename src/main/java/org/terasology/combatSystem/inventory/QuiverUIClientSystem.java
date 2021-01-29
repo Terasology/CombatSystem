@@ -1,4 +1,4 @@
-// Copyright 2020 The Terasology Foundation
+// Copyright 2021 The Terasology Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 package org.terasology.combatSystem.inventory;
@@ -15,9 +15,9 @@ import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.characters.CharacterHeldItemComponent;
 import org.terasology.logic.inventory.InventoryComponent;
 import org.terasology.logic.players.LocalPlayer;
+import org.terasology.nui.asset.UIElement;
 import org.terasology.registry.In;
 import org.terasology.rendering.nui.NUIManager;
-import org.terasology.nui.asset.UIElement;
 
 import java.util.Optional;
 

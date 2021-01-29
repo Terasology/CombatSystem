@@ -1,12 +1,14 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.weaponFeatures.components;
 
-import java.util.List;
-
+import com.google.common.collect.Lists;
 import org.terasology.entitySystem.Component;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.network.Replicate;
 
-import com.google.common.collect.Lists;
+import java.util.List;
 
 public class ParentComponent implements Component{
     @Replicate

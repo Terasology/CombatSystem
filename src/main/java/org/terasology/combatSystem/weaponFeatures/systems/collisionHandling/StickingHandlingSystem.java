@@ -1,8 +1,9 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
-import java.util.Iterator;
-import java.util.List;
-
+import com.google.common.collect.Lists;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.terasology.combatSystem.hurting.HurtEvent;
@@ -28,7 +29,8 @@ import org.terasology.physics.events.CollideEvent;
 import org.terasology.registry.In;
 import org.terasology.world.block.BlockComponent;
 
-import com.google.common.collect.Lists;
+import java.util.Iterator;
+import java.util.List;
 
 @RegisterSystem
 public class StickingHandlingSystem extends BaseComponentSystem implements UpdateSubscriberSystem {

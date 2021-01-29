@@ -1,6 +1,7 @@
-package org.terasology.combatSystem.hurting;
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 
-import java.util.Random;
+package org.terasology.combatSystem.hurting;
 
 import org.terasology.combatSystem.weaponFeatures.OwnerSpecific;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -8,9 +9,11 @@ import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.logic.health.event.DoDamageEvent;
 import org.terasology.logic.health.HealthComponent;
+import org.terasology.logic.health.event.DoDamageEvent;
 import org.terasology.logic.notifications.NotificationMessageEvent;
+
+import java.util.Random;
 
 /**
  * This system handles all the tasks related to hurting an entity in <b>CombatSystem</b> module.
