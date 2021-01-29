@@ -1,5 +1,9 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.weaponFeatures.systems;
 
+import org.joml.Vector3f;
 import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.weaponFeatures.components.MeleeComponent;
 import org.terasology.combatSystem.weaponFeatures.events.MeleeEvent;
@@ -8,7 +12,6 @@ import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.math.geom.Vector3f;
 
 /**
  * Manages meelee attacks

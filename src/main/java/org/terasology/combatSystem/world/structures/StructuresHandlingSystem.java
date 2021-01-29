@@ -1,7 +1,9 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.world.structures;
 
-import java.util.Map;
-
+import com.google.common.collect.Maps;
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
 import org.terasology.combatSystem.traps.components.ActivateOnPlaceComponent;
@@ -23,7 +25,7 @@ import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockRegion;
 import org.terasology.world.block.family.BlockFamily;
 
-import com.google.common.collect.Maps;
+import java.util.Map;
 
 @RegisterSystem
 public class StructuresHandlingSystem extends BaseComponentSystem {

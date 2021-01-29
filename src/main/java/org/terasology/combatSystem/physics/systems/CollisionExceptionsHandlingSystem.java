@@ -1,8 +1,9 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.physics.systems;
 
-import java.util.Iterator;
-import java.util.List;
-
+import com.google.common.collect.Lists;
 import org.terasology.combatSystem.physics.components.CollisionExceptionsComponent;
 import org.terasology.combatSystem.physics.events.AddCollisionExceptionEvent;
 import org.terasology.combatSystem.physics.events.RemoveCollisionExceptionEvent;
@@ -15,7 +16,8 @@ import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.physics.events.CollideEvent;
 import org.terasology.sensors.EntitySensedEvent;
 
-import com.google.common.collect.Lists;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * handles the addition or removal of collision exceptions as well as takes care of collisions
