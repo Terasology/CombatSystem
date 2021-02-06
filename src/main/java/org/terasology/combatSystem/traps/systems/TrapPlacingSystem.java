@@ -1,6 +1,7 @@
-package org.terasology.combatSystem.traps.systems;
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 
-import java.util.List;
+package org.terasology.combatSystem.traps.systems;
 
 import org.terasology.combatSystem.traps.components.ActivateOnPlaceComponent;
 import org.terasology.combatSystem.weaponFeatures.OwnerSpecific;
@@ -24,6 +25,8 @@ import org.terasology.sensors.volumeSensing.VolumeSensorComponent;
 import org.terasology.utilities.Assets;
 import org.terasology.world.block.BlockComponent;
 import org.terasology.world.block.items.OnBlockToItem;
+
+import java.util.List;
 
 @RegisterSystem
 public class TrapPlacingSystem extends BaseComponentSystem{

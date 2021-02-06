@@ -1,11 +1,13 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.physics.events;
 
-import java.util.List;
-
+import com.google.common.collect.Lists;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.Event;
 
-import com.google.common.collect.Lists;
+import java.util.List;
 
 /**
  * Used to add entities as exceptions to avoid collision with them.

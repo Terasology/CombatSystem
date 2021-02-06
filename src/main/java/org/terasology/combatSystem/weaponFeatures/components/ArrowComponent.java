@@ -1,7 +1,10 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.weaponFeatures.components;
 
+import org.joml.Vector3f;
 import org.terasology.entitySystem.Component;
-import org.terasology.math.geom.Vector3f;
 import org.terasology.network.Replicate;
 
 /**

@@ -1,8 +1,8 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.weaponFeatures.systems.collisionHandling;
 
-import java.util.List;
-
-import org.joml.AABBf;
 import org.joml.Vector3f;
 import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.hurting.HurtingComponent;
@@ -16,12 +16,15 @@ import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
+import org.terasology.joml.geom.AABBf;
 import org.terasology.logic.health.DestroyEvent;
 import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.health.HealthComponent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.physics.Physics;
 import org.terasology.registry.In;
+
+import java.util.List;
 
 @RegisterSystem
 public class ExplosionHandlingSystem extends BaseComponentSystem implements UpdateSubscriberSystem {

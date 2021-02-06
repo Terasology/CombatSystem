@@ -1,11 +1,14 @@
-package org.terasology.combatSystem.world.structures.components;
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 
-import java.util.List;
+package org.terasology.combatSystem.world.structures.components;
 
 import org.joml.Vector3i;
 import org.terasology.entitySystem.Component;
 import org.terasology.network.Replicate;
 import org.terasology.reflection.MappedContainer;
+
+import java.util.List;
 
 public class AddSwitchDoorsComponent implements Component{
     @Replicate
