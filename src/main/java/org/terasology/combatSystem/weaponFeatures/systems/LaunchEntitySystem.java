@@ -24,7 +24,6 @@ import org.terasology.logic.characters.GazeMountPointComponent;
 import org.terasology.logic.inventory.ItemComponent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.Direction;
-import org.terasology.math.JomlUtil;
 import org.terasology.physics.CollisionGroup;
 import org.terasology.physics.StandardCollisionGroup;
 import org.terasology.physics.components.TriggerComponent;
