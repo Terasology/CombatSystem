@@ -184,7 +184,7 @@ public class StickingHandlingSystem extends BaseComponentSystem implements Updat
         if (block == null) {
             return;
         }
-        if (block.block.isPenetrable()) {
+        if (block.getBlock().isPenetrable()) {
             return;
         }
         LocationComponent location = entity.getComponent(LocationComponent.class);
