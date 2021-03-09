@@ -1,7 +1,7 @@
 package org.terasology.combatSystem.hurting;
 
-import org.terasology.entitySystem.Component;
-import org.terasology.network.Replicate;
+import org.terasology.engine.entitySystem.Component;
+import org.terasology.engine.network.Replicate;
 
 /**
  * Damages an entity critically.

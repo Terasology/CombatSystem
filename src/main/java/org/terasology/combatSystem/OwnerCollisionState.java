@@ -1,6 +1,6 @@
 package org.terasology.combatSystem;
 
-import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.entity.EntityRef;
 
 /**
  * Specifies whether the owner of an entity can be collided with or not.

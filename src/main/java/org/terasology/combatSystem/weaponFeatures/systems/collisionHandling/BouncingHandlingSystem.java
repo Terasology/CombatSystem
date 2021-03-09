@@ -9,14 +9,14 @@ import org.terasology.combatSystem.weaponFeatures.components.BounceComponent;
 import org.terasology.combatSystem.weaponFeatures.components.StickComponent;
 import org.terasology.combatSystem.weaponFeatures.events.BounceEvent;
 import org.terasology.combatSystem.weaponFeatures.events.StickEvent;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.event.ReceiveEvent;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.logic.health.DestroyEvent;
-import org.terasology.logic.health.EngineDamageTypes;
-import org.terasology.logic.location.LocationComponent;
-import org.terasology.physics.events.CollideEvent;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
+import org.terasology.engine.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.logic.health.DestroyEvent;
+import org.terasology.engine.logic.health.EngineDamageTypes;
+import org.terasology.engine.logic.location.LocationComponent;
+import org.terasology.engine.physics.events.CollideEvent;
 
 @RegisterSystem
 public class BouncingHandlingSystem extends BaseComponentSystem {

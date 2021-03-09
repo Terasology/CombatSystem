@@ -1,9 +1,9 @@
 package org.terasology.combatSystem.hurting;
 
-import org.terasology.entitySystem.Component;
-import org.terasology.entitySystem.prefab.Prefab;
-import org.terasology.logic.health.EngineDamageTypes;
-import org.terasology.network.Replicate;
+import org.terasology.engine.entitySystem.Component;
+import org.terasology.engine.entitySystem.prefab.Prefab;
+import org.terasology.engine.logic.health.EngineDamageTypes;
+import org.terasology.engine.network.Replicate;
 
 /**
  * Specifies the amount and damage type that an entity will inflict on other entities.

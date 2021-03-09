@@ -1,7 +1,7 @@
 package org.terasology.combatSystem.hurting;
 
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.event.AbstractConsumableEvent;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.event.AbstractConsumableEvent;
 
 /**
  * Used to hurt the <b>target</b> entity by the amount specified in {@code HurtingComponent}

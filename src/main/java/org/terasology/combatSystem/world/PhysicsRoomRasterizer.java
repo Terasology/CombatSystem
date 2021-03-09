@@ -9,20 +9,20 @@ import org.joml.Vector3i;
 import org.terasology.core.world.generator.rasterizers.FloraType;
 import org.terasology.core.world.generator.trees.TreeGenerator;
 import org.terasology.core.world.generator.trees.Trees;
-import org.terasology.registry.CoreRegistry;
-import org.terasology.utilities.procedural.WhiteNoise;
-import org.terasology.utilities.random.FastRandom;
-import org.terasology.utilities.random.Random;
-import org.terasology.world.block.Block;
-import org.terasology.world.block.BlockManager;
-import org.terasology.world.chunks.CoreChunk;
-import org.terasology.world.generation.Region;
-import org.terasology.world.generation.WorldRasterizer;
+import org.terasology.engine.registry.CoreRegistry;
+import org.terasology.engine.utilities.procedural.WhiteNoise;
+import org.terasology.engine.utilities.random.FastRandom;
+import org.terasology.engine.utilities.random.Random;
+import org.terasology.engine.world.block.Block;
+import org.terasology.engine.world.block.BlockManager;
+import org.terasology.engine.world.chunks.CoreChunk;
+import org.terasology.engine.world.generation.Region;
+import org.terasology.engine.world.generation.WorldRasterizer;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.terasology.world.chunks.Chunks.CHUNK_REGION;
+import static org.terasology.engine.world.chunks.Chunks.CHUNK_REGION;
 
 public class PhysicsRoomRasterizer implements WorldRasterizer{
     

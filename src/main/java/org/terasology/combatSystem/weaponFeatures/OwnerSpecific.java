@@ -2,7 +2,7 @@ package org.terasology.combatSystem.weaponFeatures;
 
 import com.google.common.collect.Lists;
 import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
-import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.entity.EntityRef;
 
 import java.util.List;
 

@@ -2,8 +2,8 @@ package org.terasology.combatSystem.components;
 
 import org.terasology.combatSystem.FactionList;
 import org.terasology.combatSystem.PlanetFactionList;
-import org.terasology.entitySystem.Component;
-import org.terasology.network.Replicate;
+import org.terasology.engine.entitySystem.Component;
+import org.terasology.engine.network.Replicate;
 
 /**
  * Makes the entity belong to a specific faction.

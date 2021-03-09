@@ -8,10 +8,10 @@ import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.weaponFeatures.components.MeleeComponent;
 import org.terasology.combatSystem.weaponFeatures.events.MeleeEvent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.event.ReceiveEvent;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
+import org.terasology.engine.entitySystem.systems.RegisterSystem;
 
 /**
  * Manages meelee attacks

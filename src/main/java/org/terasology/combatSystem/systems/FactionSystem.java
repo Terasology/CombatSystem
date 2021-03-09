@@ -5,10 +5,10 @@ import org.terasology.combatSystem.components.FactionComponent;
 import org.terasology.combatSystem.event.CombatEnteredEvent;
 import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.hurting.HurtingComponent;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.event.ReceiveEvent;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
+import org.terasology.engine.entitySystem.systems.RegisterSystem;
 
 @RegisterSystem
 public class FactionSystem extends BaseComponentSystem{

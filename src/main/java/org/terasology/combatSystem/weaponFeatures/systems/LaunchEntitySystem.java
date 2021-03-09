@@ -13,23 +13,23 @@ import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityCompone
 import org.terasology.combatSystem.weaponFeatures.events.LaunchEntityEvent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
 import org.terasology.combatSystem.weaponFeatures.events.ReduceAmmoEvent;
-import org.terasology.engine.Time;
-import org.terasology.entitySystem.entity.EntityManager;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.event.ReceiveEvent;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
-import org.terasology.logic.characters.GazeMountPointComponent;
-import org.terasology.logic.inventory.ItemComponent;
-import org.terasology.logic.location.LocationComponent;
-import org.terasology.math.Direction;
-import org.terasology.physics.CollisionGroup;
-import org.terasology.physics.StandardCollisionGroup;
-import org.terasology.physics.components.TriggerComponent;
-import org.terasology.physics.components.shapes.BoxShapeComponent;
-import org.terasology.registry.In;
-import org.terasology.rendering.logic.MeshComponent;
+import org.terasology.engine.core.Time;
+import org.terasology.engine.entitySystem.entity.EntityManager;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
+import org.terasology.engine.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.entitySystem.systems.UpdateSubscriberSystem;
+import org.terasology.engine.logic.characters.GazeMountPointComponent;
+import org.terasology.engine.logic.inventory.ItemComponent;
+import org.terasology.engine.logic.location.LocationComponent;
+import org.terasology.engine.math.Direction;
+import org.terasology.engine.physics.CollisionGroup;
+import org.terasology.engine.physics.StandardCollisionGroup;
+import org.terasology.engine.physics.components.TriggerComponent;
+import org.terasology.engine.physics.components.shapes.BoxShapeComponent;
+import org.terasology.engine.registry.In;
+import org.terasology.engine.rendering.logic.MeshComponent;
 
 /**
  * Launch an entity at a given impulse from the intended entity

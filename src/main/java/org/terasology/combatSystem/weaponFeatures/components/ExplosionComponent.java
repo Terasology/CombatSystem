@@ -4,10 +4,10 @@
 package org.terasology.combatSystem.weaponFeatures.components;
 
 import com.google.common.collect.Lists;
-import org.terasology.entitySystem.Component;
-import org.terasology.network.Replicate;
-import org.terasology.physics.CollisionGroup;
-import org.terasology.physics.StandardCollisionGroup;
+import org.terasology.engine.entitySystem.Component;
+import org.terasology.engine.network.Replicate;
+import org.terasology.engine.physics.CollisionGroup;
+import org.terasology.engine.physics.StandardCollisionGroup;
 
 import java.util.List;
 

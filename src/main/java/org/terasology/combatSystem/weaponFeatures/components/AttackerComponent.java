@@ -1,9 +1,9 @@
 package org.terasology.combatSystem.weaponFeatures.components;
 
 import org.terasology.combatSystem.OwnerCollisionState;
-import org.terasology.entitySystem.Component;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.network.Replicate;
+import org.terasology.engine.entitySystem.Component;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.network.Replicate;
 
 public class AttackerComponent implements Component{
     @Replicate

@@ -2,10 +2,10 @@ package org.terasology.combatSystem.systems;
 
 import org.terasology.combatSystem.event.CombatEnteredEvent;
 import org.terasology.combatSystem.event.CombatLeftEvent;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.event.ReceiveEvent;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
+import org.terasology.engine.entitySystem.systems.RegisterSystem;
 
 /**
  * handles the features to be triggered when Combat State is entered or exited

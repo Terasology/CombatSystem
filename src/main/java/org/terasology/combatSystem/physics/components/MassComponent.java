@@ -1,10 +1,10 @@
 package org.terasology.combatSystem.physics.components;
 
 import org.joml.Vector3f;
-import org.terasology.entitySystem.Component;
-import org.terasology.network.Replicate;
-import org.terasology.physics.components.RigidBodyComponent;
-import org.terasology.physics.components.TriggerComponent;
+import org.terasology.engine.entitySystem.Component;
+import org.terasology.engine.network.Replicate;
+import org.terasology.engine.physics.components.RigidBodyComponent;
+import org.terasology.engine.physics.components.TriggerComponent;
 
 /**
  * Adds <b>translational motion</b> feature to an entity.
