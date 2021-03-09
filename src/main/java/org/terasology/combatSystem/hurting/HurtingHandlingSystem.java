@@ -9,9 +9,9 @@ import org.terasology.engine.entitySystem.event.EventPriority;
 import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.logic.health.HealthComponent;
+import org.terasology.engine.logic.health.event.DoDamageEvent;
 import org.terasology.engine.logic.notifications.NotificationMessageEvent;
-import org.terasology.logic.health.HealthComponent;
-import org.terasology.logic.health.event.DoDamageEvent;
 
 import java.util.Random;
 

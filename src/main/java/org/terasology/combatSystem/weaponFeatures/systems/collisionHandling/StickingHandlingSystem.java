@@ -19,6 +19,7 @@ import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
 import org.terasology.engine.entitySystem.systems.UpdateSubscriberSystem;
+import org.terasology.engine.logic.health.BlockDamagedComponent;
 import org.terasology.engine.logic.health.DestroyEvent;
 import org.terasology.engine.logic.health.EngineDamageTypes;
 import org.terasology.engine.logic.location.Location;
@@ -27,7 +28,6 @@ import org.terasology.engine.physics.components.TriggerComponent;
 import org.terasology.engine.physics.events.CollideEvent;
 import org.terasology.engine.registry.In;
 import org.terasology.engine.world.block.BlockComponent;
-import org.terasology.logic.health.BlockDamagedComponent;
 
 import java.util.Iterator;
 import java.util.List;

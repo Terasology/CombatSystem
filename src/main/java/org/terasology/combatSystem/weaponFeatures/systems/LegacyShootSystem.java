@@ -28,6 +28,7 @@ import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterMode;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
 import org.terasology.engine.logic.common.ActivateEvent;
+import org.terasology.engine.logic.health.event.DoDamageEvent;
 import org.terasology.engine.logic.location.LocationComponent;
 import org.terasology.engine.physics.CollisionGroup;
 import org.terasology.engine.physics.HitResult;
@@ -37,7 +38,6 @@ import org.terasology.engine.registry.In;
 import org.terasology.engine.world.BlockEntityRegistry;
 import org.terasology.engine.world.WorldProvider;
 import org.terasology.engine.world.block.Block;
-import org.terasology.logic.health.event.DoDamageEvent;
 
 @RegisterSystem(RegisterMode.AUTHORITY)
 public class LegacyShootSystem extends BaseComponentSystem {
