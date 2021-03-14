@@ -17,7 +17,7 @@ package org.terasology.combatSystem.weaponFeatures.components;
 
 import org.terasology.engine.entitySystem.Component;
 import org.terasology.engine.entitySystem.prefab.Prefab;
-import org.terasology.engine.logic.health.EngineDamageTypes;
+import org.terasology.logic.health.EngineDamageTypes;
 
 public class LegacyShootComponent implements Component {
 

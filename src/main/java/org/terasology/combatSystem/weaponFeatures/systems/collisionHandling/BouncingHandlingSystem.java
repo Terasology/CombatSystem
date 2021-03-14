@@ -13,8 +13,8 @@ import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
-import org.terasology.engine.logic.health.DestroyEvent;
-import org.terasology.engine.logic.health.EngineDamageTypes;
+import org.terasology.logic.health.DestroyEvent;
+import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.engine.logic.location.LocationComponent;
 import org.terasology.engine.physics.events.CollideEvent;
 
