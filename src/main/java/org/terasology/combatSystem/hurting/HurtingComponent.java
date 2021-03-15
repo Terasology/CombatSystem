@@ -2,7 +2,7 @@ package org.terasology.combatSystem.hurting;
 
 import org.terasology.engine.entitySystem.Component;
 import org.terasology.engine.entitySystem.prefab.Prefab;
-import org.terasology.logic.health.EngineDamageTypes;
+import org.terasology.engine.logic.health.EngineDamageTypes;
 import org.terasology.engine.network.Replicate;
 
 /**

@@ -13,7 +13,7 @@ import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterMode;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
 import org.terasology.engine.logic.characters.CharacterHeldItemComponent;
-import org.terasology.engine.logic.inventory.InventoryComponent;
+import org.terasology.logic.inventory.InventoryComponent;
 import org.terasology.engine.logic.players.LocalPlayer;
 import org.terasology.engine.registry.In;
 import org.terasology.engine.rendering.nui.NUIManager;
@@ -47,7 +47,7 @@ public class QuiverUIClientSystem extends BaseComponentSystem {
     public void reactTo(OnChangedComponent event, EntityRef character, CharacterHeldItemComponent heldItem) {
         onAmmoBearingItemSelected(heldItem);
     }
-    
+
     public void onAmmoBearingItemSelected(CharacterHeldItemComponent heldItem) {
         EntityRef item = heldItem.selectedItem;
 
