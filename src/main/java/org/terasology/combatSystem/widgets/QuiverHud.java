@@ -5,7 +5,7 @@ import org.terasology.engine.logic.characters.CharacterHeldItemComponent;
 import org.terasology.engine.logic.players.LocalPlayer;
 import org.terasology.engine.registry.In;
 import org.terasology.engine.rendering.nui.layers.hud.CoreHudWidget;
-import org.terasology.rendering.nui.layers.ingame.inventory.InventoryCell;
+import org.terasology.module.inventory.ui.InventoryCell;
 
 public class QuiverHud extends CoreHudWidget{
     @In
