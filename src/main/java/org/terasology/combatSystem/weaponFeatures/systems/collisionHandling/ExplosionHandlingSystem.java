@@ -18,7 +18,7 @@ import org.terasology.engine.entitySystem.systems.RegisterSystem;
 import org.terasology.engine.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.engine.logic.health.DestroyEvent;
 import org.terasology.engine.logic.health.EngineDamageTypes;
-import org.terasology.engine.logic.health.HealthComponent;
+import org.terasology.logic.health.HealthComponent;
 import org.terasology.engine.logic.location.LocationComponent;
 import org.terasology.engine.physics.Physics;
 import org.terasology.engine.registry.In;

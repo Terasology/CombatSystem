@@ -5,12 +5,12 @@ import org.terasology.engine.logic.characters.CharacterHeldItemComponent;
 import org.terasology.engine.logic.players.LocalPlayer;
 import org.terasology.engine.registry.In;
 import org.terasology.engine.rendering.nui.layers.hud.CoreHudWidget;
-import org.terasology.engine.rendering.nui.layers.ingame.inventory.InventoryCell;
+import org.terasology.module.inventory.ui.InventoryCell;
 
 public class QuiverHud extends CoreHudWidget{
     @In
     private LocalPlayer localPlayer;
-    
+
     @Override
     public void initialise() {
         EntityRef character = localPlayer.getCharacterEntity();
@@ -19,12 +19,12 @@ public class QuiverHud extends CoreHudWidget{
             return;
         }
         EntityRef item = component.selectedItem;
-        
+
         for (InventoryCell cell : findAll(InventoryCell.class)) {
             cell.setTargetInventory(item);
         }
     }
-    
+
     @Override
     public void onOpened(){
         initialise();

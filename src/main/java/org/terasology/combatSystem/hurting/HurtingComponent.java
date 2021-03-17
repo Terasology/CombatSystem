@@ -16,7 +16,7 @@ public class HurtingComponent implements Component{
      */
     @Replicate
     public int amount = 3;
-    
+
     /**
      * The type of damage.
      */
