@@ -15,7 +15,7 @@ import org.terasology.engine.utilities.random.FastRandom;
 import org.terasology.engine.utilities.random.Random;
 import org.terasology.engine.world.block.Block;
 import org.terasology.engine.world.block.BlockManager;
-import org.terasology.engine.world.chunks.CoreChunk;
+import org.terasology.engine.world.chunks.Chunk;
 import org.terasology.engine.world.generation.Region;
 import org.terasology.engine.world.generation.WorldRasterizer;
 
@@ -49,7 +49,7 @@ public class PhysicsRoomRasterizer implements WorldRasterizer{
     }
 
     @Override
-    public void generateChunk(CoreChunk chunk, Region chunkRegion) {
+    public void generateChunk(Chunk chunk, Region chunkRegion) {
         if (ROOM_CHUNK_SIZE >= chunk.getPosition(new Vector3i()).x() && chunk.getPosition(new Vector3i()).x() >= -ROOM_CHUNK_SIZE) {
             if (ROOM_CHUNK_SIZE >= chunk.getPosition(new Vector3i()).z() && chunk.getPosition(new Vector3i()).z() >= -ROOM_CHUNK_SIZE) {
                 if (chunk.getPosition(new Vector3i()).y() == 0) {
@@ -138,7 +138,7 @@ public class PhysicsRoomRasterizer implements WorldRasterizer{
         }
     }
     
-    private boolean isBorder(CoreChunk chunk, int x, int z) {
+    private boolean isBorder(Chunk chunk, int x, int z) {
         boolean xPos = chunk.getPosition(new Vector3i()).x() == ROOM_CHUNK_SIZE && x == CHUNK_REGION.maxX();
         boolean xNeg = chunk.getPosition(new Vector3i()).x() == -ROOM_CHUNK_SIZE && x == CHUNK_REGION.minX();
         boolean zPos = chunk.getPosition(new Vector3i()).z() == ROOM_CHUNK_SIZE && z == CHUNK_REGION.maxZ();
