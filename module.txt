@@ -5,12 +5,31 @@
     "displayName": "CombatSystem",
     "description": "This module introduces combat system",
     "dependencies": [
-        { "id": "CoreAssets", "minVersion": "2.0.1" },
-        { "id": "CoreWorlds", "minVersion": "1.1.0", "maxVersion": "3.0.0" },
-        { "id": "Health", "minVersion": "1.0.0" },
-        { "id": "Inventory", "minVersion": "1.1.0" },
-        { "id": "Sensors", "minVersion": "1.0.0" },
-        { "id": "StructureTemplates", "minVersion": "1.0.0" }
+        {
+            "id": "CoreAssets",
+            "minVersion": "2.0.1"
+        },
+        {
+            "id": "CoreWorlds",
+            "minVersion": "1.1.0",
+            "maxVersion": "3.0.0"
+        },
+        {
+            "id": "Health",
+            "minVersion": "2.0.0-SNAPSHOT"
+        },
+        {
+            "id": "Inventory",
+            "minVersion": "1.1.0"
+        },
+        {
+            "id": "Sensors",
+            "minVersion": "1.0.0"
+        },
+        {
+            "id": "StructureTemplates",
+            "minVersion": "1.0.0"
+        }
     ],
     "serverSideOnly": false,
     "isAsset": true,

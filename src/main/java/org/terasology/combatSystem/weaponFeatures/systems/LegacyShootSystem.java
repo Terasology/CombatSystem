@@ -28,7 +28,7 @@ import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterMode;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
 import org.terasology.engine.logic.common.ActivateEvent;
-import org.terasology.logic.health.event.DoDamageEvent;
+import org.terasology.module.health.events.DoDamageEvent;
 import org.terasology.engine.logic.location.LocationComponent;
 import org.terasology.engine.physics.CollisionGroup;
 import org.terasology.engine.physics.HitResult;
