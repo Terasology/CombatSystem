@@ -1,6 +1,6 @@
 {
     "id": "CombatSystem",
-    "version": "1.0.0-SNAPSHOT",
+    "version": "1.0.0",
     "author": "0shine0",
     "displayName": "CombatSystem",
     "description": "This module introduces combat system",
