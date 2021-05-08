@@ -12,7 +12,6 @@
   },
   "Health": {
     "maxHealth": 1,
-    "currentHealth": 1,
-    "regenRate": 0
+    "currentHealth": 1
   }
 }
