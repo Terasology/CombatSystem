@@ -8,9 +8,11 @@
   "Health": {
     "maxHealth": 20,
     "currentHealth": 20,
-    "regenRate": 4,
-    "waitBeforeRegen": 1,
     "destroyEntityOnNoHealth": true
+  },
+  "BaseRegen": {
+    "regenRate": 4,
+    "waitBeforeRegen": 1
   },
   "VolumeSensor": {
     "range": 15
