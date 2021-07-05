@@ -12,7 +12,7 @@
 
   },
   "Attacker": {
-    "state": OwnerCollisionState.ENABLED
+
   },
   "PhysicalSensor": {
 
