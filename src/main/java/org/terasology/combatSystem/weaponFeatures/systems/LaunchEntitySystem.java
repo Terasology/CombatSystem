@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
+import org.terasology.combatSystem.OwnerCollisionState;
 import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.combatSystem.physics.events.CombatImpulseEvent;
 import org.terasology.combatSystem.weaponFeatures.OwnerSpecific;
@@ -116,7 +117,7 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
                 LocationComponent location = entityToLaunch.getComponent(LocationComponent.class);
 
                 // adds the entity as the shooter for the arrow. It will be the launcher itself.
-                entityToLaunch.addOrSaveComponent(new AttackerComponent(entity));
+                entityToLaunch.addOrSaveComponent(new AttackerComponent(entity, OwnerCollisionState.DISABLED));
 
                 LocationComponent shooterLoc = player.getComponent(LocationComponent.class);
 
