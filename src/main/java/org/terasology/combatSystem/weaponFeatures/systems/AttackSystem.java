@@ -1,6 +1,7 @@
 package org.terasology.combatSystem.weaponFeatures.systems;
 
 import org.joml.Vector3f;
+import org.terasology.combatSystem.OwnerCollisionState;
 import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
 import org.terasology.combatSystem.weaponFeatures.components.PrimaryAttackComponent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
@@ -47,7 +48,7 @@ public class AttackSystem extends BaseComponentSystem {
         AttackerComponent attacker = item.getComponent(AttackerComponent.class);
         if (attacker == null) {
             if (item.hasComponent(BlockItemComponent.class)) {
-                attacker = new AttackerComponent();
+                attacker = new AttackerComponent(OwnerCollisionState.DISABLED);
             } else {
                 return;
             }

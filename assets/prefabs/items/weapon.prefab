@@ -4,7 +4,7 @@
     "name": "Weapon"
   },
   "Attacker": {
-    "state": OwnerCollisionState.ENABLED
+
   },
   "Hurting": {
 
