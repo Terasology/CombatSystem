@@ -12,10 +12,10 @@ public class AttackerComponent implements Component<AttackerComponent> {
     public EntityRef attacker = EntityRef.NULL;
 
     @Replicate
-    public OwnerCollisionState state = OwnerCollisionState.DISABLED;
-
-    public AttackerComponent() {
-
+    public OwnerCollisionState state = OwnerCollisionState.ENABLED;
+    
+    public AttackerComponent(){
+        
     }
 
     public AttackerComponent(EntityRef shooter) {
