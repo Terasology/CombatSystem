@@ -23,7 +23,7 @@ public class HomingComponent implements Component<HomingComponent> {
     public float launchedTime = -1.0f;
 
     @Override
-    public void copy(HomingComponent other) {
+    public void copyFrom(HomingComponent other) {
         this.target = other.target;
         this.initialSleepTime = other.initialSleepTime;
         this.updationTime = other.updationTime;

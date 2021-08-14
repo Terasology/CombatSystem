@@ -26,7 +26,7 @@ public class ExplosionComponent implements Component<ExplosionComponent> {
     public boolean explosionStarted = false;
 
     @Override
-    public void copy(ExplosionComponent other) {
+    public void copyFrom(ExplosionComponent other) {
         this.collidesWith = Lists.newArrayList(other.collidesWith);
         this.radius = other.radius;
         this.explosionStartTime = other.explosionStartTime;

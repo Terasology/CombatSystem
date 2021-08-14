@@ -29,7 +29,7 @@ public class LaunchEntityComponent implements Component<LaunchEntityComponent> {
     public boolean primaryAttack = true;
 
     @Override
-    public void copy(LaunchEntityComponent other) {
+    public void copyFrom(LaunchEntityComponent other) {
         this.launchEntityPrefab = other.launchEntityPrefab;
         this.cooldownTime = other.cooldownTime;
         this.launchTime = other.launchTime;

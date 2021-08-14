@@ -18,7 +18,7 @@ public class ParentComponent implements Component<ParentComponent> {
     }
 
     @Override
-    public void copy(ParentComponent other) {
+    public void copyFrom(ParentComponent other) {
         this.children = Lists.newArrayList(other.children);
     }
 }

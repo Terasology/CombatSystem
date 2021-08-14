@@ -19,7 +19,7 @@ public class BounceComponent implements Component<BounceComponent> {
     public float minBounceVelocity = 3.0f;
 
     @Override
-    public void copy(BounceComponent other) {
+    public void copyFrom(BounceComponent other) {
         this.bounceFactor = other.bounceFactor;
         this.maxPierceAngle = other.maxPierceAngle;
         this.minPierceVelocity = other.minPierceVelocity;

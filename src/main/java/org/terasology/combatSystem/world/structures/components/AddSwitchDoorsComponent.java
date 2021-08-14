@@ -16,7 +16,7 @@ public class AddSwitchDoorsComponent implements Component<AddSwitchDoorsComponen
     public List<DoorsToSpawn> doorsToSpawn = Lists.newArrayList();
 
     @Override
-    public void copy(AddSwitchDoorsComponent other) {
+    public void copyFrom(AddSwitchDoorsComponent other) {
         this.doorsToSpawn = Lists.newArrayList(other.doorsToSpawn);
     }
 

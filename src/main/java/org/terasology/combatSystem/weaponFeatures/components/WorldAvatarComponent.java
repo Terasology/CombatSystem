@@ -14,7 +14,7 @@ public class WorldAvatarComponent implements Component<WorldAvatarComponent> {
     public Prefab worldAvatarPrefab;
 
     @Override
-    public void copy(WorldAvatarComponent other) {
+    public void copyFrom(WorldAvatarComponent other) {
         this.worldAvatarPrefab = other.worldAvatarPrefab;
     }
 }

@@ -16,7 +16,7 @@ public class ArrowComponent implements Component<ArrowComponent> {
     public Vector3f previousDir = new Vector3f();
 
     @Override
-    public void copy(ArrowComponent other) {
+    public void copyFrom(ArrowComponent other) {
         this.previousDir.set(other.previousDir);
     }
 }

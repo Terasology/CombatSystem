@@ -14,7 +14,7 @@ public class SwitchComponent implements Component<SwitchComponent> {
     public List<EntityRef> doors = Lists.newArrayList();
 
     @Override
-    public void copy(SwitchComponent other) {
+    public void copyFrom(SwitchComponent other) {
         this.doors = Lists.newArrayList(other.doors);
     }
 }

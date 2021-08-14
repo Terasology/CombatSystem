@@ -1,3 +1,6 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.physics.components;
 
 import org.terasology.engine.network.Replicate;
@@ -18,7 +21,7 @@ public class FrictionComponent implements Component<FrictionComponent> {
     float velocity = 20.0f;
 
     @Override
-    public void copy(FrictionComponent other) {
+    public void copyFrom(FrictionComponent other) {
         this.friction = other.friction;
         this.velocity = other.velocity;
     }

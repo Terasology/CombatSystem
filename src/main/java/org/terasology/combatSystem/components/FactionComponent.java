@@ -1,3 +1,6 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.components;
 
 import org.terasology.combatSystem.FactionList;
@@ -13,7 +16,7 @@ public class FactionComponent implements Component<FactionComponent> {
     public FactionList faction = PlanetFactionList.EARTH;
 
     @Override
-    public void copy(FactionComponent other) {
+    public void copyFrom(FactionComponent other) {
         this.faction = other.faction;
     }
 }

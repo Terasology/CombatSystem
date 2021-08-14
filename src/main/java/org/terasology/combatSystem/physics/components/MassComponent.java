@@ -26,7 +26,7 @@ public class MassComponent implements Component<MassComponent> {
     public Vector3f force = new Vector3f();
 
     @Override
-    public void copy(MassComponent other) {
+    public void copyFrom(MassComponent other) {
         this.velocity.set(other.velocity);
         this.acceleration.set(other.acceleration);
         this.force.set(other.force);

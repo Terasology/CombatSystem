@@ -20,7 +20,7 @@ public class CollisionExceptionsComponent implements Component<CollisionExceptio
     public List<EntityRef> exceptions = Lists.<EntityRef>newArrayList();
 
     @Override
-    public void copy(CollisionExceptionsComponent other) {
+    public void copyFrom(CollisionExceptionsComponent other) {
         this.exceptions = Lists.newArrayList(other.exceptions);
     }
 }

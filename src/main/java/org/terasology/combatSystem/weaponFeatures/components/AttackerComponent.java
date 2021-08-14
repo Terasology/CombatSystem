@@ -36,7 +36,7 @@ public class AttackerComponent implements Component<AttackerComponent> {
     }
 
     @Override
-    public void copy(AttackerComponent other) {
+    public void copyFrom(AttackerComponent other) {
         this.attacker = other.attacker;
         this.state = other.state;
     }

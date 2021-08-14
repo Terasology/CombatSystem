@@ -1,3 +1,6 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.hurting;
 
 import org.terasology.engine.entitySystem.prefab.Prefab;
@@ -24,7 +27,7 @@ public class HurtingComponent implements Component<HurtingComponent> {
     public Prefab damageType = EngineDamageTypes.DIRECT.get();
 
     @Override
-    public void copy(HurtingComponent other) {
+    public void copyFrom(HurtingComponent other) {
         this.amount = other.amount;
         this.damageType = other.damageType;
     }

@@ -1,3 +1,6 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.hurting;
 
 import org.terasology.engine.network.Replicate;
@@ -20,7 +23,7 @@ public class RandomDamageComponent implements Component<RandomDamageComponent> {
     public int maxDamage = 4;
 
     @Override
-    public void copy(RandomDamageComponent other) {
+    public void copyFrom(RandomDamageComponent other) {
         this.minDamage = other.minDamage;
         this.maxDamage = other.maxDamage;
     }

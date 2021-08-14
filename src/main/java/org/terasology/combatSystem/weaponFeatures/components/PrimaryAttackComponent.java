@@ -8,6 +8,6 @@ import org.terasology.gestalt.entitysystem.component.Component;
 public class PrimaryAttackComponent implements Component<PrimaryAttackComponent> {
 
     @Override
-    public void copy(PrimaryAttackComponent other) {
+    public void copyFrom(PrimaryAttackComponent other) {
     }
 }

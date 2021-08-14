@@ -17,7 +17,7 @@ public class ExplodeComponent implements Component<ExplodeComponent> {
     public Prefab explosionPrefab;
 
     @Override
-    public void copy(ExplodeComponent other) {
+    public void copyFrom(ExplodeComponent other) {
         this.explosionPrefab = other.explosionPrefab;
     }
 }

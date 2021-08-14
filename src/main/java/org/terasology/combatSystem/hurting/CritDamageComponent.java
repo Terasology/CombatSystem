@@ -20,7 +20,7 @@ public class CritDamageComponent implements Component<CritDamageComponent> {
     public float critFactor = 2;                // factor to multiply damage with
 
     @Override
-    public void copy(CritDamageComponent other) {
+    public void copyFrom(CritDamageComponent other) {
         this.critChance = other.critChance;
         this.critFactor = other.critFactor;
     }

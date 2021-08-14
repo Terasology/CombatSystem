@@ -14,7 +14,7 @@ public class MeleeComponent implements Component<MeleeComponent> {
     public boolean primaryAttack = false;
 
     @Override
-    public void copy(MeleeComponent other) {
+    public void copyFrom(MeleeComponent other) {
         this.range = other.range;
         this.primaryAttack = other.primaryAttack;
     }

@@ -28,7 +28,7 @@ public class StickComponent implements Component<StickComponent> {
     }
 
     @Override
-    public void copy(StickComponent other) {
+    public void copyFrom(StickComponent other) {
         this.target = other.target;
         this.stickTime = other.stickTime;
         this.totalStickingTime = other.totalStickingTime;

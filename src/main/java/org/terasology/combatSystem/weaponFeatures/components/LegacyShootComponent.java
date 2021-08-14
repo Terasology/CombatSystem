@@ -26,7 +26,7 @@ public class LegacyShootComponent implements Component<LegacyShootComponent> {
     public Prefab damageType = EngineDamageTypes.PHYSICAL.get();
 
     @Override
-    public void copy(LegacyShootComponent other) {
+    public void copyFrom(LegacyShootComponent other) {
         this.maxDistance = other.maxDistance;
         this.damageAmount = other.damageAmount;
         this.arrowsPerSecond = other.arrowsPerSecond;

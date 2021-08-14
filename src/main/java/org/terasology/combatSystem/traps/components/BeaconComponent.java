@@ -11,7 +11,7 @@ public class BeaconComponent implements Component<BeaconComponent> {
     public EntityRef base = EntityRef.NULL;
 
     @Override
-    public void copy(BeaconComponent other) {
+    public void copyFrom(BeaconComponent other) {
         this.base = other.base;
     }
 }

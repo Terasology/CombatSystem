@@ -20,7 +20,7 @@ public class BaseLauncherComponent implements Component<BaseLauncherComponent> {
     public float lastLaunchTime = -1.0f;
 
     @Override
-    public void copy(BaseLauncherComponent other) {
+    public void copyFrom(BaseLauncherComponent other) {
         this.entityInBase = other.entityInBase;
         this.amountOfEntityInBase = other.amountOfEntityInBase;
         this.coolDownTime = other.coolDownTime;
