@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.combatSystem.weaponFeatures.components;
 
-import org.terasology.gestalt.entitysystem.component.Component;
+import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
-public class SecondaryAttackComponent implements Component<SecondaryAttackComponent> {
-
-    @Override
-    public void copyFrom(SecondaryAttackComponent other) {
-
-    }
+/**
+ * Marker component.
+ *
+ * NOTE: <b>This component currently has no effect!</b>
+ */
+public class SecondaryAttackComponent extends EmptyComponent<SecondaryAttackComponent> {
 }
