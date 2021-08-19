@@ -10,6 +10,7 @@ import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.reflection.MappedContainer;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AddSwitchDoorsComponent implements Component<AddSwitchDoorsComponent> {
     @Replicate
@@ -17,13 +18,23 @@ public class AddSwitchDoorsComponent implements Component<AddSwitchDoorsComponen
 
     @Override
     public void copyFrom(AddSwitchDoorsComponent other) {
-        this.doorsToSpawn = Lists.newArrayList(other.doorsToSpawn);
+        this.doorsToSpawn = other.doorsToSpawn.stream().map(DoorsToSpawn::copy).collect(Collectors.toList());
     }
 
     @MappedContainer
     public static class DoorsToSpawn {
         public Vector3i switchPos;
         public List<Vector3i> doorsPos;
+
+        /**
+         * Create a <i>deep copy</i> of this data class.
+         */
+        DoorsToSpawn copy() {
+            DoorsToSpawn copy = new DoorsToSpawn();
+            copy.switchPos = new Vector3i(this.switchPos);
+            copy.doorsPos = this.doorsPos.stream().map(Vector3i::new).collect(Collectors.toList());
+            return copy;
+        }
     }
 
 }
