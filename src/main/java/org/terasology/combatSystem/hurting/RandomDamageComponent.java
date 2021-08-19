@@ -10,15 +10,12 @@ import org.terasology.gestalt.entitysystem.component.Component;
  * To generate a random damage amount between <b>minDamage</b> and <b>maxDamage</b> (both inclusive).
  */
 public class RandomDamageComponent implements Component<RandomDamageComponent> {
-    public RandomDamageComponent() {
 
-    }
-
-    //inclusive
+    /** The minimal damage (inclusive). */
     @Replicate
     public int minDamage = 2;
 
-    //inclusive
+    /** The maximum damage (inclusive). */
     @Replicate
     public int maxDamage = 4;
 
