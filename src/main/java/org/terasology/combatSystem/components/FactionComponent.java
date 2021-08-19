@@ -3,8 +3,8 @@
 
 package org.terasology.combatSystem.components;
 
-import org.terasology.combatSystem.FactionList;
-import org.terasology.combatSystem.PlanetFactionList;
+import org.terasology.combatSystem.Faction;
+import org.terasology.combatSystem.PlanetFactions;
 import org.terasology.engine.network.Replicate;
 import org.terasology.gestalt.entitysystem.component.Component;
 
@@ -13,7 +13,7 @@ import org.terasology.gestalt.entitysystem.component.Component;
  */
 public class FactionComponent implements Component<FactionComponent> {
     @Replicate
-    public FactionList faction = PlanetFactionList.EARTH;
+    public Faction faction = PlanetFactions.EARTH;
 
     @Override
     public void copyFrom(FactionComponent other) {
