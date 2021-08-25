@@ -29,63 +29,62 @@ import org.terasology.sensors.volumeSensing.VolumeSensorComponent;
 import java.util.List;
 
 @RegisterSystem
-public class TrapPlacingSystem extends BaseComponentSystem{
+public class TrapPlacingSystem extends BaseComponentSystem {
     @In
     LocalPlayer player;
-    
+
     @ReceiveEvent(components = {PhysicalSensorComponent.class, LocationComponent.class})
-    public void activateOrDeactivateTrap(ActivateEvent event, EntityRef entity, PhysicalSensorComponent physical){
-        if(!entity.hasComponent(AttackerComponent.class)){
+    public void activateOrDeactivateTrap(ActivateEvent event, EntityRef entity, PhysicalSensorComponent physical) {
+        if (!entity.hasComponent(AttackerComponent.class)) {
             return;
         }
-        
+
         EntityRef character = player.getCharacterEntity();
         List<EntityRef> allOwners = OwnerSpecific.getAllOwners(entity);
-        if(allOwners == null){
+        if (allOwners == null) {
             return;
         }
-        
-        for(EntityRef attackerEntity : allOwners){
-            if(attackerEntity.equals(character)){
-                if(!physical.activated){
+
+        for (EntityRef attackerEntity : allOwners) {
+            if (attackerEntity.equals(character)) {
+                if (!physical.activated) {
                     entity.send(new ActivateSensorEvent());
-                }
-                else{
+                } else {
                     entity.send(new DeactivateSensorEvent());
                 }
             }
         }
     }
-    
+
     @ReceiveEvent(components = {PhysicalSensorComponent.class})
-    public void deactivateOnItemConversion(OnBlockToItem event, EntityRef entity, PhysicalSensorComponent physical){
-        if(physical.activated){
+    public void deactivateOnItemConversion(OnBlockToItem event, EntityRef entity, PhysicalSensorComponent physical) {
+        if (physical.activated) {
             entity.send(new DeactivateSensorEvent());
         }
     }
-    
+
     @ReceiveEvent(components = {ActivateOnPlaceComponent.class, BlockComponent.class})
-    public void activateOnBlockConversion(OnActivatedComponent event, EntityRef entity){
+    public void activateOnBlockConversion(OnActivatedComponent event, EntityRef entity) {
         entity.send(new ActivateSensorEvent());
     }
-    
+
     @ReceiveEvent(components = {VolumeSensorComponent.class, LocationComponent.class}, netFilter = RegisterMode.CLIENT, priority = EventPriority.PRIORITY_LOW)
-    public void addMeshForClient(ActivateSensorEvent event, EntityRef entity, PhysicalSensorComponent physical){
+    public void addMeshForClient(ActivateSensorEvent event, EntityRef entity, PhysicalSensorComponent physical) {
         EntityRef sensor = physical.sensor;
-        
-        if(!entity.hasComponent(AttackerComponent.class)){
+
+        if (!entity.hasComponent(AttackerComponent.class)) {
             return;
         }
-        
+
         EntityRef character = player.getCharacterEntity();
         List<EntityRef> allOwners = OwnerSpecific.getAllOwners(entity);
-        if(allOwners == null){
+        if (allOwners == null) {
             return;
         }
-                
-        for(EntityRef attackerEntity : allOwners){
-            if(attackerEntity.equals(character)){
-                if(!sensor.hasComponent(MeshComponent.class)){
+
+        for (EntityRef attackerEntity : allOwners) {
+            if (attackerEntity.equals(character)) {
+                if (!sensor.hasComponent(MeshComponent.class)) {
                     MeshComponent mesh = new MeshComponent();
                     mesh.translucent = true;
                     mesh.material = Assets.getMaterial("CombatSystem:forceField").get();
@@ -95,5 +94,4 @@ public class TrapPlacingSystem extends BaseComponentSystem{
             }
         }
     }
-
 }

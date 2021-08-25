@@ -13,17 +13,17 @@ import org.terasology.engine.logic.health.DestroyEvent;
 import org.terasology.engine.logic.health.EngineDamageTypes;
 
 @RegisterSystem
-public class SwitchDoorHandlingSystem extends BaseComponentSystem{
+public class SwitchDoorHandlingSystem extends BaseComponentSystem {
 
     @ReceiveEvent(components = ParentComponent.class)
-    public void openDoor(OnActivatedComponent event, EntityRef entity){
+    public void openDoor(OnActivatedComponent event, EntityRef entity) {
         SwitchComponent switchComp = entity.getComponent(SwitchComponent.class);
-        if(switchComp == null){
+        if (switchComp == null) {
             return;
         }
 
-        for(EntityRef door : switchComp.doors){
-            if(door == null || door == EntityRef.NULL || !door.exists()){
+        for (EntityRef door : switchComp.doors) {
+            if (door == null || door == EntityRef.NULL || !door.exists()) {
                 continue;
             }
             door.send(new DestroyEvent(entity, entity, EngineDamageTypes.DIRECT.get()));
@@ -31,14 +31,14 @@ public class SwitchDoorHandlingSystem extends BaseComponentSystem{
     }
 
     @ReceiveEvent(components = ParentComponent.class)
-    public void openDoor(OnChangedComponent event, EntityRef entity){
+    public void openDoor(OnChangedComponent event, EntityRef entity) {
         SwitchComponent switchComp = entity.getComponent(SwitchComponent.class);
-        if(switchComp == null){
+        if (switchComp == null) {
             return;
         }
 
-        for(EntityRef door : switchComp.doors){
-            if(door == null || door == EntityRef.NULL || !door.exists()){
+        for (EntityRef door : switchComp.doors) {
+            if (door == null || door == EntityRef.NULL || !door.exists()) {
                 continue;
             }
             door.send(new DestroyEvent(entity, entity, EngineDamageTypes.DIRECT.get()));
@@ -46,11 +46,11 @@ public class SwitchDoorHandlingSystem extends BaseComponentSystem{
     }
 
     @ReceiveEvent(components = SwitchComponent.class, priority = EventPriority.PRIORITY_HIGH)
-    public void openDoor(DestroyEvent event, EntityRef entity){
+    public void openDoor(DestroyEvent event, EntityRef entity) {
         SwitchComponent switchComp = entity.getComponent(SwitchComponent.class);
 
-        for(EntityRef door : switchComp.doors){
-            if(door == null || door == EntityRef.NULL || !door.exists()){
+        for (EntityRef door : switchComp.doors) {
+            if (door == null || door == EntityRef.NULL || !door.exists()) {
                 continue;
             }
             door.send(new DestroyEvent(entity, entity, EngineDamageTypes.DIRECT.get()));

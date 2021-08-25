@@ -1,6 +1,9 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.systems;
 
-import org.terasology.combatSystem.FactionList;
+import org.terasology.combatSystem.Faction;
 import org.terasology.combatSystem.components.FactionComponent;
 import org.terasology.combatSystem.event.CombatEnteredEvent;
 import org.terasology.combatSystem.hurting.HurtEvent;
@@ -21,8 +24,8 @@ public class FactionSystem extends BaseComponentSystem{
             return;
         }
         
-        FactionList entityFaction = entity.getComponent(FactionComponent.class).faction;
-        FactionList otherEntityFaction = entity.getComponent(FactionComponent.class).faction;
+        Faction entityFaction = entity.getComponent(FactionComponent.class).faction;
+        Faction otherEntityFaction = entity.getComponent(FactionComponent.class).faction;
         if(entityFaction != otherEntityFaction){
             entity.send(new CombatEnteredEvent());
             otherEntity.send(new CombatEnteredEvent());
