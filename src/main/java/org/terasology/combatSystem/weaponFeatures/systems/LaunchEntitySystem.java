@@ -170,7 +170,7 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
 
                 entityToLaunch.send(new CombatImpulseEvent(impulse));
                 entity.send(new ReduceAmmoEvent());
-            } i// else { TODO: dispatch no ammo event }
+            } // else { TODO: dispatch no ammo event }
         }
     }
 }
