@@ -7,7 +7,7 @@
     "icon": "CombatSystem:arrowIcon",
     "usage": "IN_DIRECTION",
     "stackId": "CombatSystem:explodeArrowItem",
-    "cooldownTime": 0
+    "cooldownTime": 200
   },
   "WorldAvatar": {
     "worldAvatarPrefab": "CombatSystem:explodeArrow"
