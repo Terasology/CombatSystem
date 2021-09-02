@@ -1,3 +1,6 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.weaponFeatures.systems;
 
 import org.terasology.combatSystem.weaponFeatures.components.LaunchEntityComponent;
@@ -9,12 +12,12 @@ import org.terasology.engine.entitySystem.event.EventPriority;
 import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.logic.inventory.ItemComponent;
+import org.terasology.engine.registry.In;
 import org.terasology.module.inventory.components.InventoryComponent;
+import org.terasology.module.inventory.events.BeforeItemPutInInventory;
 import org.terasology.module.inventory.systems.InventoryManager;
 import org.terasology.module.inventory.systems.InventoryUtils;
-import org.terasology.engine.logic.inventory.ItemComponent;
-import org.terasology.module.inventory.events.BeforeItemPutInInventory;
-import org.terasology.engine.registry.In;
 
 @RegisterSystem
 public class QuiverHandlingSystem extends BaseComponentSystem{
