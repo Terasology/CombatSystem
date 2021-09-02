@@ -1,3 +1,6 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.weaponFeatures.systems;
 
 import com.google.common.collect.Lists;
@@ -43,12 +46,12 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
     @In
     private Time time;
 
-    @ReceiveEvent(components = {LaunchEntityComponent.class})
+    @ReceiveEvent(components = LaunchEntityComponent.class)
     public void onFire(PrimaryAttackEvent event, EntityRef entity) {
         entity.send(new LaunchEntityEvent(event.getDirection()));
     }
 
-    @ReceiveEvent(components = {LaunchEntityComponent.class})
+    @ReceiveEvent(components = LaunchEntityComponent.class)
     public void launchingEntity(LaunchEntityEvent event, EntityRef entity) {
         launchEntity(event.getDirection(), entity);
     }
@@ -167,9 +170,7 @@ public class LaunchEntitySystem extends BaseComponentSystem implements UpdateSub
 
                 entityToLaunch.send(new CombatImpulseEvent(impulse));
                 entity.send(new ReduceAmmoEvent());
-            } else {
-                // TODO: dispatch no ammo event
-            }
+            } // else { TODO: dispatch no ammo event }
         }
     }
 }

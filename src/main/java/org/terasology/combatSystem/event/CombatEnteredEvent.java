@@ -1,3 +1,6 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.event;
 
 import org.terasology.engine.entitySystem.event.Event;
@@ -11,6 +14,6 @@ import org.terasology.engine.entitySystem.event.Event;
  * <li>when an enemy hits a player. (first blood kind of thing)
  * </ul>
  */
-public class CombatEnteredEvent implements Event{
+public class CombatEnteredEvent implements Event {
 
 }

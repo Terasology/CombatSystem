@@ -12,23 +12,23 @@ import java.util.List;
 /**
  * Used to remove entities that are added as exceptions to re-enable collisions with them.
  */
-public class RemoveCollisionExceptionEvent implements Event{
+public class RemoveCollisionExceptionEvent implements Event {
     List<EntityRef> exceptions;
     
-    public RemoveCollisionExceptionEvent(){
+    public RemoveCollisionExceptionEvent() {
         
     }
     
-    public RemoveCollisionExceptionEvent(List<EntityRef> exceptions){
+    public RemoveCollisionExceptionEvent(List<EntityRef> exceptions) {
         this.exceptions = exceptions;
     }
     
-    public RemoveCollisionExceptionEvent(EntityRef entity){
+    public RemoveCollisionExceptionEvent(EntityRef entity) {
         exceptions = Lists.<EntityRef>newArrayList();
         exceptions.add(entity);
     }
     
-    public List<EntityRef> getCollisionExceptionsList(){
+    public List<EntityRef> getCollisionExceptionsList() {
         return exceptions;
     }
 

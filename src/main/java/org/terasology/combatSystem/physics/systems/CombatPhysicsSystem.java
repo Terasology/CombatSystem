@@ -1,3 +1,6 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.physics.systems;
 
 import com.google.common.collect.Maps;
@@ -67,7 +70,7 @@ public class CombatPhysicsSystem extends BaseComponentSystem implements UpdateSu
      * @param event stores the value of impulse to be applied.
      * @param entity the entity on which the impulse is applied.
      */
-    @ReceiveEvent(components = {MassComponent.class})
+    @ReceiveEvent(components = MassComponent.class)
     public void onImpulse(CombatImpulseEvent event, EntityRef entity) {
         MassComponent body = entity.getComponent(MassComponent.class);
 

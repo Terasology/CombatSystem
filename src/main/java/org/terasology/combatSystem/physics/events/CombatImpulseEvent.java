@@ -1,3 +1,6 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.combatSystem.physics.events;
 
 import org.joml.Vector3f;
@@ -6,8 +9,7 @@ import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.engine.entitySystem.event.Event;
 
 /**
- * Add <>bImpulse</b> to entities with {@code MassComponent}
- * <b>
+ * Add <b>Impulse</b> to entities with {@code MassComponent}
  * this changes {@code MassComponent#velocity} variable in {@link MassComponent}
  */
 public class CombatImpulseEvent implements Event {
