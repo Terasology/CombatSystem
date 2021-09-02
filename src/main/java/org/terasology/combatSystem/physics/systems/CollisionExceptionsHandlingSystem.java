@@ -24,20 +24,19 @@ import java.util.List;
  * with exceptions.
  */
 @RegisterSystem
-public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
+public class CollisionExceptionsHandlingSystem extends BaseComponentSystem {
     /**
      * this handles the consuming of {@code CollideEvent} in case the entity collided with an exception.
      * @param event
      * @param entity
      */
     @ReceiveEvent(components = CollisionExceptionsComponent.class, priority = EventPriority.PRIORITY_CRITICAL)
-    public void avoidCollisionWithExceptions(CollideEvent event, EntityRef entity){
+    public void avoidCollisionWithExceptions(CollideEvent event, EntityRef entity) {
         EntityRef otherEntity = event.getOtherEntity();
         
-        if(checkCollisionWithAllExceptions(otherEntity.getId(), entity)){
+        if (checkCollisionWithAllExceptions(otherEntity.getId(), entity)) {
             event.consume();
-        }
-        else if(checkCollisionWithAllExceptions(entity.getId(), otherEntity)){
+        } else if (checkCollisionWithAllExceptions(entity.getId(), otherEntity)) {
             event.consume();
         }
     }
@@ -48,13 +47,12 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
      * @param entity
      */
     @ReceiveEvent(components = CollisionExceptionsComponent.class, priority = EventPriority.PRIORITY_CRITICAL)
-    public void avoidSensingExceptions(EntitySensedEvent event, EntityRef entity){
+    public void avoidSensingExceptions(EntitySensedEvent event, EntityRef entity) {
         EntityRef otherEntity = event.getEntity();
         
-        if(checkCollisionWithAllExceptions(otherEntity.getId(), entity)){
+        if (checkCollisionWithAllExceptions(otherEntity.getId(), entity)) {
             event.consume();
-        }
-        else if(checkCollisionWithAllExceptions(entity.getId(), otherEntity)){
+        } else if (checkCollisionWithAllExceptions(entity.getId(), otherEntity)) {
             event.consume();
         }
     }
@@ -65,18 +63,18 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
      * @param entity
      */
     @ReceiveEvent
-    public void addException(AddCollisionExceptionEvent event, EntityRef entity){
+    public void addException(AddCollisionExceptionEvent event, EntityRef entity) {
         CollisionExceptionsComponent exceptions = entity.getComponent(CollisionExceptionsComponent.class);
-        if(exceptions == null){
+        if (exceptions == null) {
             exceptions = new CollisionExceptionsComponent();
         }
         
         List<EntityRef> exceptionsList = event.getCollisionExceptionsList();
         
-        if(exceptionsList != null){
-            for(EntityRef exceptionEntity : exceptionsList){
-                if(exceptionEntity != null){
-                    if(!exceptions.exceptions.contains(exceptionEntity)){
+        if (exceptionsList != null) {
+            for (EntityRef exceptionEntity : exceptionsList) {
+                if (exceptionEntity != null) {
+                    if (!exceptions.exceptions.contains(exceptionEntity)) {
                         exceptions.exceptions.add(exceptionEntity);
                     }
                 }
@@ -92,18 +90,18 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
      * @param entity
      */
     @ReceiveEvent
-    public void removeException(RemoveCollisionExceptionEvent event, EntityRef entity){
+    public void removeException(RemoveCollisionExceptionEvent event, EntityRef entity) {
         CollisionExceptionsComponent exceptions = entity.getComponent(CollisionExceptionsComponent.class);
-        if(exceptions == null){
+        if (exceptions == null) {
             exceptions = new CollisionExceptionsComponent();
         }
         
         List<EntityRef> exceptionsList = event.getCollisionExceptionsList();
         
-        if(exceptionsList != null){
-            for(EntityRef exceptionEntity : exceptionsList){
-                if(exceptionEntity != null){
-                    if(exceptions.exceptions.contains(exceptionEntity)){
+        if (exceptionsList != null) {
+            for (EntityRef exceptionEntity : exceptionsList) {
+                if (exceptionEntity != null) {
+                    if (exceptions.exceptions.contains(exceptionEntity)) {
                         exceptions.exceptions.remove(exceptionEntity);
                     }
                 }
@@ -119,15 +117,15 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
      * @param entity
      */
     @ReceiveEvent
-    public void replaceException(ReplaceCollisionExceptionEvent event, EntityRef entity){
+    public void replaceException(ReplaceCollisionExceptionEvent event, EntityRef entity) {
         CollisionExceptionsComponent exceptions = entity.getComponent(CollisionExceptionsComponent.class);
-        if(exceptions == null){
+        if (exceptions == null) {
             exceptions = new CollisionExceptionsComponent();
         }
         
         List<EntityRef> exceptionsList = event.getCollisionExceptionsList();
         
-        if(exceptionsList == null){
+        if (exceptionsList == null) {
             exceptionsList = Lists.<EntityRef>newArrayList();
         }
         
@@ -145,21 +143,20 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem{
      * @param entity
      * @return
      */
-    private boolean checkCollisionWithAllExceptions(long otherEntityId, EntityRef entity){
+    private boolean checkCollisionWithAllExceptions(long otherEntityId, EntityRef entity) {
         CollisionExceptionsComponent exceptions = entity.getComponent(CollisionExceptionsComponent.class);
-        if(exceptions == null){
+        if (exceptions == null) {
             return false;
         }
         
         Iterator<EntityRef> entities = exceptions.exceptions.iterator();
-        while(entities.hasNext()){
+        while (entities.hasNext()) {
             EntityRef exception = entities.next();
-            if(exception.getId() == otherEntityId){
+            if (exception.getId() == otherEntityId) {
                 return true;
             }
         }
         
         return false;
     }
-
 }

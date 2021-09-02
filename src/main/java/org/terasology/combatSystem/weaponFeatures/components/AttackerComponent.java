@@ -14,7 +14,7 @@ public class AttackerComponent implements Component<AttackerComponent> {
     @Replicate
     public OwnerCollisionState state = OwnerCollisionState.ENABLED;
     
-    public AttackerComponent(){
+    public AttackerComponent() {
         
     }
 

@@ -14,19 +14,19 @@ import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
 
 @RegisterSystem
-public class FactionSystem extends BaseComponentSystem{
+public class FactionSystem extends BaseComponentSystem {
     
     @ReceiveEvent(components = {FactionComponent.class, HurtingComponent.class})
-    public void combatEntered(HurtEvent event, EntityRef entity){
+    public void combatEntered(HurtEvent event, EntityRef entity) {
         EntityRef otherEntity = event.getTarget();
         
-        if(!otherEntity.hasComponent(FactionComponent.class)){
+        if (!otherEntity.hasComponent(FactionComponent.class)) {
             return;
         }
         
         Faction entityFaction = entity.getComponent(FactionComponent.class).faction;
         Faction otherEntityFaction = entity.getComponent(FactionComponent.class).faction;
-        if(entityFaction != otherEntityFaction){
+        if (entityFaction != otherEntityFaction) {
             entity.send(new CombatEnteredEvent());
             otherEntity.send(new CombatEnteredEvent());
         }

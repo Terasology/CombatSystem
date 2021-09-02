@@ -56,7 +56,7 @@ public class TrapPlacingSystem extends BaseComponentSystem {
         }
     }
 
-    @ReceiveEvent(components = {PhysicalSensorComponent.class})
+    @ReceiveEvent(components = PhysicalSensorComponent.class)
     public void deactivateOnItemConversion(OnBlockToItem event, EntityRef entity, PhysicalSensorComponent physical) {
         if (physical.activated) {
             entity.send(new DeactivateSensorEvent());
@@ -68,7 +68,8 @@ public class TrapPlacingSystem extends BaseComponentSystem {
         entity.send(new ActivateSensorEvent());
     }
 
-    @ReceiveEvent(components = {VolumeSensorComponent.class, LocationComponent.class}, netFilter = RegisterMode.CLIENT, priority = EventPriority.PRIORITY_LOW)
+    @ReceiveEvent(components = {VolumeSensorComponent.class, LocationComponent.class}, netFilter = RegisterMode.CLIENT,
+                  priority = EventPriority.PRIORITY_LOW)
     public void addMeshForClient(ActivateSensorEvent event, EntityRef entity, PhysicalSensorComponent physical) {
         EntityRef sensor = physical.sensor;
 

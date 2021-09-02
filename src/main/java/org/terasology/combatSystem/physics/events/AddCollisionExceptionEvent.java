@@ -12,23 +12,23 @@ import java.util.List;
 /**
  * Used to add entities as exceptions to avoid collision with them.
  */
-public class AddCollisionExceptionEvent implements Event{
+public class AddCollisionExceptionEvent implements Event {
     List<EntityRef> exceptions;
     
-    public AddCollisionExceptionEvent(){
+    public AddCollisionExceptionEvent() {
         
     }
     
-    public AddCollisionExceptionEvent(List<EntityRef> exceptions){
+    public AddCollisionExceptionEvent(List<EntityRef> exceptions) {
         this.exceptions = exceptions;
     }
     
-    public AddCollisionExceptionEvent(EntityRef entity){
+    public AddCollisionExceptionEvent(EntityRef entity) {
         exceptions = Lists.<EntityRef>newArrayList();
         this.exceptions.add(entity);
     }
     
-    public List<EntityRef> getCollisionExceptionsList(){
+    public List<EntityRef> getCollisionExceptionsList() {
         return exceptions;
     }
 

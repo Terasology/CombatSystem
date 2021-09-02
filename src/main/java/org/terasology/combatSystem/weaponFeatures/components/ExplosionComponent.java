@@ -12,7 +12,10 @@ import java.util.List;
 
 public class ExplosionComponent implements Component<ExplosionComponent> {
     @Replicate
-    public List<CollisionGroup> collidesWith = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.DEFAULT, StandardCollisionGroup.WORLD, StandardCollisionGroup.CHARACTER);
+    public List<CollisionGroup> collidesWith = Lists.<CollisionGroup>newArrayList(
+        StandardCollisionGroup.DEFAULT, 
+        StandardCollisionGroup.WORLD, 
+        StandardCollisionGroup.CHARACTER);
 
     @Replicate
     public float radius = 2.0f;
