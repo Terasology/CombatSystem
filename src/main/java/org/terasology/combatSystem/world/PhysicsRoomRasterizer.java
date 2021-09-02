@@ -26,8 +26,8 @@ import static org.terasology.engine.world.chunks.Chunks.CHUNK_REGION;
 
 public class PhysicsRoomRasterizer implements WorldRasterizer {
     
-    private static final int ROOM_CHUNK_SIZE = 1;
     public static final int FLOOR_HEIGHT = 1;
+    private static final int ROOM_CHUNK_SIZE = 1;
     
     BlockManager manager;
 
@@ -92,16 +92,13 @@ public class PhysicsRoomRasterizer implements WorldRasterizer {
                                         && chunk.getPosition(new Vector3i()).z() == ROOM_CHUNK_SIZE) {
                                     for (int length = 0; length < 10; length++) {
                                         for (int width = 0; width < 10; width++) {
-                                            for (int height =1; height < 11; height++) {
+                                            for (int height = 1; height < 11; height++) {
                                                 chunk.setBlock(x + width, FLOOR_HEIGHT + height, z + length, water);
                                             }
                                         }
                                     }
                                 }
-                                if (chunk.getPosition(new Vector3i()).x() == 0
-                                        && chunk.getPosition(new Vector3i()).z() == 0) {
-                                    
-                                }
+                                // if (chunk.getPosition(new Vector3i()).x() == 0 && chunk.getPosition(new Vector3i()).z() == 0) {}
                                 if (chunk.getPosition(new Vector3i()).x() == 0
                                         && chunk.getPosition(new Vector3i()).z() == -ROOM_CHUNK_SIZE) {
                                     TreeGenerator treeGen = Trees.oakTree();
@@ -122,14 +119,8 @@ public class PhysicsRoomRasterizer implements WorldRasterizer {
                                         }
                                     }
                                 }
-                                if (chunk.getPosition(new Vector3i()).x() == -ROOM_CHUNK_SIZE
-                                        && chunk.getPosition(new Vector3i()).z() == 0) {
-                                    
-                                }
-                                if (chunk.getPosition(new Vector3i()).x() == -ROOM_CHUNK_SIZE
-                                        && chunk.getPosition(new Vector3i()).z() == -ROOM_CHUNK_SIZE) {
-                                    
-                                }
+                                // if (chunk.getPosition(new Vector3i()).x() == -ROOM_CHUNK_SIZE && chunk.getPosition(new Vector3i()).z() == 0) {}
+                                // if (chunk.getPosition(new Vector3i()).x() == -ROOM_CHUNK_SIZE && chunk.getPosition(new Vector3i()).z() == -ROOM_CHUNK_SIZE) {}
                             }
                         }
                     }

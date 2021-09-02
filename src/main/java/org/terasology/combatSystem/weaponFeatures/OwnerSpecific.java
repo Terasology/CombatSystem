@@ -9,7 +9,9 @@ import org.terasology.engine.entitySystem.entity.EntityRef;
 
 import java.util.List;
 
-public class OwnerSpecific {
+public final class OwnerSpecific {
+
+    private OwnerSpecific() { }
 
     /**
      * 
@@ -42,7 +44,7 @@ public class OwnerSpecific {
     private static EntityRef recursiveOwner(EntityRef entity) {
         AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
         
-        if (attacker == null){
+        if (attacker == null) {
             return entity;
         }
         if (attacker.attacker == EntityRef.NULL || attacker.attacker == null) {
@@ -60,7 +62,7 @@ public class OwnerSpecific {
     public static EntityRef getFirstOwner(EntityRef entity) {
         AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
         
-        if (attacker == null){
+        if (attacker == null) {
             return null;
         }
         if (attacker.attacker == EntityRef.NULL || attacker.attacker == null) {

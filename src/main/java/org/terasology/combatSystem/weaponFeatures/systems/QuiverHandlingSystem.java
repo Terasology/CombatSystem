@@ -37,7 +37,7 @@ public class QuiverHandlingSystem extends BaseComponentSystem {
         }
     }
 
-    @ReceiveEvent( components = InventoryComponent.class)
+    @ReceiveEvent(components = InventoryComponent.class)
     public void makePrefabForLaunchAvailable(OnChangedComponent event, EntityRef entity) {
         LaunchEntityComponent launchEntity = entity.getComponent(LaunchEntityComponent.class);
         if (launchEntity == null) {

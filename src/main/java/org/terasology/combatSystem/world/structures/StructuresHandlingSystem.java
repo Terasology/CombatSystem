@@ -68,12 +68,9 @@ public class StructuresHandlingSystem extends BaseComponentSystem {
                 continue;
             }
 
-            for (Vector3i doorPos : doors.doorsPos) {
-                doorPos = transformation.transformVector3i(doorPos);
-                EntityRef doorEntity = registry.getBlockEntityAt(doorPos);
-
-                switchComp.doors.add(doorEntity);
-            }
+            doors.doorsPos.stream().<Vector3i>map(doorPos -> transformation.transformVector3i(doorPos))
+                    .map(doorPos -> registry.getBlockEntityAt(doorPos))
+                    .forEach(doorEntity -> switchComp.doors.add(doorEntity));
             switchEntity.saveComponent(switchComp);
         }
     }

@@ -10,7 +10,6 @@ import org.terasology.engine.entitySystem.event.Event;
 
 /**
  * Add <b>Impulse</b> to entities with {@code MassComponent}
- * <b>
  * this changes {@code MassComponent#velocity} variable in {@link MassComponent}
  */
 public class CombatImpulseEvent implements Event {
