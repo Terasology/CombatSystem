@@ -40,7 +40,7 @@ public class StickingHandlingSystem extends BaseComponentSystem implements Updat
     @In
     Time time;
 
-    @ReceiveEvent(components = {StickComponent.class})
+    @ReceiveEvent(components = StickComponent.class)
     public void stickingCollision(CollideEvent event, EntityRef entity) {
         EntityRef target = event.getOtherEntity();
         if (target.hasComponent(BlockComponent.class)) {

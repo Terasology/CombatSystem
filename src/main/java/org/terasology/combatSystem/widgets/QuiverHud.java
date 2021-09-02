@@ -10,7 +10,7 @@ import org.terasology.engine.registry.In;
 import org.terasology.engine.rendering.nui.layers.hud.CoreHudWidget;
 import org.terasology.module.inventory.ui.InventoryCell;
 
-public class QuiverHud extends CoreHudWidget{
+public class QuiverHud extends CoreHudWidget {
     @In
     private LocalPlayer localPlayer;
 
@@ -18,7 +18,7 @@ public class QuiverHud extends CoreHudWidget{
     public void initialise() {
         EntityRef character = localPlayer.getCharacterEntity();
         CharacterHeldItemComponent component = character.getComponent(CharacterHeldItemComponent.class);
-        if(component == null){
+        if (component == null) {
             return;
         }
         EntityRef item = component.selectedItem;
@@ -29,7 +29,7 @@ public class QuiverHud extends CoreHudWidget{
     }
 
     @Override
-    public void onOpened(){
+    public void onOpened() {
         initialise();
     }
 

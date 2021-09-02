@@ -13,7 +13,7 @@ public class ParentComponent implements Component<ParentComponent> {
     @Replicate
     public List<EntityRef> children;
 
-    public ParentComponent(){
+    public ParentComponent() {
         children = Lists.<EntityRef>newArrayList();
     }
 

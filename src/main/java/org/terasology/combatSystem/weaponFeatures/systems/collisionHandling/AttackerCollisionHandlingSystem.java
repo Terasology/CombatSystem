@@ -17,19 +17,19 @@ import org.terasology.engine.entitySystem.systems.RegisterSystem;
 import org.terasology.engine.logic.inventory.events.GiveItemEvent;
 
 @RegisterSystem
-public class AttackerCollisionHandlingSystem extends BaseComponentSystem{
+public class AttackerCollisionHandlingSystem extends BaseComponentSystem {
     @ReceiveEvent(components = AttackerComponent.class)
-    public void resolveShooterState(OnActivatedComponent event, EntityRef entity){
+    public void resolveShooterState(OnActivatedComponent event, EntityRef entity) {
         updateExceptionListForShooterComponent(entity);
     }
     
     @ReceiveEvent(components = AttackerComponent.class)
-    public void updateShooterState(OnChangedComponent event, EntityRef entity){
+    public void updateShooterState(OnChangedComponent event, EntityRef entity) {
         updateExceptionListForShooterComponent(entity);
     }
     
     @ReceiveEvent(components = AttackerComponent.class)
-    public void makeEntityAsWeaponOwner(GiveItemEvent event, EntityRef entity){
+    public void makeEntityAsWeaponOwner(GiveItemEvent event, EntityRef entity) {
         AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
         attacker.attacker = event.getTargetEntity();
         
@@ -37,24 +37,21 @@ public class AttackerCollisionHandlingSystem extends BaseComponentSystem{
     }
     
     //--------------------private methods--------------------------------
-    private void updateExceptionListForShooterComponent(EntityRef entity){
+    private void updateExceptionListForShooterComponent(EntityRef entity) {
         AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
-        if(attacker == null){
+        if (attacker == null) {
             return;
         }
         
-        if(attacker.state == OwnerCollisionState.DISABLED){
+        if (attacker.state == OwnerCollisionState.DISABLED) {
             entity.send(new AddCollisionExceptionEvent(OwnerSpecific.getAllOwners(entity)));
-        }
-        else if(attacker.state == OwnerCollisionState.DISABLED_WITH_DIRECT_OWNER){
+        } else if (attacker.state == OwnerCollisionState.DISABLED_WITH_DIRECT_OWNER) {
             entity.send(new RemoveCollisionExceptionEvent(OwnerSpecific.getAllOwners(entity)));
             entity.send(new AddCollisionExceptionEvent(OwnerSpecific.getFirstOwner(entity)));
-        }
-        else if(attacker.state == OwnerCollisionState.DISABLED_WITH_ULTIMATE_OWNER){
+        } else if (attacker.state == OwnerCollisionState.DISABLED_WITH_ULTIMATE_OWNER) {
             entity.send(new RemoveCollisionExceptionEvent(OwnerSpecific.getAllOwners(entity)));
             entity.send(new AddCollisionExceptionEvent(OwnerSpecific.getUltimateOwner(entity)));
-        }
-        else if(attacker.state == OwnerCollisionState.ENABLED){
+        } else if (attacker.state == OwnerCollisionState.ENABLED) {
             entity.send(new RemoveCollisionExceptionEvent(OwnerSpecific.getAllOwners(entity)));
         }
     }

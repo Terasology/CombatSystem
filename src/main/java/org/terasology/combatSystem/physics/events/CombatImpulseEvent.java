@@ -9,7 +9,7 @@ import org.terasology.combatSystem.physics.components.MassComponent;
 import org.terasology.engine.entitySystem.event.Event;
 
 /**
- * Add <>bImpulse</b> to entities with {@code MassComponent}
+ * Add <b>Impulse</b> to entities with {@code MassComponent}
  * <b>
  * this changes {@code MassComponent#velocity} variable in {@link MassComponent}
  */

@@ -20,39 +20,39 @@ import org.terasology.module.inventory.systems.InventoryManager;
 import org.terasology.module.inventory.systems.InventoryUtils;
 
 @RegisterSystem
-public class QuiverHandlingSystem extends BaseComponentSystem{
+public class QuiverHandlingSystem extends BaseComponentSystem {
     @In
     InventoryManager inventory;
 
     @ReceiveEvent(priority = EventPriority.PRIORITY_HIGH)
-    public void avoidPuttingNonThrowableItemsInQuiver(BeforeItemPutInInventory event, EntityRef quiver){
-        if(!quiver.hasComponent(LaunchEntityComponent.class)){
+    public void avoidPuttingNonThrowableItemsInQuiver(BeforeItemPutInInventory event, EntityRef quiver) {
+        if (!quiver.hasComponent(LaunchEntityComponent.class)) {
             return;
         }
 
         EntityRef item = event.getItem();
 
-        if(!item.hasComponent(WorldAvatarComponent.class)){
+        if (!item.hasComponent(WorldAvatarComponent.class)) {
             event.consume();
         }
     }
 
-    @ReceiveEvent( components = {InventoryComponent.class})
-    public void makePrefabForLaunchAvailable(OnChangedComponent event, EntityRef entity){
+    @ReceiveEvent( components = InventoryComponent.class)
+    public void makePrefabForLaunchAvailable(OnChangedComponent event, EntityRef entity) {
         LaunchEntityComponent launchEntity = entity.getComponent(LaunchEntityComponent.class);
-        if(launchEntity == null){
+        if (launchEntity == null) {
             return;
         }
         EntityRef entityToLaunch = InventoryUtils.getItemAt(entity, 0);
 
-        if(entityToLaunch == EntityRef.NULL){
+        if (entityToLaunch == EntityRef.NULL) {
             launchEntity.launchEntityPrefab = null;
             entity.saveComponent(launchEntity);
             return;
         }
 
         WorldAvatarComponent avatar = entityToLaunch.getComponent(WorldAvatarComponent.class);
-        if(avatar == null){
+        if (avatar == null) {
             launchEntity.launchEntityPrefab = null;
             entity.saveComponent(launchEntity);
             return;
@@ -63,24 +63,24 @@ public class QuiverHandlingSystem extends BaseComponentSystem{
     }
 
     @ReceiveEvent (components = InventoryComponent.class)
-    public void reduceAmmo(ReduceAmmoEvent event, EntityRef entity){
+    public void reduceAmmo(ReduceAmmoEvent event, EntityRef entity) {
         EntityRef item = InventoryUtils.getItemAt(entity, 0);
 
         ItemComponent itemComp = item.getComponent(ItemComponent.class);
-        if(itemComp == null){
+        if (itemComp == null) {
             return;
         }
 
         // to see if the item can be consumed
-        if(itemComp.stackId.isEmpty()){
+        if (itemComp.stackId.isEmpty()) {
             return;
         }
 
         inventory.removeItem(entity, entity, item, true, 1);
 
-        if(InventoryUtils.getItemAt(entity, 0) == EntityRef.NULL){
+        if (InventoryUtils.getItemAt(entity, 0) == EntityRef.NULL) {
             LaunchEntityComponent launchEntity = entity.getComponent(LaunchEntityComponent.class);
-            if(launchEntity == null){
+            if (launchEntity == null) {
                 return;
             }
 
@@ -89,5 +89,4 @@ public class QuiverHandlingSystem extends BaseComponentSystem{
             entity.saveComponent(launchEntity);
         }
     }
-
 }

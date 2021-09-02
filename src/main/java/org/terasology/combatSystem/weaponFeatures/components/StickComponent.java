@@ -8,9 +8,6 @@ import org.terasology.gestalt.entitysystem.component.Component;
 
 public class StickComponent implements Component<StickComponent> {
     @Replicate
-    EntityRef target = EntityRef.NULL;
-
-    @Replicate
     public float stickTime = -1;
 
     @Replicate
@@ -19,19 +16,22 @@ public class StickComponent implements Component<StickComponent> {
     @Replicate
     public float pierceAmount = 1.0f;
 
-    public void setTarget(EntityRef entity){
+    @Replicate
+    EntityRef target = EntityRef.NULL;
+
+    public void setTarget(EntityRef entity) {
         target = entity;
     }
 
-    public EntityRef getTarget(){
+    public EntityRef getTarget() {
         return target;
     }
 
     @Override
     public void copyFrom(StickComponent other) {
-        this.target = other.target;
         this.stickTime = other.stickTime;
         this.totalStickingTime = other.totalStickingTime;
         this.pierceAmount = other.pierceAmount;
+        this.target = other.target;
     }
 }

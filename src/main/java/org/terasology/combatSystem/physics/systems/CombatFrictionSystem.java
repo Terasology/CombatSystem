@@ -13,7 +13,7 @@ import org.terasology.engine.entitySystem.systems.UpdateSubscriberSystem;
  * TODO implement the system and its functionalities.
  */
 @RegisterSystem
-public class CombatFrictionSystem extends BaseComponentSystem implements UpdateSubscriberSystem{
+public class CombatFrictionSystem extends BaseComponentSystem implements UpdateSubscriberSystem {
 
     @Override
     public void update(float delta) {

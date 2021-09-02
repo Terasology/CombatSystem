@@ -24,7 +24,7 @@ import org.terasology.engine.world.block.items.OnBlockItemPlaced;
 @RegisterSystem
 public class AttackSystem extends BaseComponentSystem {
 
-    @ReceiveEvent(components = {PrimaryAttackComponent.class})
+    @ReceiveEvent(components = PrimaryAttackComponent.class)
     public void primaryAttack(ActivateEvent event, EntityRef entity) {
         entity.send(new PrimaryAttackEvent(event));
     }
@@ -43,7 +43,7 @@ public class AttackSystem extends BaseComponentSystem {
         }
     }
 
-    @ReceiveEvent(components = {CharacterHeldItemComponent.class}, priority = EventPriority.PRIORITY_HIGH)
+    @ReceiveEvent(components = CharacterHeldItemComponent.class, priority = EventPriority.PRIORITY_HIGH)
     public void addAttacker(OnChangedComponent event, EntityRef character) {
         CharacterHeldItemComponent heldItem = character.getComponent(CharacterHeldItemComponent.class);
         EntityRef item = heldItem.selectedItem;

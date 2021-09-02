@@ -15,6 +15,6 @@ import org.terasology.engine.entitySystem.event.Event;
  * </ul>
  * <b>NOTE</b>: The Combat State does not exit if the enemies kill the player.
  */
-public class CombatLeftEvent implements Event{
+public class CombatLeftEvent implements Event {
 
 }

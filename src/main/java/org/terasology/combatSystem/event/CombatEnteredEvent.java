@@ -14,6 +14,6 @@ import org.terasology.engine.entitySystem.event.Event;
  * <li>when an enemy hits a player. (first blood kind of thing)
  * </ul>
  */
-public class CombatEnteredEvent implements Event{
+public class CombatEnteredEvent implements Event {
 
 }

@@ -14,23 +14,23 @@ import java.util.List;
  * <p>
  * You can also say that it removes all previous exceptions and adds these as the new ones.
  */
-public class ReplaceCollisionExceptionEvent implements Event{
+public class ReplaceCollisionExceptionEvent implements Event {
     List<EntityRef> exceptions;
     
-    public ReplaceCollisionExceptionEvent(){
+    public ReplaceCollisionExceptionEvent() {
         
     }
     
-    public ReplaceCollisionExceptionEvent(List<EntityRef> exceptions){
+    public ReplaceCollisionExceptionEvent(List<EntityRef> exceptions) {
         this.exceptions = exceptions;
     }
     
-    public ReplaceCollisionExceptionEvent(EntityRef entity){
+    public ReplaceCollisionExceptionEvent(EntityRef entity) {
         exceptions = Lists.<EntityRef>newArrayList();
         exceptions.add(entity);
     }
     
-    public List<EntityRef> getCollisionExceptionsList(){
+    public List<EntityRef> getCollisionExceptionsList() {
         return exceptions;
     }
 }
