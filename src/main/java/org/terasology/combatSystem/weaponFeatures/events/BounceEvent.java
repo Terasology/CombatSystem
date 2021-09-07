@@ -5,7 +5,7 @@ package org.terasology.combatSystem.weaponFeatures.events;
 
 import org.joml.Vector3f;
 import org.terasology.engine.entitySystem.entity.EntityRef;
-import org.terasology.engine.entitySystem.event.Event;
+import org.terasology.gestalt.entitysystem.event.Event;
 
 public class BounceEvent implements Event {
     EntityRef target = EntityRef.NULL;
