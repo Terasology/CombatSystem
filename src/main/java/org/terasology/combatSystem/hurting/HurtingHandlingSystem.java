@@ -6,6 +6,7 @@ package org.terasology.combatSystem.hurting;
 import org.terasology.combatSystem.weaponFeatures.OwnerSpecific;
 import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.event.EventPriority;
+import org.terasology.engine.entitySystem.event.Priority;
 import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
@@ -28,7 +29,8 @@ public class HurtingHandlingSystem extends BaseComponentSystem {
      * @param event
      * @param entity
      */
-    @ReceiveEvent(components = HurtingComponent.class, priority = EventPriority.PRIORITY_TRIVIAL)
+    @Priority(EventPriority.PRIORITY_TRIVIAL)
+    @ReceiveEvent(components = HurtingComponent.class)
     public void hurting(HurtEvent event, EntityRef entity) {
         HurtingComponent hurting = entity.getComponent(HurtingComponent.class);
         EntityRef otherEntity = event.getTarget();
@@ -50,7 +52,8 @@ public class HurtingHandlingSystem extends BaseComponentSystem {
      * @param event
      * @param entity
      */
-    @ReceiveEvent(components = {HurtingComponent.class, CritDamageComponent.class}, priority = EventPriority.PRIORITY_LOW)
+    @Priority(EventPriority.PRIORITY_LOW)
+    @ReceiveEvent(components = {HurtingComponent.class, CritDamageComponent.class})
     public void critHurting(HurtEvent event, EntityRef entity) {
         HurtingComponent hurting = entity.getComponent(HurtingComponent.class);
         CritDamageComponent critDamage = entity.getComponent(CritDamageComponent.class);

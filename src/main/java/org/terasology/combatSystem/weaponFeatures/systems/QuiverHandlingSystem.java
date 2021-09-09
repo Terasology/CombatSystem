@@ -9,6 +9,7 @@ import org.terasology.combatSystem.weaponFeatures.events.ReduceAmmoEvent;
 import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.entity.lifecycleEvents.OnChangedComponent;
 import org.terasology.engine.entitySystem.event.EventPriority;
+import org.terasology.engine.entitySystem.event.Priority;
 import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
@@ -24,7 +25,8 @@ public class QuiverHandlingSystem extends BaseComponentSystem {
     @In
     InventoryManager inventory;
 
-    @ReceiveEvent(priority = EventPriority.PRIORITY_HIGH)
+    @Priority(EventPriority.PRIORITY_HIGH)
+    @ReceiveEvent
     public void avoidPuttingNonThrowableItemsInQuiver(BeforeItemPutInInventory event, EntityRef quiver) {
         if (!quiver.hasComponent(LaunchEntityComponent.class)) {
             return;

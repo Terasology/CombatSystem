@@ -9,6 +9,7 @@ import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.entity.lifecycleEvents.OnActivatedComponent;
 import org.terasology.engine.entitySystem.entity.lifecycleEvents.OnChangedComponent;
 import org.terasology.engine.entitySystem.event.EventPriority;
+import org.terasology.engine.entitySystem.event.Priority;
 import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
@@ -48,7 +49,8 @@ public class SwitchDoorHandlingSystem extends BaseComponentSystem {
         }
     }
 
-    @ReceiveEvent(components = SwitchComponent.class, priority = EventPriority.PRIORITY_HIGH)
+    @Priority(EventPriority.PRIORITY_HIGH)
+    @ReceiveEvent(components = SwitchComponent.class)
     public void openDoor(DestroyEvent event, EntityRef entity) {
         SwitchComponent switchComp = entity.getComponent(SwitchComponent.class);
 

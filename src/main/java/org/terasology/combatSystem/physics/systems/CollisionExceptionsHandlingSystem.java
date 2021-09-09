@@ -10,6 +10,7 @@ import org.terasology.combatSystem.physics.events.RemoveCollisionExceptionEvent;
 import org.terasology.combatSystem.physics.events.ReplaceCollisionExceptionEvent;
 import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.event.EventPriority;
+import org.terasology.engine.entitySystem.event.Priority;
 import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
@@ -30,7 +31,8 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem {
      * @param event
      * @param entity
      */
-    @ReceiveEvent(components = CollisionExceptionsComponent.class, priority = EventPriority.PRIORITY_CRITICAL)
+    @Priority(EventPriority.PRIORITY_CRITICAL)
+    @ReceiveEvent(components = CollisionExceptionsComponent.class)
     public void avoidCollisionWithExceptions(CollideEvent event, EntityRef entity) {
         EntityRef otherEntity = event.getOtherEntity();
         
@@ -46,7 +48,8 @@ public class CollisionExceptionsHandlingSystem extends BaseComponentSystem {
      * @param event
      * @param entity
      */
-    @ReceiveEvent(components = CollisionExceptionsComponent.class, priority = EventPriority.PRIORITY_CRITICAL)
+    @Priority(EventPriority.PRIORITY_CRITICAL)
+    @ReceiveEvent(components = CollisionExceptionsComponent.class)
     public void avoidSensingExceptions(EntitySensedEvent event, EntityRef entity) {
         EntityRef otherEntity = event.getEntity();
         

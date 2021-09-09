@@ -9,6 +9,7 @@ import org.terasology.combatSystem.weaponFeatures.components.AttackerComponent;
 import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.entity.lifecycleEvents.OnActivatedComponent;
 import org.terasology.engine.entitySystem.event.EventPriority;
+import org.terasology.engine.entitySystem.event.Priority;
 import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.NetFilterEvent;
@@ -70,8 +71,8 @@ public class TrapPlacingSystem extends BaseComponentSystem {
     }
 
     @NetFilterEvent(netFilter = RegisterMode.CLIENT)
-    @ReceiveEvent(components = {VolumeSensorComponent.class, LocationComponent.class},
-                  priority = EventPriority.PRIORITY_LOW)
+    @Priority(EventPriority.PRIORITY_LOW)
+    @ReceiveEvent(components = {VolumeSensorComponent.class, LocationComponent.class})
     public void addMeshForClient(ActivateSensorEvent event, EntityRef entity, PhysicalSensorComponent physical) {
         EntityRef sensor = physical.sensor;
 
