@@ -13,13 +13,13 @@ import org.terasology.combatSystem.weaponFeatures.components.StickComponent;
 import org.terasology.combatSystem.weaponFeatures.events.BounceEvent;
 import org.terasology.combatSystem.weaponFeatures.events.StickEvent;
 import org.terasology.engine.entitySystem.entity.EntityRef;
-import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
 import org.terasology.engine.logic.health.DestroyEvent;
 import org.terasology.engine.logic.health.EngineDamageTypes;
 import org.terasology.engine.logic.location.LocationComponent;
 import org.terasology.engine.physics.events.CollideEvent;
+import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
 @RegisterSystem
 public class BouncingHandlingSystem extends BaseComponentSystem {

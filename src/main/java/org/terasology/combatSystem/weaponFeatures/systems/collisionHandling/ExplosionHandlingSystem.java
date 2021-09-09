@@ -13,7 +13,6 @@ import org.terasology.engine.entitySystem.entity.EntityManager;
 import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.event.EventPriority;
 import org.terasology.engine.entitySystem.event.Priority;
-import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
 import org.terasology.engine.entitySystem.systems.UpdateSubscriberSystem;
@@ -22,6 +21,7 @@ import org.terasology.engine.logic.health.EngineDamageTypes;
 import org.terasology.engine.logic.location.LocationComponent;
 import org.terasology.engine.physics.Physics;
 import org.terasology.engine.registry.In;
+import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 import org.terasology.joml.geom.AABBf;
 import org.terasology.module.health.components.HealthComponent;
 

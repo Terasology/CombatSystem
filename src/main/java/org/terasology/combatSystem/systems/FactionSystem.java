@@ -9,9 +9,9 @@ import org.terasology.combatSystem.event.CombatEnteredEvent;
 import org.terasology.combatSystem.hurting.HurtEvent;
 import org.terasology.combatSystem.hurting.HurtingComponent;
 import org.terasology.engine.entitySystem.entity.EntityRef;
-import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
+import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
 @RegisterSystem
 public class FactionSystem extends BaseComponentSystem {

@@ -12,7 +12,6 @@ import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.entity.lifecycleEvents.OnChangedComponent;
 import org.terasology.engine.entitySystem.event.EventPriority;
 import org.terasology.engine.entitySystem.event.Priority;
-import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
 import org.terasology.engine.logic.characters.CharacterHeldItemComponent;
@@ -21,6 +20,7 @@ import org.terasology.engine.logic.common.ActivateEvent;
 import org.terasology.engine.logic.location.LocationComponent;
 import org.terasology.engine.world.block.items.BlockItemComponent;
 import org.terasology.engine.world.block.items.OnBlockItemPlaced;
+import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
 @RegisterSystem
 public class AttackSystem extends BaseComponentSystem {

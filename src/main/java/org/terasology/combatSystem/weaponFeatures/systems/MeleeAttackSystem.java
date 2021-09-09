@@ -9,9 +9,9 @@ import org.terasology.combatSystem.weaponFeatures.components.MeleeComponent;
 import org.terasology.combatSystem.weaponFeatures.events.MeleeEvent;
 import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
 import org.terasology.engine.entitySystem.entity.EntityRef;
-import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
+import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
 /**
  * Manages meelee attacks

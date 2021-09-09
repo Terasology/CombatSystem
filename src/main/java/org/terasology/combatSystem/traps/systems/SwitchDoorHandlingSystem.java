@@ -10,11 +10,11 @@ import org.terasology.engine.entitySystem.entity.lifecycleEvents.OnActivatedComp
 import org.terasology.engine.entitySystem.entity.lifecycleEvents.OnChangedComponent;
 import org.terasology.engine.entitySystem.event.EventPriority;
 import org.terasology.engine.entitySystem.event.Priority;
-import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
 import org.terasology.engine.logic.health.DestroyEvent;
 import org.terasology.engine.logic.health.EngineDamageTypes;
+import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
 @RegisterSystem
 public class SwitchDoorHandlingSystem extends BaseComponentSystem {
