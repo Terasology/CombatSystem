@@ -8,6 +8,11 @@
     "usage": "ON_ENTITY",
     "cooldownTime": 800
   },
+  "Purchasable": {
+  },
+  "Value": {
+    "value": 15
+  },
   "CritDamage": {
     "critChance": 5,
     "critFactor": 2

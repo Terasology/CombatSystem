@@ -8,6 +8,11 @@
     "usage": "IN_DIRECTION",
     "cooldownTime": 200
   },
+  "Purchasable": {
+  },
+  "Value": {
+    "value": 30
+  },
   "LaunchEntity": {
     "launchEntityPrefab": "CombatSystem:fireBall",
     "impulse": 200

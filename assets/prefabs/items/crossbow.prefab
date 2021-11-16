@@ -7,5 +7,10 @@
     "icon": "engine:items#crossbow",
     "usage": "IN_DIRECTION"
   },
+  "Purchasable": {
+  },
+  "Value": {
+    "value": 10
+  },
   "ArrowAction": {}
 }

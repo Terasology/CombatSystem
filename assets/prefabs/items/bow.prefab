@@ -8,6 +8,11 @@
     "usage": "IN_DIRECTION",
     "cooldownTime": 200
   },
+  "Purchasable": {
+  },
+  "Value": {
+    "value": 5
+  },
   "LaunchEntity": {
 
   },

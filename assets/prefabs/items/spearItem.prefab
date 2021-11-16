@@ -14,6 +14,11 @@
     "mesh": "CombatSystem:spear",
     "material": "CombatSystem:arrow"
   },
+  "Purchasable": {
+  },
+  "Value": {
+    "value": 5
+  },
   "LaunchEntity": {
     "launchEntityPrefab": "CombatSystem:spearThrow"
   },
