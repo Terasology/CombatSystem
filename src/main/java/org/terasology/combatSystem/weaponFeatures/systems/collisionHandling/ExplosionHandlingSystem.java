@@ -12,7 +12,7 @@ import org.terasology.engine.core.Time;
 import org.terasology.engine.entitySystem.entity.EntityManager;
 import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.event.EventPriority;
-import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.event.Priority;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
 import org.terasology.engine.entitySystem.systems.UpdateSubscriberSystem;
@@ -21,6 +21,7 @@ import org.terasology.engine.logic.health.EngineDamageTypes;
 import org.terasology.engine.logic.location.LocationComponent;
 import org.terasology.engine.physics.Physics;
 import org.terasology.engine.registry.In;
+import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 import org.terasology.joml.geom.AABBf;
 import org.terasology.module.health.components.HealthComponent;
 
@@ -55,7 +56,8 @@ public class ExplosionHandlingSystem extends BaseComponentSystem implements Upda
         doExplosion(entity);
     }
 
-    @ReceiveEvent(components = ExplosionComponent.class, priority = EventPriority.PRIORITY_HIGH)
+    @Priority(EventPriority.PRIORITY_HIGH)
+    @ReceiveEvent(components = ExplosionComponent.class)
     public void explosionOnDestroy(DestroyEvent event, EntityRef entity) {
         ExplosionComponent explosion = entity.getComponent(ExplosionComponent.class);
         if (explosion.explosionStarted) {

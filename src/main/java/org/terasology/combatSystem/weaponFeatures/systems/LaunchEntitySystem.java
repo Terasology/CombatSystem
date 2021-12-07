@@ -20,7 +20,6 @@ import org.terasology.combatSystem.weaponFeatures.events.ReduceAmmoEvent;
 import org.terasology.engine.core.Time;
 import org.terasology.engine.entitySystem.entity.EntityManager;
 import org.terasology.engine.entitySystem.entity.EntityRef;
-import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
 import org.terasology.engine.entitySystem.systems.UpdateSubscriberSystem;
@@ -34,6 +33,7 @@ import org.terasology.engine.physics.components.TriggerComponent;
 import org.terasology.engine.physics.components.shapes.BoxShapeComponent;
 import org.terasology.engine.registry.In;
 import org.terasology.engine.rendering.logic.MeshComponent;
+import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
 /**
  * Launch an entity at a given impulse from the intended entity

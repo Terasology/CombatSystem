@@ -6,9 +6,9 @@ package org.terasology.combatSystem.weaponFeatures.events;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 import org.terasology.engine.entitySystem.entity.EntityRef;
-import org.terasology.engine.entitySystem.event.Event;
 import org.terasology.engine.logic.common.ActivateEvent;
 import org.terasology.engine.logic.location.LocationComponent;
+import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
  * Triggered in case of a primary attack

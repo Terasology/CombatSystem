@@ -3,7 +3,7 @@
 
 package org.terasology.combatSystem.event;
 
-import org.terasology.engine.entitySystem.event.Event;
+import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
  * Gets triggered when the player enters <b>Combat State</b>

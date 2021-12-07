@@ -11,7 +11,7 @@ import org.terasology.combatSystem.weaponFeatures.events.PrimaryAttackEvent;
 import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.entity.lifecycleEvents.OnChangedComponent;
 import org.terasology.engine.entitySystem.event.EventPriority;
-import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.event.Priority;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
 import org.terasology.engine.logic.characters.CharacterHeldItemComponent;
@@ -20,6 +20,7 @@ import org.terasology.engine.logic.common.ActivateEvent;
 import org.terasology.engine.logic.location.LocationComponent;
 import org.terasology.engine.world.block.items.BlockItemComponent;
 import org.terasology.engine.world.block.items.OnBlockItemPlaced;
+import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
 @RegisterSystem
 public class AttackSystem extends BaseComponentSystem {
@@ -43,7 +44,8 @@ public class AttackSystem extends BaseComponentSystem {
         }
     }
 
-    @ReceiveEvent(components = CharacterHeldItemComponent.class, priority = EventPriority.PRIORITY_HIGH)
+    @Priority(EventPriority.PRIORITY_HIGH)
+    @ReceiveEvent(components = CharacterHeldItemComponent.class)
     public void addAttacker(OnChangedComponent event, EntityRef character) {
         CharacterHeldItemComponent heldItem = character.getComponent(CharacterHeldItemComponent.class);
         EntityRef item = heldItem.selectedItem;
@@ -61,7 +63,8 @@ public class AttackSystem extends BaseComponentSystem {
         item.addOrSaveComponent(attacker);
     }
 
-    @ReceiveEvent(priority = EventPriority.PRIORITY_HIGH)
+    @Priority(EventPriority.PRIORITY_HIGH)
+    @ReceiveEvent
     public void addAttacker(OnBlockItemPlaced event, EntityRef item) {
         EntityRef block = event.getPlacedBlock();
 

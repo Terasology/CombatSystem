@@ -4,7 +4,7 @@
 package org.terasology.combatSystem.weaponFeatures.events;
 
 import org.terasology.engine.entitySystem.entity.EntityRef;
-import org.terasology.engine.entitySystem.event.Event;
+import org.terasology.gestalt.entitysystem.event.Event;
 
 /**
  * Can be used to stick to a target specified

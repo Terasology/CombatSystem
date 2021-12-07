@@ -5,9 +5,9 @@ package org.terasology.combatSystem.traps.systems;
 
 import org.terasology.combatSystem.traps.components.BeaconComponent;
 import org.terasology.engine.entitySystem.entity.EntityRef;
-import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
+import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 import org.terasology.sensors.EntitySensedEvent;
 
 @RegisterSystem
