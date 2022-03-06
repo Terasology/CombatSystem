@@ -11,7 +11,7 @@
     ]
   },
   "Mesh": {
-    "mesh": "CombatSystem:ballSpell",
+    "mesh": "engine:ball",
     "material": "CombatSystem:fireBall"
   },
   "Explode": {
