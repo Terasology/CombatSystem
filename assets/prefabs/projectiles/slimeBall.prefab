@@ -1,11 +1,11 @@
 {
-  "parent": "CombatSystem:basicShoot",
+  "parent": "CombatSystem:basicShootWithGravity",
   "Hurting": {
-    "amount": 3
+    "amount": 1
   },
   "Mesh": {
     "mesh": "engine:ball",
-    "material": "CombatSystem:fireBall"
+    "material": "CombatSystem:slimeBall"
   },
   "Explode": {
     "explosionPrefab": "CoreAssets:dustEffect"
