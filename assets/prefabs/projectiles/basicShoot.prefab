@@ -8,10 +8,6 @@
       1
     ]
   },
-  "Mesh": {
-    "mesh": "CombatSystem:arrow",
-    "material": "CombatSystem:arrow"
-  },
   "Network": {
     "replicateMode": "RELEVANT"
   }

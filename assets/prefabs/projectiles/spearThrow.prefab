@@ -1,5 +1,5 @@
 {
-  "parent": "CombatSystem:arrow",
+  "parent": "CombatSystem:basicShootWithGravity",
   "Hurting": {
     "amount": 3
   },
