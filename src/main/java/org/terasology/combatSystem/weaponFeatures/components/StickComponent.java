@@ -17,7 +17,7 @@ public class StickComponent implements Component<StickComponent> {
     public float pierceAmount = 1.0f;
 
     @Replicate
-    EntityRef target = EntityRef.NULL;
+    public EntityRef target = EntityRef.NULL;
 
     public void setTarget(EntityRef entity) {
         target = entity;

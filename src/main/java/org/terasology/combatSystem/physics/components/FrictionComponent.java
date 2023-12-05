@@ -15,10 +15,10 @@ import org.terasology.gestalt.entitysystem.component.Component;
  */
 public class FrictionComponent implements Component<FrictionComponent> {
     @Replicate
-    float friction = 20.0f;
+    public float friction = 20.0f;
 
     @Replicate
-    float velocity = 20.0f;
+    public float velocity = 20.0f;
 
     @Override
     public void copyFrom(FrictionComponent other) {
