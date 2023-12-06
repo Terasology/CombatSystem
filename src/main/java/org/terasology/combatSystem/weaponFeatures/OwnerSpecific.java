@@ -25,7 +25,8 @@ public final class OwnerSpecific {
         //create a new instance of attacker
 
         AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
-        
+
+        //FIXME: what do we need the 'null' for, and why not just return 'EntityRef.NULL'
         if (attacker == null) {
             return null;
         }
@@ -61,7 +62,8 @@ public final class OwnerSpecific {
      */
     public static EntityRef getFirstOwner(EntityRef entity) {
         AttackerComponent attacker = entity.getComponent(AttackerComponent.class);
-        
+
+        //FIXME: what do we need the 'null' for, and why not just return 'EntityRef.NULL'
         if (attacker == null) {
             return null;
         }
@@ -85,7 +87,8 @@ public final class OwnerSpecific {
             entityList.add(temp);
             temp = getFirstOwner(temp);
         }
-        
+
+        //FIXME: what do we need the 'null' for, and why not just return empty list
         if (entityList.isEmpty()) {
             return null;
         } else {
